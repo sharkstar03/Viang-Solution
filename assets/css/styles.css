@@ -1,11 +1,33 @@
-/* Estilos principales */
+/*
+==============================================
+CSS TABLE OF CONTENTS By Quantium Crew
+==============================================
+
+1. Base Styles
+2. Header and Banner
+3. Header Content
+4. Navigation
+5. Mobile Menu
+6. Transitions and Animations
+7. Typewriter Effect
+8. Animations Keyframes
+9. Clients Section
+10. Swiper Styles
+11. Footer
+12. WhatsApp Button
+13. Responsive Styles
+
+==============================================
+*/
+
+/* Base Styles */
 body {
     overflow-x: hidden;
     position: relative;
     min-height: 100vh;
 }
 
-/* Estilos nuevos del Header y Banner */
+/* Header and Banner */
 header {
     height: 450px !important;
     margin-bottom: 0 !important;
@@ -23,6 +45,20 @@ header {
     background: rgba(0, 0, 0, 0.6);
 }
 
+.banner-image {
+    width: 1920px;
+    height: 450px;
+    object-fit: cover;
+}
+
+.banner-container {
+    width: 1920px;
+    height: 450px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+/* Header Content */
 .header-content {
     position: absolute;
     top: 50%;
@@ -46,7 +82,7 @@ header {
     gap: 0.5rem;
 }
 
-/* Estilos de Navegación */
+/* Navigation */
 .main-nav {
     background: transparent;
     padding: 1.5rem 0;
@@ -77,7 +113,7 @@ header {
     color: #3B82F6;
 }
 
-/* Estilos originales del menú móvil */
+/* Mobile Menu */
 .mobile-menu {
     display: none;
 }
@@ -86,11 +122,7 @@ header {
     display: block;
 }
 
-/* Transiciones */
-.nav-link {
-    transition: color 0.3s ease;
-}
-
+/* Transitions and Animations */
 .social-icon {
     transition: color 0.3s ease, transform 0.3s ease;
 }
@@ -99,7 +131,6 @@ header {
     transform: translateY(-2px);
 }
 
-/* Animaciones del menú hamburguesa */
 .menu-btn {
     transition: all 0.3s ease;
 }
@@ -108,7 +139,7 @@ header {
     transform: scale(1.1);
 }
 
-/* Efecto typewriter */
+/* Typewriter Effect */
 .typewriter {
     border-right: .05em solid #4a90e2;
     white-space: nowrap;
@@ -118,9 +149,8 @@ header {
 }
 
 .typing-animation {
-    animation: 
-        typing 3.5s steps(40, end),
-        blink-caret .75s step-end infinite;
+    animation: typing 3.5s steps(40, end),
+               blink-caret .75s step-end infinite;
 }
 
 #typed-text {
@@ -133,7 +163,7 @@ header {
     color: rgba(96, 165, 250, 0.9);
 }
 
-/* Animaciones */
+/* Animations Keyframes */
 @keyframes typing {
     from { width: 0 }
     to { width: 100% }
@@ -153,7 +183,7 @@ header {
     animation: fade 0.5s ease-in-out;
 }
 
-/* Estilos del Swiper */
+/* Clients Section */
 .clients-section {
     padding: 4rem 0;
     background-color: #ffffff;
@@ -173,6 +203,7 @@ header {
     overflow: hidden;
 }
 
+/* Swiper Styles */
 .swiper.clientSwiper {
     width: 100%;
     padding: 20px 0;
@@ -205,12 +236,11 @@ header {
     filter: grayscale(0%);
 }
 
-/* Ocultar la paginación */
 .swiper-pagination {
     display: none;
 }
 
-/* Estilos del Footer */
+/* Footer */
 footer {
     box-sizing: border-box;
     margin: 0;
@@ -224,7 +254,37 @@ footer {
     padding: 3rem 0;
 }
 
-/* Media queries */
+/* WhatsApp Button */
+.whatsapp-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+}
+
+.whatsapp-button {
+    background-color: #25D366;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.whatsapp-button:hover {
+    transform: scale(1.1);
+    background-color: #20ba57;
+}
+
+.whatsapp-icon {
+    font-size: 35px;
+    color: #ffffff;
+}
+
+/* Responsive Styles */
 @media (max-width: 768px) {
     .typewriter {
         font-size: 1.5rem;
@@ -262,46 +322,4 @@ footer {
     .section-title {
         font-size: 2rem;
     }
-}
-
-.banner-image {
-    width: 1920px;
-    height: 450px;
-    object-fit: cover;
-}
-
-.banner-container {
-    width: 1920px;
-    height: 450px;
-    overflow: hidden;
-    margin: 0 auto;
-}
-
-.whatsapp-float {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 999;
-}
-
-.whatsapp-button {
-    background-color: #25D366;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
-}
-
-.whatsapp-button:hover {
-    transform: scale(1.1);
-    background-color: #20ba57;
-}
-
-.whatsapp-icon {
-    font-size: 35px;
-    color: #ffffff;
 }
