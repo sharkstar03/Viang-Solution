@@ -1,33 +1,43 @@
 /*
 ==============================================
-CSS TABLE OF CONTENTS By Quantium Crew
+CSS TABLE OF CONTENTS
 ==============================================
 
-1. Base Styles
-2. Header and Banner
-3. Header Content
-4. Navigation
-5. Mobile Menu
-6. Transitions and Animations
-7. Typewriter Effect
-8. Animations Keyframes
-9. Clients Section
-10. Swiper Styles
-11. Footer
-12. WhatsApp Button
-13. Responsive Styles
+1. Reset & Base Styles
+2. Layout & Structure
+    2.1 Header & Banner
+    2.2 Navigation
+    2.3 Main Content
+    2.4 Footer
+3. Components
+    3.1 Mobile Menu
+    3.2 WhatsApp Button
+    3.3 Breadcrumb
+4. Features
+    4.1 Clients Section
+    4.2 Swiper/Splide Carousel
+5. Typography & Effects
+    5.1 Typewriter Effect
+    5.2 Animations
+6. Utilities
+    6.1 Transitions
+    6.2 Colors
+7. Media Queries
 
 ==============================================
 */
 
-/* Base Styles */
+/* 1. Reset & Base Styles
+-------------------------------------------- */
 body {
     overflow-x: hidden;
     position: relative;
     min-height: 100vh;
 }
 
-/* Header and Banner */
+/* 2. Layout & Structure
+-------------------------------------------- */
+/* 2.1 Header & Banner */
 header {
     height: 450px !important;
     margin-bottom: 0 !important;
@@ -45,12 +55,6 @@ header {
     background: rgba(0, 0, 0, 0.6);
 }
 
-.banner-image {
-    width: 1920px;
-    height: 450px;
-    object-fit: cover;
-}
-
 .banner-container {
     width: 1920px;
     height: 450px;
@@ -58,7 +62,12 @@ header {
     margin: 0 auto;
 }
 
-/* Header Content */
+.banner-image {
+    width: 1920px;
+    height: 450px;
+    object-fit: cover;
+}
+
 .header-content {
     position: absolute;
     top: 50%;
@@ -75,14 +84,7 @@ header {
     margin-bottom: 1rem;
 }
 
-.breadcrumb {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-/* Navigation */
+/* 2.2 Navigation */
 .main-nav {
     background: transparent;
     padding: 1.5rem 0;
@@ -113,7 +115,23 @@ header {
     color: #3B82F6;
 }
 
-/* Mobile Menu */
+/* 2.4 Footer */
+footer {
+    box-sizing: border-box;
+    margin: 0;
+    width: 100vw;
+    background-color: #1e2330;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding: 3rem 0;
+}
+
+/* 3. Components
+-------------------------------------------- */
+/* 3.1 Mobile Menu */
 .mobile-menu {
     display: none;
 }
@@ -122,68 +140,47 @@ header {
     display: block;
 }
 
-/* Transitions and Animations */
-.social-icon {
-    transition: color 0.3s ease, transform 0.3s ease;
+/* 3.2 WhatsApp Button */
+.whatsapp-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
 }
 
-.social-icon:hover {
-    transform: translateY(-2px);
-}
-
-.menu-btn {
+.whatsapp-button {
+    background-color: #25D366;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease;
 }
 
-.menu-btn:hover {
+.whatsapp-button:hover {
     transform: scale(1.1);
+    background-color: #20ba57;
 }
 
-/* Typewriter Effect */
-.typewriter {
-    border-right: .05em solid #4a90e2;
-    white-space: nowrap;
-    overflow: hidden;
-    margin: 0 auto;
-    animation: blink-caret .75s step-end infinite;
+.whatsapp-icon {
+    font-size: 35px;
+    color: #ffffff;
 }
 
-.typing-animation {
-    animation: typing 3.5s steps(40, end),
-               blink-caret .75s step-end infinite;
+/* 3.3 Breadcrumb */
+.breadcrumb {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-#typed-text {
-    font-weight: 300;
-    letter-spacing: 0.05em;
-    transition: all 0.3s ease;
-}
-
-.text-blue-400 {
-    color: rgba(96, 165, 250, 0.9);
-}
-
-/* Animations Keyframes */
-@keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-}
-
-@keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: rgba(74, 144, 226, 0.6)}
-}
-
-@keyframes fade {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-}
-
-.fade {
-    animation: fade 0.5s ease-in-out;
-}
-
-/* Clients Section */
+/* 4. Features
+-------------------------------------------- */
+/* 4.1 Clients Section */
 .clients-section {
     padding: 4rem 0;
     background-color: #ffffff;
@@ -203,7 +200,7 @@ header {
     overflow: hidden;
 }
 
-/* Swiper Styles */
+/* 4.2 Swiper/Splide Carousel */
 .swiper.clientSwiper {
     width: 100%;
     padding: 20px 0;
@@ -240,51 +237,89 @@ header {
     display: none;
 }
 
-/* Footer */
-footer {
-    box-sizing: border-box;
-    margin: 0;
-    width: 100vw;
-    background-color: #1e2330;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    padding: 3rem 0;
+.splide__pagination {
+    display: none;
 }
 
-/* WhatsApp Button */
-.whatsapp-float {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 999;
+.splide__slide img {
+    width: 180px;
+    height: 120px;
+    object-fit: contain;
+    transition: transform 0.3s;
 }
 
-.whatsapp-button {
-    background-color: #25D366;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+.splide__slide img:hover {
+    transform: scale(1.1);
+}
+
+/* 5. Typography & Effects
+-------------------------------------------- */
+/* 5.1 Typewriter Effect */
+.typewriter {
+    border-right: .05em solid #4a90e2;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0 auto;
+    animation: blink-caret .75s step-end infinite;
+}
+
+.typing-animation {
+    animation: typing 3.5s steps(40, end),
+               blink-caret .75s step-end infinite;
+}
+
+#typed-text {
+    font-weight: 300;
+    letter-spacing: 0.05em;
     transition: all 0.3s ease;
 }
 
-.whatsapp-button:hover {
+/* 5.2 Animations */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: rgba(74, 144, 226, 0.6)}
+}
+
+@keyframes fade {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.fade {
+    animation: fade 0.5s ease-in-out;
+}
+
+/* 6. Utilities
+-------------------------------------------- */
+/* 6.1 Transitions */
+.social-icon {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: translateY(-2px);
+}
+
+.menu-btn {
+    transition: all 0.3s ease;
+}
+
+.menu-btn:hover {
     transform: scale(1.1);
-    background-color: #20ba57;
 }
 
-.whatsapp-icon {
-    font-size: 35px;
-    color: #ffffff;
+/* 6.2 Colors */
+.text-blue-400 {
+    color: rgba(96, 165, 250, 0.9);
 }
 
-/* Responsive Styles */
+/* 7. Media Queries
+-------------------------------------------- */
 @media (max-width: 768px) {
     .typewriter {
         font-size: 1.5rem;

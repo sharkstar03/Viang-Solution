@@ -14,7 +14,6 @@
     <meta property="og:description" content="Expertos en limpieza profesional de pisos, muebles y servicios múltiples en Panamá">
     <meta property="og:image" content="https://viangsolution.com/assets/img/og-image.jpg">
     
-    
     <!-- Canonical URL -->
     <link rel="canonical" href="https://viangsolution.com/">
     
@@ -50,19 +49,19 @@
     <!--favicon-->
     <link
       rel="icon"
-      href="assets/img/icon.png"
+      href="assets/img/icons/icon.png"
       type="image/gif"
       sizes="16x16"
     />
     <link
       rel="icon"
-      href="assets/img/icon.png"
+      href="assets/img/icons/icon.png"
       type="image/gif"
       sizes="18x18"
     />
     <link
       rel="icon"
-      href="assets/img/icon.png"
+      href="assets/img/icons/icon.png"
       type="image/gif"
       sizes="20x20"
     />
@@ -70,6 +69,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css" rel="stylesheet"/>
     <link href="assets/css/styles.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
 </head>
 <body class="font-sans">
     <div class="whatsapp-float">
@@ -89,7 +89,7 @@
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-6">
                     <a href="#" class="text-gray-700 hover:text-blue-600">¿Quien Somos?</a>
-                    <a href="#" class="text-gray-700 hover:text-blue-600">Servicios</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600">Nuestros Servicios</a>
                     <a href="contact.html" class="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 inline-block">
                         ¡Cotiza Ya!
                     </a>
@@ -120,7 +120,7 @@
     <div class="pt-20">
         <div class="relative h-screen">
             <div class="absolute inset-0">
-                <img src="/api/placeholder/1920/1080" alt="Cleaning Service" class="w-full h-full object-cover"/>
+                <img src="assets/img/breadcrumb.png" alt="Cleaning Service" class="w-full h-full object-cover"/>
                 <div class="absolute inset-0 bg-black opacity-50"></div>
             </div>
             <div class="relative max-w-6xl mx-auto px-4 h-full flex items-center">
@@ -140,29 +140,131 @@
         </div>
     </div>
 
-    <!-- Services Section -->
-    <div class="py-20 bg-gray-50">
-        <div class="max-w-6xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12">Nuestros Servicios</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <img src="/api/placeholder/400/300" alt="Pulimientos y Limpiezas de Pisos" class="w-full h-48 object-cover rounded-lg mb-4"/>
-                    <h3 class="text-xl font-bold mb-2">Pulimientos y Limpiezas de Pisos</h3>
-                    <p class="text-gray-600">Pisos de Cemento, Marmol, Granito, Madera, etc. Tambien Pulimos Sobres de Cualquier Material.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <img src="/api/placeholder/400/300" alt="Furniture Cleaning" class="w-full h-48 object-cover rounded-lg mb-4"/>
-                    <h3 class="text-xl font-bold mb-2">Limpieza De Muebles y Alfombras</h3>
-                    <p class="text-gray-600">Alfombras De Todo Tipo y Muebles De Todo Tipo De Materiales y De Autos Tambien.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <img src="/api/placeholder/400/300" alt="Multi Services" class="w-full h-48 object-cover rounded-lg mb-4"/>
-                    <h3 class="text-xl font-bold mb-2">Multi Servicios</h3>
-                    <p class="text-gray-600">Hacemos electricidad menor,</p>
-                </div>
+<!-- Clients Carousel Section -->
+<div class="py-20">
+    <div class="max-w-6xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">Clientes Destacados</h2>
+        <div class="splide">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <li class="splide__slide">
+                        <img src="assets/img/clientes/01.png" alt="Cliente 1" class="mx-auto h-32 object-contain">
+                    </li>
+                    <li class="splide__slide">
+                        <img src="assets/img/clientes/02.png" alt="Cliente 2" class="mx-auto h-32 object-contain">
+                    </li>
+                    <li class="splide__slide">
+                        <img src="assets/img/clientes/03.png" alt="Cliente 3" class="mx-auto h-32 object-contain">
+                    </li>
+                    <li class="splide__slide">
+                        <img src="assets/img/clientes/04.png" alt="Cliente 4" class="mx-auto h-32 object-contain">
+                    </li>
+                    <li class="splide__slide">
+                        <img src="assets/img/clientes/05.png" alt="Cliente 5" class="mx-auto h-32 object-contain">
+                    </li>
+                    <li class="splide__slide">
+                        <img src="assets/img/clientes/06.png" alt="Cliente 6" class="mx-auto h-32 object-contain">
+                    </li>
+                    <li class="splide__slide">
+                        <img src="assets/img/clientes/07.png" alt="Cliente 7" class="mx-auto h-32 object-contain">
+                    </li>
+                    <li class="splide__slide">
+                        <img src="assets/img/clientes/08.png" alt="Cliente 8" class="mx-auto h-32 object-contain">
+                    </li>
+                    <li class="splide__slide">
+                        <img src="assets/img/clientes/09.png" alt="Cliente 9" class="mx-auto h-32 object-contain">
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
+</div>
+
+    <!-- Quienes Somos Section -->
+<div id="quienes-somos" class="py-20">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-3xl font-bold mb-6">Quiénes Somos</h2>
+                <p class="text-gray-600 mb-4">
+                    Con más de 15 años de experiencia, somos líderes en servicios de limpieza y mantenimiento en la región. Nuestro compromiso con la excelencia y la satisfacción del cliente nos ha permitido crecer y diversificar nuestros servicios.
+                </p>
+                <p class="text-gray-600">
+                    Contamos con un equipo altamente capacitado y utilizamos productos eco-amigables de primera calidad. Nos especializamos en brindar soluciones integrales tanto para hogares como para empresas, garantizando resultados excepcionales en cada proyecto.
+                </p>
+            </div>
+            <div class="relative h-96">
+                <img src="/api/placeholder/600/500" alt="Equipo de trabajo" class="w-full h-full object-cover rounded-lg shadow-lg">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Counter Section -->
+<div class="py-20 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="grid md:grid-cols-3 gap-8 text-center">
+            <div>
+                <span class="text-4xl font-bold text-blue-600 counter" data-target="1000">0</span>
+                <span class="text-4xl font-bold text-blue-600">+</span>
+                <p class="text-xl mt-2">Clientes Satisfechos</p>
+            </div>
+            <div>
+                <span class="text-4xl font-bold text-blue-600 counter" data-target="250">0</span>
+                <span class="text-4xl font-bold text-blue-600">+</span>
+                <p class="text-xl mt-2">Empresas Confían en Nosotros</p>
+            </div>
+            <div>
+                <span class="text-4xl font-bold text-blue-600 counter" data-target="20">0</span>
+                <span class="text-4xl font-bold text-blue-600">+</span>
+                <p class="text-xl mt-2">Años de Experiencia</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Services Section -->
+<div id="servicios" class="py-20 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">Nuestros Servicios</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <img src="/api/placeholder/400/300" alt="Pulimientos y Limpiezas de Pisos" class="w-full h-48 object-cover rounded-lg mb-4">
+                <h3 class="text-xl font-bold mb-2">Pulimientos y Limpiezas de Pisos</h3>
+                <p class="text-gray-600">Pisos de Cemento, Marmol, Granito, Madera, etc. Tambien Pulimos Sobres de Cualquier Material.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <img src="/api/placeholder/400/300" alt="Furniture Cleaning" class="w-full h-48 object-cover rounded-lg mb-4">
+                <h3 class="text-xl font-bold mb-2">Limpieza De Muebles y Alfombras</h3>
+                <p class="text-gray-600">Alfombras De Todo Tipo y Muebles De Todo Tipo De Materiales y De Autos Tambien.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <img src="/api/placeholder/400/300" alt="Multi Services" class="w-full h-48 object-cover rounded-lg mb-4">
+                <h3 class="text-xl font-bold mb-2">Multi Servicios</h3>
+                <p class="text-gray-600">Hacemos electricidad menor, plomería básica y reparaciones generales para su hogar.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <img src="/api/placeholder/400/300" alt="Jardinería" class="w-full h-48 object-cover rounded-lg mb-4">
+                <h3 class="text-xl font-bold mb-2">Jardinería</h3>
+                <p class="text-gray-600">Mantenimiento de jardines, poda de árboles, diseño de paisajes y control de plagas.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <img src="/api/placeholder/400/300" alt="Pintura" class="w-full h-48 object-cover rounded-lg mb-4">
+                <h3 class="text-xl font-bold mb-2">Pintura</h3>
+                <p class="text-gray-600">Servicios de pintura interior y exterior, tratamiento de superficies y acabados especiales.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <img src="/api/placeholder/400/300" alt="Limpieza Comercial" class="w-full h-48 object-cover rounded-lg mb-4">
+                <h3 class="text-xl font-bold mb-2">Limpieza Comercial</h3>
+                <p class="text-gray-600">Servicios especializados de limpieza para oficinas, locales comerciales y espacios industriales.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
     <!-- Contact Section -->
     <div class="py-20">
@@ -221,5 +323,6 @@
     <script src="assets/js/script.js"></script>
     <script src="assets/js/contact.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
 </body>
 </html>
