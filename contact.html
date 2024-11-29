@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contáctanos - VIANG SOLUTION</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="assets/css/styles.css" rel="stylesheet">
+    <script src="https://www.google.com/recaptcha/api.js?render=TU_CLAVE_DE_SITIO"></script>
+</head>
+<body class="font-sans bg-white">
+    <!-- Header con banner -->
+    <header class="relative">
+        <!-- Banner/Background -->
+        <div class="absolute inset-0">
+            <img src="assets/img/breadcrumb.png" alt="Banner Contacto" class="w-full h-full object-cover object-center">
+            <div class="banner-overlay"></div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="absolute top-0 w-full main-nav z-50">
+            <div class="nav-container">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center">
+                        <img src="assets/img/white-logo.png" alt="VIANG SOLUTION" class="h-20 w-auto">
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex nav-links">
+                    <a href="#" class="nav-link">Home</a>
+                    <a href="#" class="nav-link">¿Quienes Somos?</a>
+                    <a href="#" class="nav-link">Nuestros Servicios</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="menu-btn" class="md:hidden text-white p-2">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-16 6h16"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden py-2 bg-white rounded-lg shadow-lg mx-4 mt-2">
+                <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">Home</a>
+                <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">¿Quienes Somos?</a>
+                <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">Nuestros Servicios</a>
+            </div>
+        </nav>
+
+        <!-- Header Content -->
+        <div class="header-content">
+            <h2 class="header-title">Contactanos</h2>
+            <div class="breadcrumb">
+                <a href="/" class="text-white hover:text-blue-400 transition-colors">Home</a>
+                <span class="text-xl mx-2">•</span>
+                <span>Contactanos</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4">
+        <!-- Iconos de Contacto en cuadros -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 py-6">
+            <div class="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow">
+                <i class="far fa-envelope text-indigo-600 text-3xl mb-4"></i>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Email</h3>
+                <p class="text-gray-600">vionel@viangsolution.com</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow">
+                <i class="fas fa-phone text-indigo-600 text-3xl mb-4"></i>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Teléfono</h3>
+                <p class="text-gray-600">(+507) 6726-2619</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow">
+                <i class="fas fa-map-marker-alt text-indigo-600 text-3xl mb-4"></i>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Ubicación</h3>
+                <p class="text-gray-600">Panamá, Juan Díaz, La Toscana</p>
+            </div>
+        </div>
+
+        <!-- Título del formulario -->
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-800">Llena El formulario</h2>
+            <h6 class="text-lg text-gray-600">Para que podamos contactarte de manera efectiva</h6>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="bg-white p-12 rounded-lg shadow-md mb-16 max-w-4xl mx-auto">
+            <form id="contactForm" class="space-y-8" onsubmit="return validateForm(event)">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <label for="name" class="block text-base font-medium text-gray-700 mb-2">Nombre Completo *</label>
+                        <input type="text" id="name" name="name" required
+                            class="w-full px-6 py-3 text-base border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <span class="text-red-500 text-xs hidden" id="name-error">Este campo es obligatorio</span>
+                    </div>
+                    
+                    <div>
+                        <label for="email" class="block text-base font-medium text-gray-700 mb-2">Correo Electrónico *</label>
+                        <input type="email" id="email" name="email" required
+                            class="w-full px-6 py-3 text-base border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <span class="text-red-500 text-xs hidden" id="email-error">Ingrese un correo válido</span>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <label for="phone" class="block text-base font-medium text-gray-700 mb-2">Teléfono *</label>
+                        <input type="tel" id="phone" name="phone" required
+                            class="w-full px-6 py-3 text-base border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <span class="text-red-500 text-xs hidden" id="phone-error">Ingrese un número de teléfono válido</span>
+                    </div>
+
+                    <div>
+                        <label for="service" class="block text-base font-medium text-gray-700 mb-2">Servicio Requerido *</label>
+                        <select id="service" name="service" required
+                            class="w-full px-6 py-3 text-base border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">Seleccione un servicio</option>
+                            <option value="floor">Limpieza de Pisos</option>
+                            <option value="furniture">Limpieza de Muebles</option>
+                            <option value="multi">Servicios Múltiples</option>
+                        </select>
+                        <span class="text-red-500 text-xs hidden" id="service-error">Seleccione un servicio</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="message" class="block text-base font-medium text-gray-700 mb-2">Mensaje *</label>
+                    <textarea id="message" name="message" rows="6" required
+                        class="w-full px-6 py-3 text-base border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"></textarea>
+                    <span class="text-red-500 text-xs hidden" id="message-error">Este campo es obligatorio</span>
+                </div>
+
+                <input type="hidden" id="recaptchaResponse" name="recaptcha_response">
+                <button type="submit" class="w-full bg-blue-600 text-white px-8 py-4 text-lg rounded-md hover:bg-blue-700 transition-colors">
+                    Enviar Mensaje
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#1e2330] text-white py-12 w-screen relative left-[calc(-50vw+50%)] right-[calc(-50vw+50%)]">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <img src="assets/img/white-logo.png" href="index.html" alt="VIANG SOLUTION" class="h-16 w-auto mb-4">
+                    <p class="text-gray-400">Haz que tus pisos, muebles y servicios sean lo mejor de lo mejor.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Contactanos</h3>
+                    <p class="text-gray-400"><i class="far fa-envelope mr-2"></i>info@viangsolution.com</p>
+                    <p class="text-gray-400"><i class="fas fa-phone mr-2"></i>(507) 6726-2619</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Siguenos</h3>
+                    <div class="flex space-x-6">
+                        <a href="#" class="social-icon text-gray-400 hover:text-white text-2xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="social-icon text-gray-400 hover:text-white text-2xl">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://instagram.com/viangsolution" class="social-icon text-gray-400 hover:text-white text-2xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Copyright -->
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-400 text-sm">
+                    © <span id="current-year"></span> VIANG SOLUTION. All rights reserved. | Developed by 
+                    <a href="https://quantiumcrew.online" target="_blank" class="text-blue-400 hover:text-blue-300 transition-colors duration-300">
+                        QUANTIUM CREW
+                    </a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/script.js"></script>
+    <script src="assets/js/contact.js"></script>
+    <script>
+        function validateForm(event) {
+            event.preventDefault();
+            
+            grecaptcha.ready(function() {
+                grecaptcha.execute('TU_CLAVE_DE_SITIO', {action: 'submit'}).then(function(token) {
+                    document.getElementById('recaptchaResponse').value = token;
+                    
+                    const formData = new FormData(event.target);
+                    
+                    fetch('/api/contact', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Mensaje enviado con éxito');
+                            event.target.reset();
+                        } else {
+                            alert('Error al enviar el mensaje: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error al enviar el mensaje');
+                    });
+                });
+            });
+            
+            return false;
+        }
+        
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

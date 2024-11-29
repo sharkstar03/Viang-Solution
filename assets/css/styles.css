@@ -1,0 +1,307 @@
+/* Estilos principales */
+body {
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Estilos nuevos del Header y Banner */
+header {
+    height: 450px !important;
+    margin-bottom: 0 !important;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+}
+
+.banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.header-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+    color: white;
+}
+
+.header-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.breadcrumb {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Estilos de Navegación */
+.main-nav {
+    background: transparent;
+    padding: 1.5rem 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #3B82F6;
+}
+
+/* Estilos originales del menú móvil */
+.mobile-menu {
+    display: none;
+}
+
+.mobile-menu.active {
+    display: block;
+}
+
+/* Transiciones */
+.nav-link {
+    transition: color 0.3s ease;
+}
+
+.social-icon {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: translateY(-2px);
+}
+
+/* Animaciones del menú hamburguesa */
+.menu-btn {
+    transition: all 0.3s ease;
+}
+
+.menu-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Efecto typewriter */
+.typewriter {
+    border-right: .05em solid #4a90e2;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0 auto;
+    animation: blink-caret .75s step-end infinite;
+}
+
+.typing-animation {
+    animation: 
+        typing 3.5s steps(40, end),
+        blink-caret .75s step-end infinite;
+}
+
+#typed-text {
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+}
+
+.text-blue-400 {
+    color: rgba(96, 165, 250, 0.9);
+}
+
+/* Animaciones */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: rgba(74, 144, 226, 0.6)}
+}
+
+@keyframes fade {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.fade {
+    animation: fade 0.5s ease-in-out;
+}
+
+/* Estilos del Swiper */
+.clients-section {
+    padding: 4rem 0;
+    background-color: #ffffff;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    font-weight: bold;
+}
+
+.clients-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    overflow: hidden;
+}
+
+.swiper.clientSwiper {
+    width: 100%;
+    padding: 20px 0;
+}
+
+.swiper-wrapper {
+    display: flex;
+    align-items: center;
+    transition-property: transform;
+    box-sizing: content-box;
+}
+
+.swiper-slide {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+}
+
+.swiper-slide img {
+    width: 200px;
+    height: 150px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+.swiper-slide img:hover {
+    filter: grayscale(0%);
+}
+
+/* Ocultar la paginación */
+.swiper-pagination {
+    display: none;
+}
+
+/* Estilos del Footer */
+footer {
+    box-sizing: border-box;
+    margin: 0;
+    width: 100vw;
+    background-color: #1e2330;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding: 3rem 0;
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+    .typewriter {
+        font-size: 1.5rem;
+        margin-top: 0.5rem;
+    }
+    
+    .mobile-menu {
+        transform: translateY(-10px);
+        opacity: 0;
+        transition: all 0.3s ease-in-out;
+    }
+    
+    .mobile-menu.active {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    header {
+        height: 300px !important;
+    }
+    
+    .header-title {
+        font-size: 2.5rem;
+    }
+    
+    .swiper-slide {
+        height: 100px;
+    }
+    
+    .swiper-slide img {
+        width: 150px;
+        height: 80px;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+}
+
+.banner-image {
+    width: 1920px;
+    height: 450px;
+    object-fit: cover;
+}
+
+.banner-container {
+    width: 1920px;
+    height: 450px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.whatsapp-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+}
+
+.whatsapp-button {
+    background-color: #25D366;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.whatsapp-button:hover {
+    transform: scale(1.1);
+    background-color: #20ba57;
+}
+
+.whatsapp-icon {
+    font-size: 35px;
+    color: #ffffff;
+}
