@@ -3,112 +3,37 @@
 JAVASCRIPT TABLE OF CONTENTS
 ==============================================
 
-1. Main Initialization
-2. Mobile Menu Functionality
-    2.1 Toggle Menu
-    2.2 Click Outside Handler
-    2.3 Window Resize Handler
-3. Text Animation System
-    3.1 Typed Text Configuration
-    3.2 Animation Functions
-4. Carousel Systems
-    4.1 Swiper Initialization
-    4.2 Splide Carousel
-5. Counter Animation
-    5.1 Counter Configuration
-    5.2 Intersection Observer
-6. Utility Functions
-    6.1 Year Update
+1. Configuraciones Globales
+2. Main Initialization
+3. Mobile Menu Functionality
+4. Text Animation System
+5. Carousel Systems
+6. Counter Animation
+7. Form Validation System with Cloudflare Turnstile
+8. Utility Functions
 
 ==============================================
 */
 
-// 1. Main Initialization
-// Wait for DOM to be fully loaded before executing scripts
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // 2. Mobile Menu Functionality
-    // 2.1 Toggle Menu - Initialize mobile menu elements
-    const menuBtn = document.getElementById('menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    
-    // Add click event to toggle menu visibility
-    menuBtn?.addEventListener('click', () => {
-        mobileMenu.classList.toggle('active');
-    });
-
-    // 2.2 Click Outside Handler - Close menu when clicking outside
-    document.addEventListener('click', (event) => {
-        if (!menuBtn?.contains(event.target) && !mobileMenu?.contains(event.target)) {
-            mobileMenu?.classList.remove('active');
-        }
-    });
-
-    // 2.3 Window Resize Handler - Close mobile menu on window resize
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 768) {
-            mobileMenu?.classList.remove('active');
-        }
-    });
-
-    // 3. Text Animation System
-    // 3.1 Typed Text Configuration
-    const textElement = document.getElementById('typed-text');
-    const texts = [
-        'Limpieza Pos Inundaciones',
-        'Pulimiento de todo Tipo de Pisos',
-        'Instalaciones',
-        'Mantenimiento',
-        'Reparaciones',
-        'Pintura'
-    ];
-    let currentIndex = 0;
-
-    // 3.2 Animation Functions
-    /**
-     * Handles the typing and erasing animation for text
-     * Cycles through the texts array indefinitely
-     */
-    async function typeAndErase() {
-        const currentText = texts[currentIndex];
-        
-        // Writing animation
-        for(let i = 0; i <= currentText.length; i++) {
-            if (textElement) {
-                textElement.textContent = currentText.substring(0, i);
-                await new Promise(resolve => setTimeout(resolve, 100));
-            }
-        }
-
-        // Pause at the end of writing
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
-        // Erasing animation
-        for(let i = currentText.length; i >= 0; i--) {
-            if (textElement) {
-                textElement.textContent = currentText.substring(0, i);
-                await new Promise(resolve => setTimeout(resolve, 50));
-            }
-        }
-
-        // Prepare for next text
-        currentIndex = (currentIndex + 1) % texts.length;
-        await new Promise(resolve => setTimeout(resolve, 500));
-        typeAndErase();
-    }
-
-    // Initialize typing animation if element exists
-    if (textElement) {
-        typeAndErase();
-    }
-
-    // 4. Carousel Systems
-    // 4.1 Swiper Initialization
-    /**
-     * Initialize Swiper carousel with responsive breakpoints
-     * and autoplay functionality
-     */
-    var swiper = new Swiper(".clientSwiper", {
+// 1. Configuraciones Globales
+const CONFIG = {
+    counter: {
+        speed: 300,
+    },
+    textAnimation: {
+        texts: [
+            'Pulimientos y Limpiezas de Pisos',
+            'Limpieza De Muebles y Alfombras',
+            'Multi Servicios',
+            'Instalaciones De Todo Tipo',
+            'Pintura',
+            'Limpieza Comercial'
+        ],
+        typeSpeed: 100,
+        eraseSpeed: 50,
+        pauseDuration: 2000
+    },
+    swiperConfig: {
         slidesPerView: 1,
         spaceBetween: 30,
         loop: true,
@@ -130,22 +55,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 spaceBetween: 40
             }
         }
-    });
-    
-    // 6.1 Year Update - Update copyright year
-    const yearElement = document.getElementById('current-year');
-    if (yearElement) {
-        yearElement.textContent = new Date().getFullYear();
-    }
-});
-
-// 4.2 Splide Carousel
-/**
- * Initialize Splide carousel with custom configuration
- * Includes responsive breakpoints and autoplay
- */
-document.addEventListener('DOMContentLoaded', function() {
-    new Splide('.splide', {
+    },
+    splideConfig: {
         type: 'loop',
         perPage: 4,
         perMove: 1,
@@ -162,45 +73,208 @@ document.addEventListener('DOMContentLoaded', function() {
                 perPage: 1,
             },
         }
-    }).mount();
+    },
+    turnstile: {
+        siteKey: '0x4AAAAAAARKDXj-fA28ww1W', // Reemplazar con tu clave real
+    }
+};
+
+// 2. Main Initialization
+document.addEventListener('DOMContentLoaded', function() {
+    initializeMobileMenu();
+    initializeTextAnimation();
+    initializeCarousels();
+    initializeCounters();
+    initializeFormValidation();
+    updateCopyrightYear();
 });
 
-// 5. Counter Animation
-// 5.1 Counter Configuration
-const counters = document.querySelectorAll('.counter');
-const speed = 200; // Animation speed for counters
+// 3. Mobile Menu Functionality
+function initializeMobileMenu() {
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    menuBtn?.addEventListener('click', () => {
+        mobileMenu.classList.toggle('active');
+        mobileMenu?.classList.toggle('hidden');
+    });
 
-/**
- * Animates a counter from 0 to its target value
- * @param {HTMLElement} element - The counter element to animate
- */
-const startCounting = (element) => {
-    const target = parseInt(element.getAttribute('data-target'));
-    const count = +element.innerText;
-    const increment = target / speed;
+    document.addEventListener('click', (event) => {
+        if (!menuBtn?.contains(event.target) && !mobileMenu?.contains(event.target)) {
+            mobileMenu?.classList.remove('active');
+            mobileMenu?.classList.add('hidden');
+        }
+    });
 
-    if (count < target) {
-        element.innerText = Math.ceil(count + increment);
-        setTimeout(() => startCounting(element), 1);
-    } else {
-        element.innerText = target;
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            mobileMenu?.classList.remove('active');
+            mobileMenu?.classList.add('hidden');
+        }
+    });
+}
+
+// 4. Text Animation System
+function initializeTextAnimation() {
+    const textElement = document.getElementById('typed-text');
+    let currentIndex = 0;
+
+    async function typeAndErase() {
+        const currentText = CONFIG.textAnimation.texts[currentIndex];
+        
+        // Writing animation
+        for(let i = 0; i <= currentText.length; i++) {
+            if (textElement) {
+                textElement.textContent = currentText.substring(0, i);
+                await new Promise(resolve => setTimeout(resolve, CONFIG.textAnimation.typeSpeed));
+            }
+        }
+
+        await new Promise(resolve => setTimeout(resolve, CONFIG.textAnimation.pauseDuration));
+
+        // Erasing animation
+        for(let i = currentText.length; i >= 0; i--) {
+            if (textElement) {
+                textElement.textContent = currentText.substring(0, i);
+                await new Promise(resolve => setTimeout(resolve, CONFIG.textAnimation.eraseSpeed));
+            }
+        }
+
+        currentIndex = (currentIndex + 1) % CONFIG.textAnimation.texts.length;
+        await new Promise(resolve => setTimeout(resolve, 500));
+        typeAndErase();
+    }
+
+    if (textElement) {
+        typeAndErase();
     }
 }
 
-// 5.2 Intersection Observer
-/**
- * Creates an observer to start counter animation when
- * elements come into view
- */
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const counter = entry.target;
-            startCounting(counter);
-            observer.unobserve(counter);
+// 5. Carousel Systems
+function initializeCarousels() {
+    // Swiper initialization
+    new Swiper(".clientSwiper", CONFIG.swiperConfig);
+    
+    // Splide initialization
+    new Splide('.splide', CONFIG.splideConfig).mount();
+}
+
+// 6. Counter Animation
+function initializeCounters() {
+    const counters = document.querySelectorAll('.counter');
+    
+    const startCounting = (element) => {
+        const target = parseInt(element.getAttribute('data-target'));
+        const count = +element.innerText;
+        const increment = target / CONFIG.counter.speed;
+
+        if (count < target) {
+            element.innerText = Math.ceil(count + increment);
+            setTimeout(() => startCounting(element), 1);
+        } else {
+            element.innerText = target;
         }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                startCounting(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    });
+
+    counters.forEach(counter => observer.observe(counter));
+}
+
+// 7. Form Validation System with Cloudflare Turnstile
+function initializeFormValidation() {
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', validateForm);
+        
+        // Renderizar el widget de Turnstile
+        turnstile.ready(() => {
+            turnstile.render('#turnstile-container', {
+                sitekey: CONFIG.turnstile.siteKey,
+                callback: function(token) {
+                    document.getElementById('cf-turnstile-response').value = token;
+                },
+            });
+        });
+    }
+}
+
+function validateForm(event) {
+    event.preventDefault();
+
+    const token = document.getElementById('cf-turnstile-response').value;
+    if (!token) {
+        alert('Por favor, completa la verificación de seguridad');
+        return false;
+    }
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    // Deshabilitar el botón de envío
+    const submitButton = form.querySelector('button[type="submit"]');
+    if (submitButton) submitButton.disabled = true;
+
+    fetch('/api/contact.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('¡Mensaje enviado con éxito!');
+            form.reset();
+            turnstile.reset();
+        } else {
+            alert(data.message || 'Error al enviar el mensaje');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error al enviar el mensaje. Por favor, intenta nuevamente.');
+    })
+    .finally(() => {
+        // Rehabilitar el botón de envío
+        if (submitButton) submitButton.disabled = false;
+    });
+
+    return false;
+}
+
+// 8. Utility Functions
+function updateCopyrightYear() {
+    const yearElement = document.getElementById('current-year');
+    if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+    }
+}
+
+// Scroll suave para los enlaces del menú
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
     });
 });
 
-// Initialize observers for all counter elements
-counters.forEach(counter => observer.observe(counter));
+// Manejo del preloader
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+            preloader.style.opacity = '0';
+            setTimeout(function() {
+                preloader.style.display = 'none';
+            }, 500);
+        }
+    }, 1000);
+});

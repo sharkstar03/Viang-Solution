@@ -1,127 +1,120 @@
-/*
-==============================================
-FORM VALIDATION AND SUBMISSION TABLE OF CONTENTS
-==============================================
-
-1. Form Initialization
-2. Form Submission Handler
-3. Form Validation
-    3.1 Main Validation Function
-    3.2 Real-time Validation
-4. Utility Functions
-5. Error Handling
-
-==============================================
-*/
-
-// 1. Form Initialization
-/**
- * Initialize form handlers when DOM is fully loaded
- * Sets up submission and validation listeners
- */
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('contactForm');
-    
-    // 2. Form Submission Handler
-    /**
-     * Handle form submission
-     * Prevents default form action, validates and sends data
-     * @param {Event} e - Form submission event
-     */
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        // Collect form data
-        const formData = new FormData(form);
-        const data = {
-            name: formData.get('name'),
-            email: formData.get('email'),
-            service: formData.get('service'),
-            message: formData.get('message')
-        };
-        
-        try {
-            // Send data to backend
-            const response = await fetch('/api/contact', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            });
-            
-            if (response.ok) {
-                alert('Message sent successfully! We will contact you soon.');
-                form.reset();
-            } else {
-                throw new Error('Failed to send message');
-            }
-        } catch (error) {
-            alert('There was an error sending your message. Please try again later.');
-            console.error('Error:', error);
-        }
-    });
+    initializeFormValidation();
 });
 
-// 3.1 Main Validation Function
-/**
- * Validates all form fields before submission
- * @param {Event} event - Form submission event
- * @returns {boolean} - Whether the form is valid
- */
-function validateForm(event) {
-    event.preventDefault();
-    
-    const form = document.getElementById('contactForm');
-    const fields = ['name', 'email', 'service', 'message'];
-    let isValid = true;
-    
-    // Clear previous error messages
-    fields.forEach(field => {
-        document.getElementById(`${field}-error`).classList.add('hidden');
-    });
-    
-    // Validate each field
-    fields.forEach(field => {
-        const element = document.getElementById(field);
-        
-        // Check for empty required fields
-        if (!element.value) {
-            document.getElementById(`${field}-error`).classList.remove('hidden');
-            isValid = false;
-        }
-        
-        // Special email validation
-        if (field === 'email' && element.value) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(element.value)) {
-                document.getElementById('email-error').classList.remove('hidden');
-                isValid = false;
-            }
-        }
-    });
-    
-    // Submit if valid
-    if (isValid) {
-        form.submit();
+function initializeFormValidation() {
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        // Renderizar el widget de Turnstile
+        turnstile.ready(() => {
+            turnstile.render('#turnstile-container', {
+                sitekey: '0x4AAAAAAA1K8g5nQd30WCAD',
+                callback: function(token) {
+                    document.getElementById('cf-turnstile-response').value = token;
+                },
+            });
+        });
+
+        contactForm.addEventListener('submit', handleFormSubmit);
     }
-    
+}
+
+async function handleFormSubmit(event) {
+    event.preventDefault();
+
+    // Validar los campos
+    if (!validateFields()) {
+        return false;
+    }
+
+    // Verificar el token de Turnstile
+    const turnstileToken = document.getElementById('cf-turnstile-response').value;
+    if (!turnstileToken) {
+        alert('Por favor, complete la verificación de seguridad');
+        return false;
+    }
+
+    // Obtener los datos del formulario
+    const formData = new FormData(event.target);
+
+    // Deshabilitar el botón de envío
+    const submitButton = event.target.querySelector('button[type="submit"]');
+    if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Enviando...';
+    }
+
+    try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert('¡Mensaje enviado con éxito!');
+            event.target.reset();
+            turnstile.reset();
+            hideAllErrors();
+        } else {
+            alert(data.message || 'Error al enviar el mensaje');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al enviar el mensaje. Por favor, intenta nuevamente.');
+    } finally {
+        if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Enviar Mensaje';
+        }
+    }
+
     return false;
 }
 
-// 3.2 Real-time Validation
-/**
- * Set up real-time validation on form fields
- * Validates fields when they lose focus
- */
-document.querySelectorAll('#contactForm input, #contactForm textarea, #contactForm select')
-    .forEach(element => {
-        element.addEventListener('blur', function() {
-            // Show/hide error messages on blur
-            if (!this.value && this.required) {
-                document.getElementById(`${this.id}-error`).classList.remove('hidden');
-            } else {
-                document.getElementById(`${this.id}-error`).classList.add('hidden');
-            }
-        });
+function validateFields() {
+    let isValid = true;
+    const requiredFields = ['name', 'email', 'phone', 'service', 'message'];
+    
+    hideAllErrors();
+
+    requiredFields.forEach(field => {
+        const element = document.getElementById(field);
+        const errorElement = document.getElementById(`${field}-error`);
+        
+        if (!element.value.trim()) {
+            showError(errorElement);
+            isValid = false;
+        } else if (field === 'email' && !validateEmail(element.value)) {
+            showError(errorElement);
+            isValid = false;
+        } else if (field === 'phone' && !validatePhone(element.value)) {
+            showError(errorElement);
+            isValid = false;
+        }
     });
+
+    return isValid;
+}
+
+function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function validatePhone(phone) {
+    return /^[\d\s\-\+\(\)]{8,}$/.test(phone);
+}
+
+function showError(element) {
+    if (element) {
+        element.classList.remove('hidden');
+    }
+}
+
+function hideAllErrors() {
+    const errorElements = document.querySelectorAll('[id$="-error"]');
+    errorElements.forEach(element => {
+        element.classList.add('hidden');
+    });
+}
