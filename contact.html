@@ -57,6 +57,21 @@
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body class="font-sans bg-white">
+     <!-- Loader Section -->
+     <section id="loader">
+        <div id="preloader" class="fixed inset-0 z-50 bg-white flex items-center justify-center">
+            <div class="loader"></div>
+        </div>
+    </section>
+
+    <!--Whatsapp Section -->
+    <section id="whatsapp">
+        <div class="whatsapp-float">
+            <a href="https://wa.me/50767262619" target="_blank" class="whatsapp-button">
+                <i class="fab fa-whatsapp whatsapp-icon"></i>
+            </a>
+        </div>
+    </section>
     <!-- Header con banner -->
     <header class="relative">
         <!-- Banner/Background -->
@@ -76,9 +91,9 @@
 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex nav-links">
-                    <a href="#" class="nav-link">Home</a>
-                    <a href="#" class="nav-link">¿Quienes Somos?</a>
-                    <a href="#" class="nav-link">Nuestros Servicios</a>
+                    <a href="index.html" class="nav-link">Inicio</a>
+                    <a href="index.html#quienes-somos" class="nav-link">¿Quienes Somos?</a>
+                    <a href="#servicios" class="nav-link">Nuestros Servicios</a>
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -91,9 +106,9 @@
 
             <!-- Mobile Menu -->
             <div id="mobile-menu" class="hidden md:hidden py-2 bg-white rounded-lg shadow-lg mx-4 mt-2">
-                <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">Home</a>
-                <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">¿Quienes Somos?</a>
-                <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">Nuestros Servicios</a>
+                <a href="index.html" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">Inicio</a>
+                <a href="#quienes-somos" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">¿Quienes Somos?</a>
+                <a href="#servicios" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">Nuestros Servicios</a>
             </div>
         </nav>
 

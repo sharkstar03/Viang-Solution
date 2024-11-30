@@ -81,12 +81,16 @@ const CONFIG = {
 
 // 2. Main Initialization
 document.addEventListener('DOMContentLoaded', function() {
+    // Funciones principales
     initializeMobileMenu();
     initializeTextAnimation();
     initializeCarousels();
     initializeCounters();
     initializeFormValidation();
     updateCopyrightYear();
+
+    // Medidas de seguridad
+    applySecurityMeasures();
 });
 
 // 3. Mobile Menu Functionality
@@ -277,4 +281,4 @@ window.addEventListener('load', function() {
             }, 500);
         }
     }, 1000);
-});
+})
