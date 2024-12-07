@@ -1,31 +1,16 @@
-/*
+/* 
 ==============================================
 CSS TABLE OF CONTENTS
 ==============================================
 
 1. Reset & Base Styles
 2. Layout & Structure
-    2.1 Header & Banner
-    2.2 Navigation
-    2.3 Main Content
-    2.4 Footer
 3. Components
-    3.1 Mobile Menu
-    3.2 WhatsApp Button
-    3.3 Breadcrumb
-    3.4 Page Loader
-4. Features
-    4.1 Clients Section
-    4.2 Swiper/Splide Carousel
-5. Typography & Effects
-    5.1 Typewriter Effect
-    5.2 Animations
-6. Utilities
-    6.1 Transitions
-    6.2 Colors
-7. Media Queries
+4. Typography & Effects
+5. Utilities
+6. Media Queries
 
-==============================================
+============================================== 
 */
 
 /* 1. Reset & Base Styles
@@ -36,12 +21,17 @@ body {
     min-height: 100vh;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 /* 2. Layout & Structure
 -------------------------------------------- */
-/* 2.1 Header & Banner */
+/* Header & Banner */
 header {
-    height: 450px !important;
-    margin-bottom: 0 !important;
+    height: 450px;
+    margin-bottom: 0;
     background-position: center;
     background-size: cover;
     position: relative;
@@ -49,23 +39,21 @@ header {
 
 .banner-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background: rgba(0, 0, 0, 0.6);
 }
 
 .banner-container {
-    width: 1920px;
+    width: 100%;
+    max-width: 100%;
     height: 450px;
     overflow: hidden;
     margin: 0 auto;
 }
 
 .banner-image {
-    width: 1920px;
-    height: 450px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
@@ -77,18 +65,20 @@ header {
     text-align: center;
     width: 100%;
     color: white;
+    padding: 0 1rem;
 }
 
 .header-title {
-    font-size: 3.5rem;
+    font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: bold;
     margin-bottom: 1rem;
 }
 
-/* 2.2 Navigation */
+/* Navigation */
 .main-nav {
     background: transparent;
     padding: 1.5rem 0;
+    transition: background-color 0.3s ease;
 }
 
 .nav-container {
@@ -112,36 +102,36 @@ header {
     transition: color 0.3s ease;
 }
 
-.nav-link:hover {
-    color: #3B82F6;
+@media (hover: hover) {
+    .nav-link:hover {
+        color: #3B82F6;
+    }
 }
 
-/* 2.4 Footer */
+/* Footer */
 footer {
-    box-sizing: border-box;
-    margin: 0;
-    width: 100vw;
     background-color: #1e2330;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
+    width: 100%;
     padding: 3rem 0;
 }
 
 /* 3. Components
 -------------------------------------------- */
-/* 3.1 Mobile Menu */
+/* Mobile Menu */
 .mobile-menu {
     display: none;
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
 }
 
 .mobile-menu.active {
     display: block;
+    transform: translateY(0);
+    opacity: 1;
 }
 
-/* 3.2 WhatsApp Button */
+/* WhatsApp Button */
 .whatsapp-float {
     position: fixed;
     bottom: 20px;
@@ -161,9 +151,11 @@ footer {
     transition: all 0.3s ease;
 }
 
-.whatsapp-button:hover {
-    transform: scale(1.1);
-    background-color: #20ba57;
+@media (hover: hover) {
+    .whatsapp-button:hover {
+        transform: scale(1.1);
+        background-color: #20ba57;
+    }
 }
 
 .whatsapp-icon {
@@ -171,103 +163,67 @@ footer {
     color: #ffffff;
 }
 
-/* 3.3 Breadcrumb */
-.breadcrumb {
+/* Page Loader */
+.loader-wrapper {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.85);
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.5rem;
+    z-index: 9999;
+    transition: opacity 0.5s ease-in-out;
 }
 
-/* 3.4 Page Loader */
-/* From Uiverse.io by PriyanshuGupta28 */ 
-.spinner {
-    position: absolute;
-    width: 9px;
-    height: 9px;
-  }
-  
-  .spinner div {
-    position: absolute;
-    width: 50%;
-    height: 150%;
-    background: #000000;
-    transform: rotate(calc(var(--rotation) * 1deg)) translate(0, calc(var(--translation) * 1%));
-    animation: spinner-fzua35 1s calc(var(--delay) * 1s) infinite ease;
-  }
-  
-  .spinner div:nth-child(1) {
-    --delay: 0.1;
-    --rotation: 36;
-    --translation: 150;
-  }
-  
-  .spinner div:nth-child(2) {
-    --delay: 0.2;
-    --rotation: 72;
-    --translation: 150;
-  }
-  
-  .spinner div:nth-child(3) {
-    --delay: 0.3;
-    --rotation: 108;
-    --translation: 150;
-  }
-  
-  .spinner div:nth-child(4) {
-    --delay: 0.4;
-    --rotation: 144;
-    --translation: 150;
-  }
-  
-  .spinner div:nth-child(5) {
-    --delay: 0.5;
-    --rotation: 180;
-    --translation: 150;
-  }
-  
-  .spinner div:nth-child(6) {
-    --delay: 0.6;
-    --rotation: 216;
-    --translation: 150;
-  }
-  
-  .spinner div:nth-child(7) {
-    --delay: 0.7;
-    --rotation: 252;
-    --translation: 150;
-  }
-  
-  .spinner div:nth-child(8) {
-    --delay: 0.8;
-    --rotation: 288;
-    --translation: 150;
-  }
-  
-  .spinner div:nth-child(9) {
-    --delay: 0.9;
-    --rotation: 324;
-    --translation: 150;
-  }
-  
-  .spinner div:nth-child(10) {
-    --delay: 1;
-    --rotation: 360;
-    --translation: 150;
-  }
-  
-  @keyframes spinner-fzua35 {
-    0%, 10%, 20%, 30%, 50%, 60%, 70%, 80%, 90%, 100% {
-      transform: rotate(calc(var(--rotation) * 1deg)) translate(0, calc(var(--translation) * 1%));
+.loader-wrapper.fade-out {
+    opacity: 0;
+}
+
+.loader {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.bar {
+    display: inline-block;
+    width: 3px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    animation: scale-up4 1s linear infinite;
+}
+
+.bar:nth-child(2) {
+    height: 35px;
+    animation-delay: 0.25s;
+}
+
+.bar:nth-child(3) {
+    animation-delay: 0.5s;
+}
+
+@keyframes scale-up4 {
+    20% {
+        background-color: #ffffff;
+        transform: scaleY(1.5);
     }
-  
-    50% {
-      transform: rotate(calc(var(--rotation) * 1deg)) translate(0, calc(var(--translation) * 1.5%));
+
+    40% {
+        transform: scaleY(1);
     }
-  }
-/* 5. Typography & Effects
+}
+
+/* Soporte para preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+    .bar {
+        animation: none;
+        background-color: #ffffff;
+    }
+}
+/* 4. Typography & Effects
 -------------------------------------------- */
-/* 5.1 Typewriter Effect */
+/* Typewriter Effect */
 .typewriter {
     border-right: .05em solid #4a90e2;
     white-space: nowrap;
@@ -276,18 +232,17 @@ footer {
     animation: blink-caret .75s step-end infinite;
 }
 
-.typing-animation {
-    animation: typing 3.5s steps(40, end),
-               blink-caret .75s step-end infinite;
+/* 5. Animations
+-------------------------------------------- */
+@keyframes spinner-animation {
+    0%, 10%, 20%, 30%, 50%, 60%, 70%, 80%, 90%, 100% {
+        transform: rotate(calc(var(--rotation) * 1deg)) translate(0, calc(var(--translation) * 1%));
+    }
+    50% {
+        transform: rotate(calc(var(--rotation) * 1deg)) translate(0, calc(var(--translation) * 1.5%));
+    }
 }
 
-#typed-text {
-    font-weight: 300;
-    letter-spacing: 0.05em;
-    transition: all 0.3s ease;
-}
-
-/* 5.2 Animations */
 @keyframes typing {
     from { width: 0 }
     to { width: 100% }
@@ -307,55 +262,28 @@ footer {
     animation: fade 0.5s ease-in-out;
 }
 
-/* 6. Utilities
--------------------------------------------- */
-/* 6.1 Transitions */
-.social-icon {
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.social-icon:hover {
-    transform: translateY(-2px);
-}
-
-.menu-btn {
-    transition: all 0.3s ease;
-}
-
-.menu-btn:hover {
-    transform: scale(1.1);
-}
-
-/* 6.2 Colors */
-.text-blue-400 {
-    color: rgba(96, 165, 250, 0.9);
-}
-
-/* 7. Media Queries
+/* 6. Media Queries
 -------------------------------------------- */
 @media (max-width: 768px) {
-    .typewriter {
-        font-size: 1.5rem;
-        margin-top: 0.5rem;
-    }
-    
-    .mobile-menu {
-        transform: translateY(-10px);
-        opacity: 0;
-        transition: all 0.3s ease-in-out;
-    }
-    
-    .mobile-menu.active {
-        transform: translateY(0);
-        opacity: 1;
-    }
-
     header {
         height: 300px !important;
     }
     
     .header-title {
-        font-size: 2.5rem;
+        font-size: 2rem;
+    }
+    
+    .typewriter {
+        font-size: 1.5rem;
+        margin-top: 0.5rem;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+    
+    .mobile-menu {
+        display: block;
     }
     
     .swiper-slide {
@@ -366,8 +294,18 @@ footer {
         width: 150px;
         height: 80px;
     }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .typewriter,
+    .fade,
+    .spinner div {
+        animation: none;
+    }
     
-    .section-title {
-        font-size: 2rem;
+    .whatsapp-button,
+    .social-icon,
+    .nav-link {
+        transition: none;
     }
 }

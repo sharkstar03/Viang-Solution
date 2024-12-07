@@ -271,14 +271,34 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Manejo del preloader
-window.addEventListener('load', function() {
-    setTimeout(function() {
-        const preloader = document.getElementById('preloader');
-        if (preloader) {
-            preloader.style.opacity = '0';
-            setTimeout(function() {
-                preloader.style.display = 'none';
-            }, 500);
-        }
-    }, 1000);
-})
+class Loader {
+    constructor() {
+        this.loader = document.getElementById('loader');
+        this.setupLoader();
+    }
+
+    setupLoader() {
+        if (!this.loader) return;
+        
+        const handleLoad = () => {
+            this.hideLoader();
+            window.removeEventListener('load', handleLoad);
+        };
+
+        window.addEventListener('load', handleLoad);
+    }
+
+    hideLoader() {
+        if (!this.loader) return;
+        
+        this.loader.classList.add('fade-out');
+        
+        this.loader.addEventListener('transitionend', () => {
+            this.loader.style.display = 'none';
+            this.loader.remove(); // Limpia el DOM
+        }, { once: true });
+    }
+}
+
+// Inicializar
+const pageLoader = new Loader();
