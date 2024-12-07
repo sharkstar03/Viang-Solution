@@ -1,96 +1,118 @@
+// Callback global para Turnstile
+window.onloadTurnstileCallback = function () {
+    turnstile.render('#turnstile-container', {
+        sitekey: '0x4AAAAAAA1K8g5nQd30WCAD',
+        callback: function(token) {
+            document.getElementById('cf-turnstile-response').value = token;
+        }
+    });
+};
+
 document.addEventListener('DOMContentLoaded', function() {
-    initializeFormValidation();
+    const form = document.getElementById('contactForm');
+    
+    if (form) {
+        form.addEventListener('submit', handleSubmit);
+    }
 });
 
-function initializeFormValidation() {
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        // Renderizar el widget de Turnstile
-        turnstile.ready(() => {
-            turnstile.render('#turnstile-container', {
-                sitekey: '0x4AAAAAAA1K8g5nQd30WCAD',
-                callback: function(token) {
-                    document.getElementById('cf-turnstile-response').value = token;
-                },
-            });
-        });
+async function handleSubmit(e) {
+    e.preventDefault();
 
-        contactForm.addEventListener('submit', handleFormSubmit);
-    }
-}
-
-async function handleFormSubmit(event) {
-    event.preventDefault();
-
-    // Validar los campos
-    if (!validateFields()) {
+    if (!validateForm()) {
         return false;
     }
 
-    // Verificar el token de Turnstile
     const turnstileToken = document.getElementById('cf-turnstile-response').value;
     if (!turnstileToken) {
-        alert('Por favor, complete la verificación de seguridad');
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Por favor, complete la verificación de seguridad',
+            confirmButtonColor: '#3B82F6'
+        });
         return false;
     }
 
-    // Obtener los datos del formulario
-    const formData = new FormData(event.target);
-
-    // Deshabilitar el botón de envío
-    const submitButton = event.target.querySelector('button[type="submit"]');
-    if (submitButton) {
-        submitButton.disabled = true;
-        submitButton.textContent = 'Enviando...';
-    }
+    const submitButton = e.target.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton.innerHTML;
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
 
     try {
+        const formData = new FormData(e.target);
         const response = await fetch('https://api.web3forms.com/submit', {
             method: 'POST',
             body: formData
         });
 
-        const data = await response.json();
+        const result = await response.json();
 
-        if (data.success) {
-            alert('¡Mensaje enviado con éxito!');
-            event.target.reset();
+        if (response.status === 200) {
+            Swal.fire({
+                icon: 'success',
+                title: '¡Mensaje Enviado!',
+                text: 'Gracias por contactarnos. Nos pondremos en contacto contigo pronto.',
+                confirmButtonColor: '#3B82F6'
+            });
+
+            e.target.reset();
             turnstile.reset();
             hideAllErrors();
         } else {
-            alert(data.message || 'Error al enviar el mensaje');
+            throw new Error(result.message || 'Error al enviar el formulario');
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Error al enviar el mensaje. Por favor, intenta nuevamente.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un problema al enviar el mensaje. Por favor, intenta nuevamente.',
+            confirmButtonColor: '#3B82F6'
+        });
     } finally {
-        if (submitButton) {
-            submitButton.disabled = false;
-            submitButton.textContent = 'Enviar Mensaje';
-        }
+        submitButton.disabled = false;
+        submitButton.innerHTML = originalButtonText;
     }
-
-    return false;
 }
 
-function validateFields() {
+function validateForm() {
     let isValid = true;
-    const requiredFields = ['name', 'email', 'phone', 'service', 'message'];
-    
+    const fields = {
+        name: {
+            validate: value => value.trim().length >= 2,
+            message: 'Por favor, ingrese su nombre completo'
+        },
+        email: {
+            validate: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+            message: 'Por favor, ingrese un correo electrónico válido'
+        },
+        phone: {
+            validate: value => /^[\d\s\-\+\(\)]{8,}$/.test(value),
+            message: 'Por favor, ingrese un número de teléfono válido'
+        },
+        service: {
+            validate: value => value.trim().length > 0,
+            message: 'Por favor, seleccione un servicio'
+        },
+        message: {
+            validate: value => value.trim().length >= 10,
+            message: 'Por favor, ingrese un mensaje de al menos 10 caracteres'
+        }
+    };
+
     hideAllErrors();
 
-    requiredFields.forEach(field => {
-        const element = document.getElementById(field);
-        const errorElement = document.getElementById(`${field}-error`);
+    Object.entries(fields).forEach(([fieldName, validation]) => {
+        const field = document.getElementById(fieldName);
+        const errorElement = document.getElementById(`${fieldName}-error`);
         
-        if (!element.value.trim()) {
-            showError(errorElement);
-            isValid = false;
-        } else if (field === 'email' && !validateEmail(element.value)) {
-            showError(errorElement);
-            isValid = false;
-        } else if (field === 'phone' && !validatePhone(element.value)) {
-            showError(errorElement);
+        if (!field || !validation.validate(field.value)) {
+            if (errorElement) {
+                errorElement.textContent = validation.message;
+                errorElement.classList.remove('hidden');
+            }
+            if (field) field.classList.add('border-red-500');
             isValid = false;
         }
     });
@@ -98,23 +120,11 @@ function validateFields() {
     return isValid;
 }
 
-function validateEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-function validatePhone(phone) {
-    return /^[\d\s\-\+\(\)]{8,}$/.test(phone);
-}
-
-function showError(element) {
-    if (element) {
-        element.classList.remove('hidden');
-    }
-}
-
 function hideAllErrors() {
-    const errorElements = document.querySelectorAll('[id$="-error"]');
-    errorElements.forEach(element => {
+    document.querySelectorAll('[id$="-error"]').forEach(element => {
         element.classList.add('hidden');
+    });
+    document.querySelectorAll('input, select, textarea').forEach(element => {
+        element.classList.remove('border-red-500');
     });
 }

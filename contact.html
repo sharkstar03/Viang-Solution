@@ -157,59 +157,62 @@
 
         <!-- Contact Form -->
         <div class="bg-white p-12 rounded-lg shadow-md mb-16 max-w-4xl mx-auto">
-            <form id="contactForm" class="space-y-8">
+            <form action="https://api.web3forms.com/submit" method="POST" id="contactForm" class="space-y-8" novalidate>
+                <!-- Web3Forms Required Fields -->
+                <input type="hidden" name="access_key" value="47e5391d-3340-4b4c-87e8-8e35a2094296">
+                <input type="hidden" name="from_name" value="VIANG SOLUTION Web">
+                <input type="hidden" name="subject" value="Nuevo contacto desde VIANG SOLUTION Web">
+                <input type="hidden" name="redirect" value="https://web3forms.com/success">
+                
                 <div class="grid md:grid-cols-2 gap-8">
                     <div>
                         <label for="name" class="block text-base font-medium text-gray-700 mb-2">Nombre Completo *</label>
                         <input type="text" id="name" name="name" required
                             class="w-full px-6 py-3 text-base border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                        <span class="text-red-500 text-xs hidden" id="name-error">Este campo es obligatorio</span>
+                        <span class="text-red-500 text-xs hidden" id="name-error"></span>
                     </div>
                     
                     <div>
                         <label for="email" class="block text-base font-medium text-gray-700 mb-2">Correo Electrónico *</label>
                         <input type="email" id="email" name="email" required
                             class="w-full px-6 py-3 text-base border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                        <span class="text-red-500 text-xs hidden" id="email-error">Ingrese un correo válido</span>
+                        <span class="text-red-500 text-xs hidden" id="email-error"></span>
                     </div>
                 </div>
-
+            
                 <div class="grid md:grid-cols-2 gap-8">
                     <div>
                         <label for="phone" class="block text-base font-medium text-gray-700 mb-2">Teléfono *</label>
                         <input type="tel" id="phone" name="phone" required
                             class="w-full px-6 py-3 text-base border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                        <span class="text-red-500 text-xs hidden" id="phone-error">Ingrese un número de teléfono válido</span>
+                        <span class="text-red-500 text-xs hidden" id="phone-error"></span>
                     </div>
-
+            
                     <div>
                         <label for="service" class="block text-base font-medium text-gray-700 mb-2">Servicio Requerido *</label>
                         <select id="service" name="service" required
                             class="w-full px-6 py-3 text-base border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
                             <option value="">Seleccione un servicio</option>
-                            <option value="floor">Limpieza de Pisos</option>
-                            <option value="furniture">Limpieza de Muebles</option>
-                            <option value="multi">Servicios Múltiples</option>
+                            <option value="Limpieza de Pisos">Limpieza de Pisos</option>
+                            <option value="Limpieza de Muebles">Limpieza de Muebles</option>
+                            <option value="Servicios Múltiples">Servicios Múltiples</option>
                         </select>
-                        <span class="text-red-500 text-xs hidden" id="service-error">Seleccione un servicio</span>
+                        <span class="text-red-500 text-xs hidden" id="service-error"></span>
                     </div>
                 </div>
-
+            
                 <div>
                     <label for="message" class="block text-base font-medium text-gray-700 mb-2">Mensaje *</label>
                     <textarea id="message" name="message" rows="6" required
                         class="w-full px-6 py-3 text-base border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"></textarea>
-                    <span class="text-red-500 text-xs hidden" id="message-error">Este campo es obligatorio</span>
+                    <span class="text-red-500 text-xs hidden" id="message-error"></span>
                 </div>
             
                 <!-- Turnstile Widget -->
-                <div id="turnstile-container" class="flex justify-center"></div>
-                <input type="hidden" id="cf-turnstile-response" name="cf-turnstile-response">
-                
-                <!-- Web3Forms campos requeridos y opcionales -->
-                 <input type="hidden" name="access_key" value="47e5391d-3340-4b4c-87e8-8e35a2094296">
-                 <input type="hidden" name="from_name" value="VIANG SOLUTION Website">
-                 <input type="hidden" name="subject" value="Nuevo contacto desde VIANG SOLUTION">
+                <div class="mb-6">
+                    <div id="turnstile-container" class="flex justify-center"></div>
+                    <input type="hidden" id="cf-turnstile-response" name="cf-turnstile-response">
+                </div>
                 <!-- Campo anti-spam requerido por Web3Forms -->
                 <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
             
@@ -218,6 +221,7 @@
                 </button>
             </form>
         </div>
+        
     </main>
 
     <!-- Footer -->
@@ -238,10 +242,10 @@
                 <div>
                     <h3 class="text-xl font-bold mb-4">Siguenos</h3>
                     <div class="flex space-x-6">
-                        <a href="#" class="social-icon text-gray-400 hover:text-white text-2xl">
+                        <a href="https://www.facebook.com/viangsolutions/?locale=es_LA" class="social-icon text-gray-400 hover:text-white text-2xl">
                             <i class="fab fa-facebook"></i>
                         </a>
-                        <a href="#" class="social-icon text-gray-400 hover:text-white text-2xl">
+                        <a href="https://wa.me/50767262619" class="social-icon text-gray-400 hover:text-white text-2xl">
                             <i class="fab fa-whatsapp"></i>
                         </a>
                         <a href="https://instagram.com/viangsolution" class="social-icon text-gray-400 hover:text-white text-2xl">
@@ -263,10 +267,12 @@
     </footer>
 
     <!-- Scripts -->
-    <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-    </script>
-    <script src="assets/js/script.js"></script>
-    <script src="assets/js/contact.js"></script>
+<script>
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+</script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async defer></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="assets/js/contact.js"></script>
+<script src="assets/js/script.js"></script>
 </body>
 </html>
