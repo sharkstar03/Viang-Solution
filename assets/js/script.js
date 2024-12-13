@@ -1,38 +1,38 @@
-/*
-==============================================
-JAVASCRIPT TABLE OF CONTENTS
-==============================================
+/**
+ * @fileoverview Core JavaScript functionality for service-based website
+ * @version 1.1.1
+ * @author Quantium Crew
+ * @description This file contains all interactive functionality including animations,
+ * form handling, security measures, and UI components.
+ */
 
-1. Configuraciones Globales
-2. Main Initialization
-3. Mobile Menu Functionality
-4. Text Animation System
-5. Carousel Systems
-6. Counter Animation
-7. Form Validation System with Cloudflare Turnstile
-8. Utility Functions
-
-==============================================
-*/
-
-// 1. Configuraciones Globales
+/**
+ * Global configuration object containing all adjustable parameters for the application
+ * @constant {Object}
+ */
 const CONFIG = {
+    /** @property {Object} counter - Configuration for number counter animations */
     counter: {
-        speed: 300,
+        speed: 300, // Animation duration in milliseconds
     },
+    
+    /** @property {Object} textAnimation - Settings for the typing animation system */
     textAnimation: {
+        /** @property {Array<string>} texts - Array of texts to display in rotation */
         texts: [
             'Pulimientos y Limpiezas de Pisos',
             'Limpieza De Muebles y Alfombras',
             'Multi Servicios',
             'Instalaciones De Todo Tipo',
             'Pintura',
-            'Limpieza Comercial'
+            'Limpieza Empresarial'
         ],
-        typeSpeed: 100,
-        eraseSpeed: 50,
-        pauseDuration: 2000
+        typeSpeed: 100,    // Speed of typing animation in milliseconds
+        eraseSpeed: 50,    // Speed of erasing animation in milliseconds
+        pauseDuration: 2000 // Duration to pause between animations
     },
+
+    /** @property {Object} swiperConfig - Configuration for Swiper carousel */
     swiperConfig: {
         slidesPerView: 1,
         spaceBetween: 30,
@@ -56,6 +56,8 @@ const CONFIG = {
             }
         }
     },
+
+    /** @property {Object} splideConfig - Configuration for Splide carousel */
     splideConfig: {
         type: 'loop',
         perPage: 4,
@@ -66,43 +68,48 @@ const CONFIG = {
         arrows: true,
         gap: '2rem',
         breakpoints: {
-            768: {
-                perPage: 2,
-            },
-            480: {
-                perPage: 1,
-            },
+            768: { perPage: 2 },
+            480: { perPage: 1 }
         }
     },
+
+    /** @property {Object} turnstile - Cloudflare Turnstile configuration */
     turnstile: {
-        siteKey: '0x4AAAAAAARKDXj-fA28ww1W', // Reemplazar con tu clave real
+        siteKey: '0x4AAAAAAARKDXj-fA28ww1W'
     }
 };
 
-// 2. Main Initialization
+/**
+ * Main initialization function that runs when DOM is fully loaded
+ * Sets up all core functionality and event listeners
+ * @function
+ * @listens DOMContentLoaded
+ */
 document.addEventListener('DOMContentLoaded', function() {
-    // Funciones principales
     initializeMobileMenu();
     initializeTextAnimation();
     initializeCarousels();
     initializeCounters();
     initializeFormValidation();
     updateCopyrightYear();
-
-    // Medidas de seguridad
-    applySecurityMeasures();
 });
 
-// 3. Mobile Menu Functionality
+/**
+ * Initializes the mobile menu functionality
+ * Handles menu toggling, click outside closing, and responsive behavior
+ * @function
+ */
 function initializeMobileMenu() {
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     
+    // Toggle menu on button click
     menuBtn?.addEventListener('click', () => {
         mobileMenu.classList.toggle('active');
         mobileMenu?.classList.toggle('hidden');
     });
 
+    // Close menu when clicking outside
     document.addEventListener('click', (event) => {
         if (!menuBtn?.contains(event.target) && !mobileMenu?.contains(event.target)) {
             mobileMenu?.classList.remove('active');
@@ -110,6 +117,7 @@ function initializeMobileMenu() {
         }
     });
 
+    // Handle responsive behavior
     window.addEventListener('resize', () => {
         if (window.innerWidth > 768) {
             mobileMenu?.classList.remove('active');
@@ -118,11 +126,21 @@ function initializeMobileMenu() {
     });
 }
 
-// 4. Text Animation System
+/**
+ * Initializes the text animation system
+ * Creates a typing effect for displaying service descriptions
+ * @async
+ * @function
+ */
 function initializeTextAnimation() {
     const textElement = document.getElementById('typed-text');
     let currentIndex = 0;
 
+    /**
+     * Handles the typing and erasing animation sequence
+     * @async
+     * @function
+     */
     async function typeAndErase() {
         const currentText = CONFIG.textAnimation.texts[currentIndex];
         
@@ -154,19 +172,27 @@ function initializeTextAnimation() {
     }
 }
 
-// 5. Carousel Systems
+/**
+ * Initializes all carousel components
+ * Sets up Splide carousel with configured options
+ * @function
+ */
 function initializeCarousels() {
-    // Swiper initialization
-    new Swiper(".clientSwiper", CONFIG.swiperConfig);
-    
-    // Splide initialization
     new Splide('.splide', CONFIG.splideConfig).mount();
 }
 
-// 6. Counter Animation
+/**
+ * Initializes counter animations
+ * Uses Intersection Observer for triggering animations when visible
+ * @function
+ */
 function initializeCounters() {
     const counters = document.querySelectorAll('.counter');
     
+    /**
+     * Handles the counting animation for a single counter element
+     * @param {HTMLElement} element - The counter element to animate
+     */
     const startCounting = (element) => {
         const target = parseInt(element.getAttribute('data-target'));
         const count = +element.innerText;
@@ -180,6 +206,7 @@ function initializeCounters() {
         }
     }
 
+    // Set up intersection observer for triggering animations
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -192,13 +219,17 @@ function initializeCounters() {
     counters.forEach(counter => observer.observe(counter));
 }
 
-// 7. Form Validation System with Cloudflare Turnstile
+/**
+ * Initializes form validation system with Cloudflare Turnstile
+ * Handles form submission and validation
+ * @function
+ */
 function initializeFormValidation() {
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', validateForm);
         
-        // Renderizar el widget de Turnstile
+        // Initialize Turnstile widget
         turnstile.ready(() => {
             turnstile.render('#turnstile-container', {
                 sitekey: CONFIG.turnstile.siteKey,
@@ -210,6 +241,11 @@ function initializeFormValidation() {
     }
 }
 
+/**
+ * Validates and handles form submission
+ * @param {Event} event - The form submission event
+ * @returns {boolean} False to prevent default form submission
+ */
 function validateForm(event) {
     event.preventDefault();
 
@@ -222,10 +258,11 @@ function validateForm(event) {
     const form = event.target;
     const formData = new FormData(form);
 
-    // Deshabilitar el botón de envío
+    // Handle form submission state
     const submitButton = form.querySelector('button[type="submit"]');
     if (submitButton) submitButton.disabled = true;
 
+    // Submit form data to server
     fetch('/api/contact.php', {
         method: 'POST',
         body: formData
@@ -245,14 +282,16 @@ function validateForm(event) {
         alert('Error al enviar el mensaje. Por favor, intenta nuevamente.');
     })
     .finally(() => {
-        // Rehabilitar el botón de envío
         if (submitButton) submitButton.disabled = false;
     });
 
     return false;
 }
 
-// 8. Utility Functions
+/**
+ * Updates the copyright year in the footer
+ * @function
+ */
 function updateCopyrightYear() {
     const yearElement = document.getElementById('current-year');
     if (yearElement) {
@@ -260,7 +299,7 @@ function updateCopyrightYear() {
     }
 }
 
-// Scroll suave para los enlaces del menú
+// Initialize smooth scroll behavior for menu links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -270,13 +309,24 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Manejo del preloader
+/**
+ * Loader class for handling page preloader functionality
+ * @class
+ */
 class Loader {
+    /**
+     * Creates a new Loader instance
+     * @constructor
+     */
     constructor() {
         this.loader = document.getElementById('loader');
         this.setupLoader();
     }
 
+    /**
+     * Sets up the loader event listeners
+     * @private
+     */
     setupLoader() {
         if (!this.loader) return;
         
@@ -288,6 +338,10 @@ class Loader {
         window.addEventListener('load', handleLoad);
     }
 
+    /**
+     * Hides the loader with a fade-out animation
+     * @private
+     */
     hideLoader() {
         if (!this.loader) return;
         
@@ -295,10 +349,10 @@ class Loader {
         
         this.loader.addEventListener('transitionend', () => {
             this.loader.style.display = 'none';
-            this.loader.remove(); // Limpia el DOM
+            this.loader.remove(); // Clean up DOM
         }, { once: true });
     }
 }
 
-// Inicializar
+// Initialize loader
 const pageLoader = new Loader();
