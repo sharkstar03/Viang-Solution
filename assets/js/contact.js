@@ -1,4 +1,4 @@
-// Callback global para Turnstile
+// 1. Primero el callback de Turnstile
 window.onloadTurnstileCallback = function () {
     turnstile.render('#turnstile-container', {
         sitekey: '0x4AAAAAAA1K8g5nQd30WCAD',
@@ -8,15 +8,63 @@ window.onloadTurnstileCallback = function () {
     });
 };
 
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('contactForm');
-    
-    if (form) {
-        form.addEventListener('submit', handleSubmit);
-    }
-});
+// 2. Funciones auxiliares
+function hideAllErrors() {
+    document.querySelectorAll('[id$="-error"]').forEach(element => {
+        element.classList.add('hidden');
+    });
+    document.querySelectorAll('input, select, textarea').forEach(element => {
+        element.classList.remove('border-red-500');
+    });
+}
 
+function validateForm() {
+    let isValid = true;
+    const fields = {
+        name: {
+            validate: value => value.trim().length >= 2,
+            message: 'Por favor, ingrese su nombre completo'
+        },
+        email: {
+            validate: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+            message: 'Por favor, ingrese un correo electrónico válido'
+        },
+        phone: {
+            validate: value => /^[\d\s\-\+\(\)]{8,}$/.test(value),
+            message: 'Por favor, ingrese un número de teléfono válido'
+        },
+        service: {
+            validate: value => value.trim().length > 0,
+            message: 'Por favor, seleccione un servicio'
+        },
+        message: {
+            validate: value => value.trim().length >= 10,
+            message: 'Por favor, ingrese un mensaje de al menos 10 caracteres'
+        }
+    };
+
+    hideAllErrors();
+
+    Object.entries(fields).forEach(([fieldName, validation]) => {
+        const field = document.getElementById(fieldName);
+        const errorElement = document.getElementById(`${fieldName}-error`);
+        
+        if (!field || !validation.validate(field.value)) {
+            if (errorElement) {
+                errorElement.textContent = validation.message;
+                errorElement.classList.remove('hidden');
+            }
+            if (field) field.classList.add('border-red-500');
+            isValid = false;
+        }
+    });
+
+    return isValid;
+}
+
+// 3. Función principal de manejo del formulario
 async function handleSubmit(e) {
+    console.log('Form submission started');
     e.preventDefault();
 
     if (!validateForm()) {
@@ -76,55 +124,11 @@ async function handleSubmit(e) {
     }
 }
 
-function validateForm() {
-    let isValid = true;
-    const fields = {
-        name: {
-            validate: value => value.trim().length >= 2,
-            message: 'Por favor, ingrese su nombre completo'
-        },
-        email: {
-            validate: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
-            message: 'Por favor, ingrese un correo electrónico válido'
-        },
-        phone: {
-            validate: value => /^[\d\s\-\+\(\)]{8,}$/.test(value),
-            message: 'Por favor, ingrese un número de teléfono válido'
-        },
-        service: {
-            validate: value => value.trim().length > 0,
-            message: 'Por favor, seleccione un servicio'
-        },
-        message: {
-            validate: value => value.trim().length >= 10,
-            message: 'Por favor, ingrese un mensaje de al menos 10 caracteres'
-        }
-    };
-
-    hideAllErrors();
-
-    Object.entries(fields).forEach(([fieldName, validation]) => {
-        const field = document.getElementById(fieldName);
-        const errorElement = document.getElementById(`${fieldName}-error`);
-        
-        if (!field || !validation.validate(field.value)) {
-            if (errorElement) {
-                errorElement.textContent = validation.message;
-                errorElement.classList.remove('hidden');
-            }
-            if (field) field.classList.add('border-red-500');
-            isValid = false;
-        }
-    });
-
-    return isValid;
-}
-
-function hideAllErrors() {
-    document.querySelectorAll('[id$="-error"]').forEach(element => {
-        element.classList.add('hidden');
-    });
-    document.querySelectorAll('input, select, textarea').forEach(element => {
-        element.classList.remove('border-red-500');
-    });
-}
+// 4. Event Listeners
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('contactForm');
+    
+    if (form) {
+        form.addEventListener('submit', handleSubmit);
+    }
+});
