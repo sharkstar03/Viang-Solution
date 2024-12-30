@@ -40,14 +40,12 @@ CSS DOCUMENTATION AND TABLE OF CONTENTS
 
 /* 1. Reset & Base Styles
 -------------------------------------------- */
-/* Reset default body behavior and ensure proper viewport handling */
 body {
     overflow-x: hidden;
     position: relative;
     min-height: 100vh;
 }
 
-/* Ensure responsive images maintain aspect ratio */
 img {
     max-width: 100%;
     height: auto;
@@ -55,7 +53,6 @@ img {
 
 /* 2. Layout & Structure
 -------------------------------------------- */
-/* Header & Banner: Creates a full-width hero section with overlay */
 header {
     height: 450px;
     margin-bottom: 0;
@@ -64,14 +61,12 @@ header {
     position: relative;
 }
 
-/* Semi-transparent overlay for better text readability */
 .banner-overlay {
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
 }
 
-/* Container for banner image with fixed dimensions */
 .banner-container {
     width: 100%;
     max-width: 100%;
@@ -80,14 +75,12 @@ header {
     margin: 0 auto;
 }
 
-/* Ensures banner image covers container while maintaining aspect ratio */
 .banner-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-/* Centers header content with absolute positioning */
 .header-content {
     position: absolute;
     top: 50%;
@@ -99,21 +92,18 @@ header {
     padding: 0 1rem;
 }
 
-/* Responsive title sizing using clamp */
 .header-title {
     font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: bold;
     margin-bottom: 1rem;
 }
 
-/* Navigation: Transparent header with smooth background transition */
 .main-nav {
     background: transparent;
     padding: 1.5rem 0;
     transition: background-color 0.3s ease;
 }
 
-/* Centered navigation container with max-width */
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -123,13 +113,11 @@ header {
     padding: 0 1rem;
 }
 
-/* Horizontal navigation links with consistent spacing */
 .nav-links {
     display: flex;
     gap: 2rem;
 }
 
-/* Navigation link styling with hover effect */
 .nav-link {
     color: white;
     text-decoration: none;
@@ -137,14 +125,12 @@ header {
     transition: color 0.3s ease;
 }
 
-/* Hover effect only for devices that support hover */
 @media (hover: hover) {
     .nav-link:hover {
         color: #3B82F6;
     }
 }
 
-/* Footer: Dark themed base footer */
 footer {
     background-color: #1e2330;
     width: 100%;
@@ -153,7 +139,6 @@ footer {
 
 /* 3. Components
 -------------------------------------------- */
-/* Mobile Menu: Hidden by default with animation properties */
 .mobile-menu {
     display: none;
     transform: translateY(-10px);
@@ -161,14 +146,12 @@ footer {
     transition: all 0.3s ease-in-out;
 }
 
-/* Active state for mobile menu with smooth entrance */
 .mobile-menu.active {
     display: block;
     transform: translateY(0);
     opacity: 1;
 }
 
-/* WhatsApp Button: Fixed position floating action button */
 .whatsapp-float {
     position: fixed;
     bottom: 20px;
@@ -176,7 +159,6 @@ footer {
     z-index: 999;
 }
 
-/* Circular button with WhatsApp brand color */
 .whatsapp-button {
     background-color: #25D366;
     border-radius: 50%;
@@ -187,9 +169,9 @@ footer {
     justify-content: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease;
+    animation: bounce 2s infinite;
 }
 
-/* Interactive hover effect for desktop devices */
 @media (hover: hover) {
     .whatsapp-button:hover {
         transform: scale(1.1);
@@ -197,37 +179,33 @@ footer {
     }
 }
 
-/* WhatsApp icon sizing and color */
 .whatsapp-icon {
     font-size: 35px;
     color: #ffffff;
 }
 
-/* Page Loader: Full screen overlay with centered loading animation */
 .loader-wrapper {
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(5px);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 2s ease-in-out;
 }
 
-/* Fade out animation for loader dismissal */
 .loader-wrapper.fade-out {
     opacity: 0;
 }
 
-/* Loading animation container */
 .loader {
     display: flex;
     align-items: center;
     gap: 5px;
 }
 
-/* Individual loading bar styling */
 .bar {
     display: inline-block;
     width: 3px;
@@ -237,18 +215,15 @@ footer {
     animation: scale-up4 1s linear infinite;
 }
 
-/* Middle bar variation */
 .bar:nth-child(2) {
     height: 35px;
     animation-delay: 0.25s;
 }
 
-/* Last bar animation delay */
 .bar:nth-child(3) {
     animation-delay: 0.5s;
 }
 
-/* Loading bar animation definition */
 @keyframes scale-up4 {
     20% {
         background-color: #ffffff;
@@ -260,7 +235,6 @@ footer {
     }
 }
 
-/* Accessibility: Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
     .bar {
         animation: none;
@@ -270,7 +244,6 @@ footer {
 
 /* 4. Typography & Effects
 -------------------------------------------- */
-/* Typewriter effect with blinking cursor */
 .typewriter {
     border-right: .05em solid #4a90e2;
     white-space: nowrap;
@@ -281,7 +254,6 @@ footer {
 
 /* 5. Animations
 -------------------------------------------- */
-/* Spinner animation with custom properties */
 @keyframes spinner-animation {
     0%, 10%, 20%, 30%, 50%, 60%, 70%, 80%, 90%, 100% {
         transform: rotate(calc(var(--rotation) * 1deg)) translate(0, calc(var(--translation) * 1%));
@@ -291,34 +263,64 @@ footer {
     }
 }
 
-/* Typewriter text animation */
 @keyframes typing {
     from { width: 0 }
     to { width: 100% }
 }
 
-/* Blinking cursor animation */
 @keyframes blink-caret {
     from, to { border-color: transparent }
     50% { border-color: rgba(74, 144, 226, 0.6)}
 }
 
-/* Fade in animation */
 @keyframes fade {
     0% { opacity: 0; }
     100% { opacity: 1; }
 }
 
-/* Utility class for fade animation */
 .fade {
     animation: fade 0.5s ease-in-out;
 }
 
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+button, .whatsapp-button {
+    animation: bounce 2s infinite;
+}
+
+form button[type="submit"] {
+    animation: none;
+}
+
+.splide__arrow {
+    animation: none;
+}
+
 /* 6. Media Queries
 -------------------------------------------- */
-/* Mobile responsive adjustments */
 @media (max-width: 768px) {
-    /* Código existente de media queries permanece igual */
     header {
         height: 300px !important;
     }
@@ -340,14 +342,12 @@ footer {
         display: block;
     }
     
-    /* Client carousel mobile adjustments */
     .splide__slide img {
-        height: 96px !important; /* Reducido para móvil */
+        height: 96px !important;
         max-width: 150px !important;
     }
 }
 
-/* Accessibility: Disable animations for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
     .typewriter,
     .fade,
@@ -365,7 +365,6 @@ footer {
 
 /* 7. Client Carousel
 -------------------------------------------- */
-/* Client carousel slide container */
 .splide__slide {
     display: flex !important;
     align-items: center !important;
@@ -374,20 +373,18 @@ footer {
     height: auto;
 }
 
-/* Client logo image consistency */
 .splide__slide img {
     width: auto !important;
-    height: 128px !important; /* Mantiene el h-32 de Tailwind */
+    height: 128px !important;
     object-fit: contain !important;
     max-width: 200px !important;
-    transition: transform 0.3s ease;
+    filter: grayscale(100%) brightness(0);
+    transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-/* Optional hover effect for client logos */
 @media (hover: hover) {
     .splide__slide img:hover {
         transform: scale(1.05);
+        filter: none;
     }
 }
-
-/* Mama guevo

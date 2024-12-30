@@ -67,6 +67,8 @@ const CONFIG = {
         pagination: false,
         arrows: true,
         gap: '2rem',
+        speed: 1000, /* Adjust speed for smoother transition */
+        pauseOnHover: false, /* Ensure continuous movement */
         breakpoints: {
             768: { perPage: 2 },
             480: { perPage: 1 }
