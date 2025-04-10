@@ -1,6 +1,6 @@
 /**
  * @fileoverview Advanced Form Handler with Turnstile Integration
- * @version 1.1.1
+ * @version 1.3.0
  * @author Quantium Crew
  * @description Handles form submission with validation, security verification,
  * and API integration for contact form processing.
@@ -8,22 +8,64 @@
  * Dependencies:
  * - Cloudflare Turnstile
  * - SweetAlert2
- * - Web3Forms API
+ * - Node.js Backend API
  */
 
 /**
- * Callback function for Cloudflare Turnstile initialization
- * Renders the security verification widget
- * @global
- * @callback onloadTurnstileCallback
+ * Almacena la clave del sitio de Turnstile
+ * @type {string}
  */
-window.onloadTurnstileCallback = function () {
+let turnstileSiteKey = '';
+
+/**
+ * Carga la configuración del servidor
+ * @async
+ * @function loadConfig
+ */
+async function loadConfig() {
+    try {
+        const response = await fetch('/api/config');
+        const config = await response.json();
+        turnstileSiteKey = config.turnstileSiteKey;
+        
+        // Una vez que tenemos la clave, inicializamos Turnstile
+        if (typeof turnstile !== 'undefined') {
+            initTurnstile();
+        }
+    } catch (error) {
+        console.error('Error loading config:', error);
+        // Fallback to hardcoded key if server config fails
+        turnstileSiteKey = '0x4AAAAAAA1K8g5nQd30WCAD';
+        if (typeof turnstile !== 'undefined') {
+            initTurnstile();
+        }
+    }
+}
+
+/**
+ * Inicializa el widget de Turnstile
+ * @function initTurnstile
+ */
+function initTurnstile() {
     turnstile.render('#turnstile-container', {
-        sitekey: '0x4AAAAAAA1K8g5nQd30WCAD',
+        sitekey: turnstileSiteKey,
         callback: function(token) {
             document.getElementById('cf-turnstile-response').value = token;
         }
     });
+}
+
+/**
+ * Callback function for Cloudflare Turnstile initialization
+ * @global
+ * @callback onloadTurnstileCallback
+ */
+window.onloadTurnstileCallback = function () {
+    // Si ya tenemos la clave, inicializamos Turnstile inmediatamente
+    if (turnstileSiteKey) {
+        initTurnstile();
+    }
+    // Si no, esperamos a que loadConfig() la obtenga
 };
 
 /**
@@ -43,13 +85,6 @@ function hideAllErrors() {
  * Form validation configuration and execution
  * @function validateForm
  * @returns {boolean} Validation result
- * 
- * Validation Rules:
- * - name: minimum 2 characters
- * - email: valid email format
- * - phone: minimum 8 digits, allows spaces, dashes, plus, parentheses
- * - service: non-empty selection
- * - message: minimum 10 characters
  */
 function validateForm() {
     let isValid = true;
@@ -97,17 +132,10 @@ function validateForm() {
 
 /**
  * Main form submission handler
- * Processes form data and handles API interaction
  * @async
  * @function handleSubmit
  * @param {Event} e - Submit event object
  * @returns {boolean} Submission success status
- * 
- * Process Flow:
- * 1. Validates form data
- * 2. Verifies Turnstile token
- * 3. Submits to Web3Forms API
- * 4. Handles response and user feedback
  */
 async function handleSubmit(e) {
     console.log('Form submission started');
@@ -137,11 +165,22 @@ async function handleSubmit(e) {
     submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
 
     try {
-        // API submission
+        // Prepare form data
         const formData = new FormData(e.target);
-        const response = await fetch('https://api.web3forms.com/submit', {
+        const formDataObject = {};
+        
+        // Convert FormData to regular object
+        formData.forEach((value, key) => {
+            formDataObject[key] = value;
+        });
+
+        // Submit to custom backend API
+        const response = await fetch('/api/contact', {
             method: 'POST',
-            body: formData
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formDataObject)
         });
 
         const result = await response.json();
@@ -179,25 +218,15 @@ async function handleSubmit(e) {
 
 /**
  * Event listener initialization on DOM load
- * Sets up form submission handler
  * @listens DOMContentLoaded
  */
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('contactForm');
+    // Cargar la configuración del servidor
+    loadConfig();
     
+    // Configurar el manejador del formulario
+    const form = document.getElementById('contactForm');
     if (form) {
         form.addEventListener('submit', handleSubmit);
     }
 });
-
-/**
- * @typedef {Object} ValidationRule
- * @property {function} validate - Validation function that returns boolean
- * @property {string} message - Error message to display
- */
-
-/**
- * @typedef {Object} FormField
- * @property {HTMLElement} field - Form field element
- * @property {HTMLElement} errorElement - Error message element
- */
