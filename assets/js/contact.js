@@ -15,7 +15,7 @@
  * Almacena la clave del sitio de Turnstile
  * @type {string}
  */
-let turnstileSiteKey = '';
+let turnstileSiteKey = '0x4AAAAAAA1K8g5nQd30WCAD'; // Default fallback value
 
 /**
  * Carga la configuración del servidor
@@ -35,7 +35,6 @@ async function loadConfig() {
     } catch (error) {
         console.error('Error loading config:', error);
         // Fallback to hardcoded key if server config fails
-        turnstileSiteKey = '0x4AAAAAAA1K8g5nQd30WCAD';
         if (typeof turnstile !== 'undefined') {
             initTurnstile();
         }
@@ -47,10 +46,20 @@ async function loadConfig() {
  * @function initTurnstile
  */
 function initTurnstile() {
+    // Limpiar cualquier widget existente
+    const container = document.getElementById('turnstile-container');
+    if (container) {
+        while (container.firstChild) {
+            container.removeChild(container.firstChild);
+        }
+    }
+    
+    // Crear nuevo widget
     turnstile.render('#turnstile-container', {
         sitekey: turnstileSiteKey,
         callback: function(token) {
             document.getElementById('cf-turnstile-response').value = token;
+            console.log("Turnstile token generated:", token.substring(0, 10) + "...");
         }
     });
 }
@@ -61,6 +70,7 @@ function initTurnstile() {
  * @callback onloadTurnstileCallback
  */
 window.onloadTurnstileCallback = function () {
+    console.log("Turnstile callback triggered");
     // Si ya tenemos la clave, inicializamos Turnstile inmediatamente
     if (turnstileSiteKey) {
         initTurnstile();
@@ -143,12 +153,14 @@ async function handleSubmit(e) {
 
     // Form validation
     if (!validateForm()) {
+        console.log('Form validation failed');
         return false;
     }
 
     // Security verification check
     const turnstileToken = document.getElementById('cf-turnstile-response').value;
     if (!turnstileToken) {
+        console.log('Missing Turnstile token');
         Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -174,6 +186,8 @@ async function handleSubmit(e) {
             formDataObject[key] = value;
         });
 
+        console.log('Sending data to server:', formDataObject);
+
         // Submit to custom backend API
         const response = await fetch('/api/contact', {
             method: 'POST',
@@ -184,6 +198,7 @@ async function handleSubmit(e) {
         });
 
         const result = await response.json();
+        console.log('Server response:', result);
 
         // Success handling
         if (response.status === 200) {
@@ -221,12 +236,25 @@ async function handleSubmit(e) {
  * @listens DOMContentLoaded
  */
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing contact form');
+    
     // Cargar la configuración del servidor
     loadConfig();
     
     // Configurar el manejador del formulario
     const form = document.getElementById('contactForm');
     if (form) {
+        console.log('Contact form found, attaching submit handler');
         form.addEventListener('submit', handleSubmit);
+    } else {
+        console.error('Contact form not found! ID "contactForm" not present in the document');
+    }
+    
+    // Desactivar la inicialización en script.js si existe
+    if (window.initializeFormValidation) {
+        console.log('Preventing duplicate form initialization from script.js');
+        window.initializeFormValidation = function() {
+            console.log('Form initialization from script.js skipped');
+        };
     }
 });

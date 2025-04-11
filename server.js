@@ -75,7 +75,9 @@ async function verifyTurnstileToken(token) {
  * Uses environment variables for secure credential storage
  */
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true, // true for 465, false for other ports
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
@@ -88,8 +90,11 @@ const transporter = nodemailer.createTransport({
  */
 app.post('/api/contact', async (req, res) => {
   try {
+    console.log('Received form submission:', req.body);
+    
     // Extract form data
-    const { name, email, phone, service, message, 'cf-turnstile-response': turnstileToken } = req.body;
+    const { name, email, phone, service, message } = req.body;
+    const turnstileToken = req.body['cf-turnstile-response'];
     
     // Basic validation
     if (!name || !email || !phone || !service || !message) {
@@ -156,5 +161,4 @@ app.post('/api/contact', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Using email: ${process.env.EMAIL_USER}`);
-  console.log(`Turnstile site key: ${process.env.TURNSTILE_SITE_KEY}`);
 });
