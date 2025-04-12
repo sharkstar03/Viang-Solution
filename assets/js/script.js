@@ -227,11 +227,17 @@ function initializeCounters() {
  * @function
  */
 function initializeFormValidation() {
+    // Si ya existe el formulario con ID 'contactForm', este JS no hace nada
+    if (document.getElementById('contactForm')) {
+        console.log('Form already handled by contact.js');
+        return;
+    }
+
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', validateForm);
-        
-        // Initialize Turnstile widget
+
+        // Initialize Turnstile
         turnstile.ready(() => {
             turnstile.render('#turnstile-container', {
                 sitekey: CONFIG.turnstile.siteKey,
@@ -242,6 +248,7 @@ function initializeFormValidation() {
         });
     }
 }
+
 
 /**
  * Validates and handles form submission
