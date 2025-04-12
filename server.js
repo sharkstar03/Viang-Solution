@@ -28,9 +28,10 @@ app.use(express.static(path.join(__dirname, '/')));
  */
 app.get('/api/config', (req, res) => {
   res.json({
-    turnstileSiteKey: process.env.TURNSTILE_SITE_KEY
+    turnstileSiteKey: process.env.TURNSTILE_SITE_KEY || '0x4AAAAAAA1K8g5nQd30WCAD'
   });
 });
+
 
 /**
  * Serves the static HTML files
