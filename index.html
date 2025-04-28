@@ -50,11 +50,18 @@
     <link rel="icon" href="assets/img/icons/icon.png" type="image/gif" sizes="16x16"/>
     <link rel="icon" href="assets/img/icons/icon.png" type="image/gif" sizes="18x18"/>
     <link rel="icon" href="assets/img/icons/icon.png" type="image/gif" sizes="20x20"/>
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="assets/img/logo.png" as="image">
+    <link rel="preload" href="assets/img/breadcrumb.png" as="image">
+    <link rel="preload" href="assets/img/white-logo.png" as="image">
+    
+    <!-- CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css" rel="stylesheet"/>
     <link href="assets/css/styles.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css" rel="stylesheet">
 </head>
 <body class="font-sans">
       <!-- Loader Section --> 
@@ -74,70 +81,62 @@
         </div>
     </section>
 
-    <!-- Navigation Section -->
-    <section id="navigation">
-        <nav class="bg-white shadow-lg fixed w-full z-10">
-            <div class="max-w-6xl mx-auto px-4">
-                <div class="flex justify-between items-center h-16 md:h-20">
-                    <!-- Logo Container -->
-                    <div class="flex items-center">
-                        <a href="/">
-                            <img src="assets/img/logo.png" alt="VIANG SOLUTION Logo" class="h-12 md:h-16 w-auto">
-                        </a>
-                    </div>
-                    
-                    <!-- Desktop Menu -->
-                    <div class="hidden md:flex items-center space-x-6">
-                        <a href="#inicio" class="text-gray-700 hover:text-blue-600">Inicio</a>
-                        <a href="#servicios" class="text-gray-700 hover:text-blue-600">Nuestros Servicios</a>
-                        <a href="#quienes-somos" class="text-gray-700 hover:text-blue-600">¿Quiénes Somos?</a>
-                        <a href="contact.html" class="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700">
-                            ¡Cotiza Ya!
-                        </a>
-                    </div>
+    <!-- Header con banner -->
+    <header class="relative" id="inicio" style="height: 100vh;">
+        <!-- Banner/Background -->
+        <div class="absolute inset-0">
+            <img src="assets/img/breadcrumb.png" alt="Banner Principal" class="w-full h-full object-cover object-center">
+            <div class="banner-overlay"></div>
+        </div>
 
-                    <!-- Mobile Menu Button -->
-                    <button id="menu-btn" class="md:hidden p-2">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-16 6h16"/>
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- Mobile Menu -->
-                <div id="mobile-menu" class="hidden md:hidden py-2">
-                    <a href="#inicio" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">Inicio</a>
-                    <a href="#servicios" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">Servicios</a>
-                    <a href="#quienes-somos" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">¿Quiénes Somos?</a>
-                    <a href="#contacto" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">Contacto</a>
-                </div>
-            </div>
-        </nav>
-    </section>
-
-    <!-- Hero Section -->
-    <section id="inicio" class="pt-20">
-        <div class="relative h-screen">
-            <div class="absolute inset-0">
-                <img src="assets/img/breadcrumb.png" alt="Cleaning Service" class="w-full h-full object-cover"/>
-                <div class="absolute inset-0 bg-black opacity-50"></div>
-            </div>
-            <div class="relative max-w-6xl mx-auto px-4 h-full flex items-center">
-                <div class="text-white">
-                    <h1 class="text-5xl font-bold mb-6 header-title">
-                        Servicios Profesionales De
-                        <div class="mt-2">
-                            <span id="typed-text" class="typewriter text-blue-400"></span>
-                        </div>
-                    </h1>
-                    <p class="text-xl mb-8">Somos Expertos En Soluciones Para Su Hogar y Oficina</p>
-                    <a href="#contacto" class="bg-indigo-600 text-white px-8 py-3 rounded-full text-lg hover:bg-indigo-700 inline-block">
-                        ¡Cotiza ya!
+        <!-- Navigation -->
+        <nav class="absolute top-0 w-full main-nav z-50 pt-4 pb-4">
+            <div class="nav-container">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center">
+                        <img src="assets/img/white-logo.png" alt="VIANG SOLUTION" class="h-16 w-auto">
                     </a>
                 </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex nav-links">
+                    <a href="#inicio" class="nav-link">Inicio</a>
+                    <a href="#servicios" class="nav-link">Nuestros Servicios</a>
+                    <a href="#quienes-somos" class="nav-link">¿Quiénes Somos?</a>
+                    <a href="contact.html" class="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700">
+                        ¡Cotiza Ya!
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="menu-btn" class="md:hidden text-white p-2">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-16 6h16"/>
+                    </svg>
+                </button>
             </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden py-2 bg-white rounded-lg shadow-lg mx-4 mt-2">
+                <a href="#inicio" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">Inicio</a>
+                <a href="#servicios" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">Servicios</a>
+                <a href="#quienes-somos" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">¿Quiénes Somos?</a>
+                <a href="contact.html" class="block py-2 px-4 text-indigo-700 hover:bg-gray-100 font-medium">¡Cotiza Ya!</a>
+            </div>
+        </nav>
+
+        <!-- Hero Content -->
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full text-center px-4">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">Servicios Profesionales De</h1>
+            <div class="mb-6">
+                <span id="typed-text" class="typewriter text-blue-400 text-3xl md:text-4xl lg:text-5xl font-bold"></span>
+            </div>
+            <p class="text-xl mb-8 text-white">Somos Expertos En Soluciones Para Su Hogar y Oficina</p>
+            <a href="#contacto" class="bg-indigo-600 text-white px-8 py-3 rounded-full text-lg hover:bg-indigo-700 inline-block transition-all duration-300 shadow-lg">
+                ¡Cotiza ya!
+            </a>
         </div>
-    </section>
+    </header>
 
     <!-- Clients Carousel Section -->
     <section id="clients" class="py-20">
@@ -180,131 +179,139 @@
     </section>
 
     <!-- Quienes Somos-->
-    <section id="quienes-somos" class="py-20">
+    <section id="quienes-somos" class="py-12 md:py-20">
         <div class="max-w-6xl mx-auto px-4">
-            <div class="grid md:grid-cols-2 gap-12 items-start">  <!-- Cambiado de items-center a items-start -->
-                <div>
-                    <h2 class="text-3xl font-bold mb-6">Quiénes Somos</h2>
-                    <p class="text-gray-600 mb-4">
+            <h2 class="text-3xl font-bold mb-6 text-center md:text-left">Quiénes Somos</h2>
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+                <div class="order-2 md:order-1">
+                    <p class="text-gray-600 mb-4 text-base md:text-lg">
                         Con más de 20 años de experiencia, somos líderes en servicios de limpieza y mantenimiento en la región. Nuestro compromiso con la excelencia y la satisfacción del cliente nos ha permitido crecer y diversificar nuestros servicios.
                     </p>
-                    <p class="text-gray-600">
+                    <p class="text-gray-600 text-base md:text-lg">
                         Contamos con un equipo altamente capacitado y utilizamos productos eco-amigables de primera calidad. Nos especializamos en brindar soluciones integrales tanto para hogares como para empresas, garantizando resultados excepcionales en cada proyecto.
                     </p>
                 </div>
-                <div class="relative h-96">
-                    <img src="assets/img/equipo.jpg" loading="lazy" alt="Equipo de trabajo" class="w-full h-full object-cover rounded-lg shadow-lg">
+                <div class="relative h-64 md:h-96 rounded-lg overflow-hidden shadow-lg order-1 md:order-2 mb-6 md:mb-0">
+                    <img src="assets/img/equipo.jpg" loading="lazy" alt="Equipo de trabajo" class="w-full h-full object-cover">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Counter Section -->
-    <section id="counter" class="py-20 bg-gray-50">
+    <section id="counter" class="py-12 md:py-20 bg-gray-50">
         <div class="max-w-6xl mx-auto px-4">
-            <div class="grid md:grid-cols-3 gap-8 text-center">
-                <div>
-                    <span class="text-4xl font-bold text-blue-600 counter" data-target="1000">0</span>
-                    <span class="text-4xl font-bold text-blue-600">+</span>
-                    <p class="text-xl mt-2">Clientes Satisfechos</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white p-6 rounded-lg shadow-md transform transition-transform hover:scale-105">
+                    <span class="text-3xl md:text-4xl font-bold text-blue-600 counter" data-target="1000">0</span>
+                    <span class="text-3xl md:text-4xl font-bold text-blue-600">+</span>
+                    <p class="text-lg md:text-xl mt-2">Clientes Satisfechos</p>
                 </div>
-                <div>
-                    <span class="text-4xl font-bold text-blue-600 counter" data-target="250">0</span>
-                    <span class="text-4xl font-bold text-blue-600">+</span>
-                    <p class="text-xl mt-2">Empresas Confían en Nosotros</p>
+                <div class="bg-white p-6 rounded-lg shadow-md transform transition-transform hover:scale-105">
+                    <span class="text-3xl md:text-4xl font-bold text-blue-600 counter" data-target="250">0</span>
+                    <span class="text-3xl md:text-4xl font-bold text-blue-600">+</span>
+                    <p class="text-lg md:text-xl mt-2">Empresas Confían en Nosotros</p>
                 </div>
-                <div>
-                    <span class="text-4xl font-bold text-blue-600 counter" data-target="20">0</span>
-                    <span class="text-4xl font-bold text-blue-600">+</span>
-                    <p class="text-xl mt-2">Años de Experiencia</p>
+                <div class="bg-white p-6 rounded-lg shadow-md transform transition-transform hover:scale-105 sm:col-span-2 md:col-span-1 sm:mx-auto sm:max-w-xs">
+                    <span class="text-3xl md:text-4xl font-bold text-blue-600 counter" data-target="20">0</span>
+                    <span class="text-3xl md:text-4xl font-bold text-blue-600">+</span>
+                    <p class="text-lg md:text-xl mt-2">Años de Experiencia</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Services Section -->
-    <section id="servicios" class="py-20 bg-gray-50">
+    <section id="servicios" class="py-12 md:py-20 bg-gray-50">
         <div class="max-w-6xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12">Nuestros Servicios</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <img src="assets/img/Servicios/PISOS.jpg" alt="Pulimientos y Limpiezas de Pisos" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <h3 class="text-xl font-bold mb-2">Pulimientos y Limpiezas de Pisos</h3>
-                    <p class="text-gray-600">Pisos de Cemento, Marmol, Granito, Madera, etc. También Pulimos Sobres de Cualquier Material.</p>
+            <h2 class="text-3xl font-bold text-center mb-8 md:mb-12">Nuestros Servicios</h2>
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
+                <div class="bg-white p-4 md:p-6 rounded-lg shadow-md transform transition-transform hover:scale-105 hover:shadow-lg">
+                    <img src="assets/img/Servicios/PISOS.jpg" loading="lazy" alt="Pulimientos y Limpiezas de Pisos" class="w-full h-40 md:h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Pulimientos y Limpiezas de Pisos</h3>
+                    <p class="text-gray-600 text-sm md:text-base">Pisos de Cemento, Marmol, Granito, Madera, etc. También Pulimos Sobres de Cualquier Material.</p>
                 </div>
                 
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <img src="assets/img/Servicios/alfombras.jpg" alt="Furniture Cleaning" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <h3 class="text-xl font-bold mb-2">Limpieza De Muebles y Alfombras</h3>
-                    <p class="text-gray-600">Alfombras De Todo Tipo y Muebles De Todo Tipo De Materiales y De Autos También.</p>
+                <div class="bg-white p-4 md:p-6 rounded-lg shadow-md transform transition-transform hover:scale-105 hover:shadow-lg">
+                    <img src="assets/img/Servicios/alfombras.jpg" loading="lazy" alt="Furniture Cleaning" class="w-full h-40 md:h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Limpieza De Muebles y Alfombras</h3>
+                    <p class="text-gray-600 text-sm md:text-base">Alfombras De Todo Tipo y Muebles De Todo Tipo De Materiales y De Autos También.</p>
                 </div>
                 
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <img src="assets/img/Servicios/electricidad.jpg" alt="Multi Services" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <h3 class="text-xl font-bold mb-2">Multi Servicios</h3>
-                    <p class="text-gray-600">Hacemos electricidad menor, plomería básica y reparaciones generales para su hogar.</p>
+                <div class="bg-white p-4 md:p-6 rounded-lg shadow-md transform transition-transform hover:scale-105 hover:shadow-lg">
+                    <img src="assets/img/Servicios/electricidad.jpg" loading="lazy" alt="Multi Services" class="w-full h-40 md:h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Multi Servicios</h3>
+                    <p class="text-gray-600 text-sm md:text-base">Hacemos electricidad menor, plomería básica y reparaciones generales para su hogar.</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <img src="assets/img/Servicios/instalacionesac.jpg" alt="Instalaciones de A/C" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <h3 class="text-xl font-bold mb-2">Instalaciones De Todo Tipo</h3>
-                    <p class="text-gray-600">Instalamos Aires Acondicionados, Cortinas Electricas, Ventiladores, etc.</p>
+                <div class="bg-white p-4 md:p-6 rounded-lg shadow-md transform transition-transform hover:scale-105 hover:shadow-lg">
+                    <img src="assets/img/Servicios/instalacionesac.jpg" loading="lazy" alt="Instalaciones de A/C" class="w-full h-40 md:h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Instalaciones De Todo Tipo</h3>
+                    <p class="text-gray-600 text-sm md:text-base">Instalamos Aires Acondicionados, Cortinas Electricas, Ventiladores, etc.</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <img src="assets/img/Servicios/pintura.jpg" alt="Pintura" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <h3 class="text-xl font-bold mb-2">Pintura</h3>
-                    <p class="text-gray-600">Servicios de pintura interior y exterior, tratamiento de superficies y acabados especiales.</p>
+                <div class="bg-white p-4 md:p-6 rounded-lg shadow-md transform transition-transform hover:scale-105 hover:shadow-lg">
+                    <img src="assets/img/Servicios/pintura.jpg" loading="lazy" alt="Pintura" class="w-full h-40 md:h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Pintura</h3>
+                    <p class="text-gray-600 text-sm md:text-base">Servicios de pintura interior y exterior, tratamiento de superficies y acabados especiales.</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="bg-white p-4 md:p-6 rounded-lg shadow-md transform transition-transform hover:scale-105 hover:shadow-lg">
                     <video 
-                        class="w-full h-48 object-cover rounded-lg mb-4" 
+                        class="w-full h-40 md:h-48 object-cover rounded-lg mb-4" 
                         autoplay 
                         loop 
                         muted 
                         playsinline
+                        poster="assets/img/Servicios/PISOS.jpg"
                     >
-                        <source src="/assets/img/limpieza.mp4" type="video/mp4">
+                        <source src="assets/img/limpieza.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
-                    <h3 class="text-xl font-bold mb-2">Limpieza Empresarial</h3>
-                    <p class="text-gray-600">Servicios especializados de limpieza para oficinas, locales comerciales, espacios industriales y Pos Construccion.</p>
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Limpieza Empresarial</h3>
+                    <p class="text-gray-600 text-sm md:text-base">Servicios especializados de limpieza para oficinas, locales comerciales, espacios industriales y Pos Construccion.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contacto" class="py-20">
+    <section id="contacto" class="py-12 md:py-20">
         <div class="max-w-6xl mx-auto px-4">
-            <div class="bg-blue-600 rounded-lg p-8 text-white text-center">
-                <h2 class="text-3xl font-bold mb-4">Cotiza Sin Compromiso</h2>
-                <p class="mb-8">No Pierdas La Oportunidad De La Mejor Empresa En Limpieza</p>
-                <a href="contact.html" class="bg-white text-blue-600 px-8 py-3 rounded-full text-lg hover:bg-gray-100">
-                    !Cotiza Ya¡
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl p-6 md:p-8 text-white text-center shadow-xl">
+                <h2 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4">Cotiza Sin Compromiso</h2>
+                <p class="mb-6 md:mb-8 text-base md:text-lg">No Pierdas La Oportunidad De La Mejor Empresa En Limpieza</p>
+                <a href="contact.html" class="bg-white text-blue-600 px-6 md:px-8 py-3 rounded-full text-lg hover:bg-gray-100 shadow-md transition-all duration-300 hover:shadow-lg inline-block">
+                    ¡Cotiza Ya!
                 </a>
             </div>
         </div>
     </section>
+
     <!-- Footer -->
-    <footer class="bg-[#1e2330] text-white py-12 w-screen relative left-[calc(-50vw+50%)] right-[calc(-50vw+50%)]">
+    <footer class="bg-[#1e2330] text-white py-8 md:py-12 w-screen relative left-[calc(-50vw+50%)] right-[calc(-50vw+50%)]">
         <div class="max-w-6xl mx-auto px-4">
-            <div class="grid md:grid-cols-3 gap-8">
-                <div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-center sm:text-left">
+                <div class="flex flex-col items-center sm:items-start">
                     <a href="index.html">
                         <img src="assets/img/white-logo.png" alt="VIANG SOLUTION" class="h-16 w-auto mb-4">
                     </a>
                     <p class="text-gray-400">Haz que tus pisos, muebles y servicios sean lo mejor de lo mejor.</p>
                 </div>
                 <div>
-                    <h3 class="text-xl font-bold mb-4">Contactanos</h3>
-                    <p class="text-gray-400"><i class="far fa-envelope mr-2"></i>vionel@viangsolution.com</p>
-                    <p class="text-gray-400"><i class="fas fa-phone mr-2"></i>(507) 6734-0816</p>
+                    <h3 class="text-xl font-bold mb-4">Contáctanos</h3>
+                    <p class="flex items-center justify-center sm:justify-start text-gray-400 mb-2">
+                        <i class="far fa-envelope mr-2"></i>
+                        <a href="mailto:vionel@viangsolution.com" class="hover:text-white transition-colors">vionel@viangsolution.com</a>
+                    </p>
+                    <p class="flex items-center justify-center sm:justify-start text-gray-400">
+                        <i class="fas fa-phone mr-2"></i>
+                        <a href="tel:+50767340816" class="hover:text-white transition-colors">(507) 6734-0816</a>
+                    </p>
                 </div>
                 <div>
-                    <h3 class="text-xl font-bold mb-4">Siguenos</h3>
-                    <div class="flex space-x-6">
+                    <h3 class="text-xl font-bold mb-4">Síguenos</h3>
+                    <div class="flex space-x-6 justify-center sm:justify-start">
                         <a href="https://www.facebook.com/viangsolutions/?locale=es_LA" class="social-icon text-gray-400 hover:text-white text-2xl">
                             <i class="fab fa-facebook"></i>
                         </a>
@@ -318,7 +325,7 @@
                 </div>
             </div>
             <!-- Copyright -->
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center">
                 <p class="text-gray-400 text-sm">
                     © <span id="current-year"></span> VIANG SOLUTION. All rights reserved. | Developed by 
                     <a href="https://quantiumcrew.online" target="_blank" class="text-blue-400 hover:text-blue-300 transition-colors duration-300">
@@ -333,10 +340,9 @@
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
     <script src="assets/js/script.js"></script>
     <script src="assets/js/contact.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
 </body>
 </html>
 

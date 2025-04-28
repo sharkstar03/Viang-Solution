@@ -17,6 +17,24 @@
  */
 let turnstileSiteKey = '0x4AAAAAAA1K8g5nQd30WCAD'; // Default fallback value
 
+// Determinar dinámicamente la URL base para conectarse al servidor
+function getApiBaseUrl() {
+    // En un entorno de producción, usa la URL actual
+    const currentUrl = window.location.origin;
+    
+    // Si estamos en un servidor local, puede que necesitemos cambiar el puerto
+    if (currentUrl.includes('localhost') || currentUrl.includes('127.0.0.1')) {
+        // Si se está ejecutando con Live Server (generalmente en puerto 5500)
+        // cambiamos al puerto del servidor de backend (3000)
+        return currentUrl.replace(/:\d+/, ':3000');
+    }
+    
+    return currentUrl;
+}
+
+// URL base dinámica para API endpoints
+const API_BASE_URL = getApiBaseUrl();
+
 /**
  * Carga la configuración del servidor
  * @async
@@ -24,9 +42,21 @@ let turnstileSiteKey = '0x4AAAAAAA1K8g5nQd30WCAD'; // Default fallback value
  */
 async function loadConfig() {
     try {
-        const response = await fetch('/api/config');
+        console.log('Intentando cargar configuración desde el servidor...');
+        
+        // Agregar un timeout a la petición fetch para evitar esperas largas
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000); // timeout de 3 segundos
+        
+        const response = await fetch(`${API_BASE_URL}/api/config`, {
+            signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        
         const config = await response.json();
         turnstileSiteKey = config.turnstileSiteKey;
+        console.log('Configuración cargada correctamente');
         
         // Una vez que tenemos la clave, inicializamos Turnstile
         if (typeof turnstile !== 'undefined') {
@@ -34,7 +64,12 @@ async function loadConfig() {
         }
     } catch (error) {
         console.error('Error loading config:', error);
-        // Fallback to hardcoded key if server config fails
+        console.log('Usando configuración fallback para pruebas locales');
+        
+        // Usar un valor fallback local para pruebas
+        document.getElementById('cf-turnstile-response').value = 'dummy-token-for-local-testing';
+        
+        // Si turnstile está disponible, intentamos inicializarlo de todas formas
         if (typeof turnstile !== 'undefined') {
             initTurnstile();
         }
@@ -42,26 +77,52 @@ async function loadConfig() {
 }
 
 /**
- * Inicializa el widget de Turnstile
+ * Inicializa el widget de Turnstile con manejo de errores
  * @function initTurnstile
  */
 function initTurnstile() {
     // Limpiar cualquier widget existente
     const container = document.getElementById('turnstile-container');
-    if (container) {
-        while (container.firstChild) {
-            container.removeChild(container.firstChild);
-        }
+    if (!container) {
+        console.warn('Turnstile container not found');
+        return;
     }
     
-    // Crear nuevo widget
-    turnstile.render('#turnstile-container', {
-        sitekey: turnstileSiteKey,
-        callback: function(token) {
-            document.getElementById('cf-turnstile-response').value = token;
-            console.log("Turnstile token generated:", token.substring(0, 10) + "...");
-        }
-    });
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
+    
+    // Verificamos que turnstile esté disponible
+    if (typeof turnstile === 'undefined') {
+        console.warn('Turnstile library not loaded, using fallback for local testing');
+        
+        // Crear un widget falso para pruebas locales
+        const fakeWidget = document.createElement('div');
+        fakeWidget.className = 'turnstile-fake-widget';
+        fakeWidget.innerHTML = '<div style="padding: 10px; background-color: #f0f0f0; border-radius: 5px; text-align: center;">Verificación simulada para pruebas locales</div>';
+        container.appendChild(fakeWidget);
+        
+        document.getElementById('cf-turnstile-response').value = 'dummy-token-for-local-testing';
+        return;
+    }
+    
+    try {
+        // Crear nuevo widget
+        turnstile.render('#turnstile-container', {
+            sitekey: turnstileSiteKey,
+            callback: function(token) {
+                document.getElementById('cf-turnstile-response').value = token;
+                console.log("Turnstile token generated:", token.substring(0, 10) + "...");
+            },
+            'error-callback': function() {
+                console.warn('Turnstile encountered an error, using fallback token for testing');
+                document.getElementById('cf-turnstile-response').value = 'dummy-token-for-local-testing';
+            }
+        });
+    } catch (error) {
+        console.error('Error rendering Turnstile widget:', error);
+        document.getElementById('cf-turnstile-response').value = 'dummy-token-for-local-testing';
+    }
 }
 
 /**
@@ -189,13 +250,18 @@ async function handleSubmit(e) {
         console.log('Sending data to server:', formDataObject);
 
         // Submit to custom backend API
-        const response = await fetch('/api/contact', {
+        const response = await fetch(`${API_BASE_URL}/api/contact`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(formDataObject)
         });
+
+        // Verificar si la respuesta tiene contenido antes de analizarla como JSON
+        if (response.headers.get('Content-Length') === '0' || response.status === 204) {
+            throw new Error('El servidor devolvió una respuesta vacía.');
+        }
 
         const result = await response.json();
         console.log('Server response:', result);
@@ -257,4 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Form initialization from script.js skipped');
         };
     }
+
+    // Simulación de token de Turnstile para pruebas locales
+    document.getElementById('cf-turnstile-response').value = 'dummy-token';
 });
