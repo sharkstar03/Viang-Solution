@@ -89,11 +89,30 @@ const CONFIG = {
  */
 document.addEventListener('DOMContentLoaded', function() {
     initializeMobileMenu();
-    initializeTextAnimation();
-    initializeCarousels();
+    
+    // Solo inicializamos la animación de texto si existe el elemento
+    if (document.getElementById('typed-text')) {
+        initializeTextAnimation();
+    }
+    
+    // Inicializar carruseles solo después de que las imágenes críticas se hayan cargado
+    // y solo si existe el elemento .splide
+    if (document.querySelector('.splide')) {
+        if (document.readyState === 'complete') {
+            initializeCarousels();
+        } else {
+            window.addEventListener('load', initializeCarousels);
+        }
+    }
+    
     initializeCounters();
-    initializeFormValidation();
+    optimizeImageLoading();
     updateCopyrightYear();
+    
+    // Solo inicializar validación de formulario si no está manejado por contact.js
+    if (!document.getElementById('contactForm') && document.getElementById('contact-form')) {
+        initializeFormValidation();
+    }
 });
 
 /**
@@ -180,7 +199,19 @@ function initializeTextAnimation() {
  * @function
  */
 function initializeCarousels() {
-    new Splide('.splide', CONFIG.splideConfig).mount();
+    if (typeof Splide === 'undefined') {
+        console.log('Splide library is not loaded. The carousel will not be initialized.');
+        return;
+    }
+    
+    const splideElement = document.querySelector('.splide');
+    if (splideElement) {
+        try {
+            new Splide('.splide', CONFIG.splideConfig).mount();
+        } catch (error) {
+            console.error('Error initializing Splide carousel:', error);
+        }
+    }
 }
 
 /**
@@ -361,6 +392,36 @@ class Loader {
             this.loader.remove(); // Clean up DOM
         }, { once: true });
     }
+}
+
+/**
+ * Optimiza la carga de imágenes del sitio web
+ * @function
+ */
+function optimizeImageLoading() {
+    // Observador para cargar imágenes cuando se aproximan al viewport
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                const src = img.getAttribute('data-src');
+                
+                if (src) {
+                    img.src = src;
+                    img.removeAttribute('data-src');
+                    observer.unobserve(img);
+                }
+            }
+        });
+    }, {
+        rootMargin: '50px 0px', // Carga las imágenes cuando están a 50px de entrar en el viewport
+        threshold: 0.1
+    });
+
+    // Aplica el observador a todas las imágenes con data-src
+    document.querySelectorAll('img[data-src]').forEach(img => {
+        imageObserver.observe(img);
+    });
 }
 
 // Initialize loader

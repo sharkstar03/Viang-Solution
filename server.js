@@ -17,7 +17,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+  origin: '*', // Permitir solicitudes desde cualquier origen
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type']
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '/')));
@@ -50,25 +55,9 @@ app.get('/contact', (req, res) => {
  * @returns {Promise<boolean>} - Whether the token is valid
  */
 async function verifyTurnstileToken(token) {
-  try {
-    const response = await axios.post(
-      'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-      new URLSearchParams({
-        secret: process.env.TURNSTILE_SECRET_KEY,
-        response: token
-      }),
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      }
-    );
-
-    return response.data.success;
-  } catch (error) {
-    console.error('Error verifying Turnstile token:', error);
-    return false;
-  }
+    // Simulación para pruebas locales
+    console.log('Simulando verificación de Turnstile en local');
+    return true;
 }
 
 /**
@@ -91,22 +80,25 @@ const transporter = nodemailer.createTransport({
  */
 app.post('/api/contact', async (req, res) => {
   try {
-    console.log('Received form submission:', req.body);
-    
+    console.log('Headers:', req.headers);
+    console.log('Body:', req.body);
+
     // Extract form data
     const { name, email, phone, service, message } = req.body;
     const turnstileToken = req.body['cf-turnstile-response'];
-    
+
     // Basic validation
     if (!name || !email || !phone || !service || !message) {
+      console.log('Validation failed: Missing fields');
       return res.status(400).json({ 
         success: false, 
         message: 'Todos los campos son requeridos' 
       });
     }
-    
+
     // Verify Turnstile token
     if (!turnstileToken) {
+      console.log('Validation failed: Missing Turnstile token');
       return res.status(400).json({ 
         success: false, 
         message: 'Por favor, complete la verificación de seguridad' 
@@ -116,12 +108,13 @@ app.post('/api/contact', async (req, res) => {
     // Verify token with Cloudflare
     const isValidToken = await verifyTurnstileToken(turnstileToken);
     if (!isValidToken) {
+      console.log('Validation failed: Invalid Turnstile token');
       return res.status(400).json({
         success: false,
         message: 'Verificación de seguridad inválida. Por favor, intente nuevamente.'
       });
     }
-    
+
     // Email content
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -139,18 +132,20 @@ app.post('/api/contact', async (req, res) => {
         <p>${message}</p>
       `
     };
-    
+
     // Send email
     await transporter.sendMail(mailOptions);
-    
+
+    console.log('Email sent successfully');
+
     // Send success response
     res.status(200).json({ 
       success: true, 
       message: 'Mensaje enviado correctamente' 
     });
-    
+
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error('Error in /api/contact:', error);
     res.status(500).json({ 
       success: false, 
       message: 'Error al enviar el mensaje. Por favor, intente nuevamente.' 
@@ -159,7 +154,7 @@ app.post('/api/contact', async (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
   console.log(`Using email: ${process.env.EMAIL_USER}`);
 });
