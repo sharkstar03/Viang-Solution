@@ -17,8 +17,19 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:3000')
+  .split(',')
+  .map(origin => origin.trim());
+
 const corsOptions = {
-  origin: '*', // Permitir solicitudes desde cualquier origen
+  origin: (origin, callback) => {
+    // Permitir solicitudes sin origen (Postman, curl, mismo origen)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
 };
@@ -50,14 +61,44 @@ app.get('/contact', (req, res) => {
 });
 
 /**
- * Verifies Cloudflare Turnstile token
+ * Verifies Cloudflare Turnstile token against the siteverify endpoint
  * @param {string} token - The token from the client-side
  * @returns {Promise<boolean>} - Whether the token is valid
  */
 async function verifyTurnstileToken(token) {
-    // Simulación para pruebas locales
-    console.log('Simulando verificación de Turnstile en local');
+  if (process.env.NODE_ENV !== 'production') {
+    console.log('Modo desarrollo: omitiendo verificación real de Turnstile');
     return true;
+  }
+
+  try {
+    const response = await axios.post(
+      'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+      new URLSearchParams({
+        secret: process.env.TURNSTILE_SECRET_KEY,
+        response: token
+      })
+    );
+
+    return response.data?.success === true;
+  } catch (error) {
+    console.error('Error verifying Turnstile token:', error.message);
+    return false;
+  }
+}
+
+/**
+ * Escapes HTML special characters to prevent HTML injection
+ * @param {string} value - The raw string to escape
+ * @returns {string} - The escaped string
+ */
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 /**
@@ -80,9 +121,6 @@ const transporter = nodemailer.createTransport({
  */
 app.post('/api/contact', async (req, res) => {
   try {
-    console.log('Headers:', req.headers);
-    console.log('Body:', req.body);
-
     // Extract form data
     const { name, email, phone, service, message } = req.body;
     const turnstileToken = req.body['cf-turnstile-response'];
@@ -124,12 +162,12 @@ app.post('/api/contact', async (req, res) => {
       subject: `Nuevo Contacto Web: ${service}`,
       html: `
         <h2>Nuevo mensaje de contacto desde el sitio web</h2>
-        <p><strong>Nombre:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Teléfono:</strong> ${phone}</p>
-        <p><strong>Servicio:</strong> ${service}</p>
+        <p><strong>Nombre:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Teléfono:</strong> ${escapeHtml(phone)}</p>
+        <p><strong>Servicio:</strong> ${escapeHtml(service)}</p>
         <p><strong>Mensaje:</strong></p>
-        <p>${message}</p>
+        <p>${escapeHtml(message)}</p>
       `
     };
 
