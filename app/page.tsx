@@ -20,9 +20,9 @@ export default async function HomePage() {
       <Hero whatsapp={settings.whatsapp} />
       <TrustBar clients={clients} />
       <Services services={services} />
-      <About />
-      {/* Las tres siguientes se ocultan solas mientras estén vacías */}
+      {/* Stats, Portfolio y Testimonials se ocultan solos mientras estén vacíos */}
       <Stats stats={stats} />
+      <About />
       <Portfolio projects={projects} />
       <Testimonials testimonials={testimonials} />
       <ContactCta services={services} hours={settings.business_hours} whatsapp={settings.whatsapp} />
