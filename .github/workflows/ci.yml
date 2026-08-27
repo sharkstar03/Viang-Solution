@@ -34,6 +34,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - uses: supabase/setup-cli@v1
+        with: { version: 2.116.0 } # la versión que generó config.toml; el default de la action (2.20) no la lee
       - run: npm ci
       - run: supabase start
       - run: npx vitest run tests/rls tests/unit/queries.test.ts
@@ -45,6 +46,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - uses: supabase/setup-cli@v1
+        with: { version: 2.116.0 } # la versión que generó config.toml; el default de la action (2.20) no la lee
       - run: npm ci
       - run: supabase start
       - run: npm run build
