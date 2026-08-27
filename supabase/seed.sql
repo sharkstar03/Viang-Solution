@@ -8,7 +8,7 @@ values (
   'gerencia@viangsolutions.com',
   'Ciudad de Panamá, Panamá',
   '{"mon":{"open":"08:00","close":"17:00"},"tue":{"open":"08:00","close":"17:00"},"wed":{"open":"08:00","close":"17:00"},"thu":{"open":"08:00","close":"17:00"},"fri":{"open":"08:00","close":"17:00"},"sat":null,"sun":null}',
-  '{"facebook":"https://www.facebook.com/viangsolutions","instagram":"https://instagram.com/viangsolution","tiktok":"https://www.tiktok.com/@viangsolution","linkedin":"https://www.linkedin.com/company/viangsolution"}',
+  '{"facebook":"https://www.facebook.com/viangsolutions","instagram":"https://instagram.com/viangsolution","tiktok":"https://www.tiktok.com/@viangsolution","linkedin":"https://www.linkedin.com/in/vionel-angulo-cede%C3%B1o/"}',
   'Viang Solutions & Service — Limpieza y Mantenimiento Especializado en Panamá',
   'Soluciones integrales para espacios residenciales y comerciales de alto valor: tratamientos de pisos, limpieza especializada, instalaciones y reparaciones en Panamá.'
 );

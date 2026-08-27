@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { getSettings } from '@/lib/content/queries';
+import { getServices, getSettings } from '@/lib/content/queries';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { MobileActionBar } from '@/components/layout/MobileActionBar';
@@ -30,14 +30,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const settings = await getSettings();
+  const [settings, services] = await Promise.all([getSettings(), getServices()]);
 
   return (
     <html lang="es" className={inter.variable}>
       <body className="bg-white font-sans text-ink antialiased">
         <Header phone={settings.phone} />
         {children}
-        <Footer settings={settings} />
+        <Footer settings={settings} services={services} />
         <MobileActionBar phone={settings.phone} whatsapp={settings.whatsapp} />
       </body>
     </html>
