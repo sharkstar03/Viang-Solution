@@ -74,10 +74,9 @@ Producto 2 va a necesitar, para no reescribir el backend dentro de tres meses.
 
 ### Dentro
 
-- Web pública rediseñada (home, 6 páginas de servicio, contacto)
+- Web pública rediseñada (home, páginas de servicio, contacto)
 - Panel administrativo con autenticación y 2FA
 - Analítica propia sin cookies
-- Linktree editable
 - Fundación: build, base de datos, autenticación, seguridad, despliegue
 - Ganchos de integración para el Producto 2 (eventos, webhooks, tokens de servicio)
 
@@ -91,6 +90,11 @@ Producto 2 va a necesitar, para no reescribir el backend dentro de tres meses.
 
 Blog, chat en vivo, pagos en línea, multi-idioma, app nativa. Ninguno aporta a los
 objetivos y todos suman mantenimiento y superficie de ataque.
+
+**Linktree** (descartado el 2026-08-27 por decisión del cliente): con la web pública
+en producción, el rol de la página de enlaces lo cumple el propio sitio. Las tablas
+`links`/`link_clicks` no se implementan; si algún día se retoma, el diseño de §11
+sigue siendo válido.
 
 ### Diferido
 
@@ -409,7 +413,7 @@ agregados se conservan indefinidamente.
 
 ---
 
-## 11. Linktree
+## 11. Linktree *(descartado — ver §4)*
 
 `/links`, editable desde el panel: avatar, nombre, bio y enlaces con orden, icono y
 activar/desactivar.
