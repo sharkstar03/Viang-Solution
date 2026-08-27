@@ -71,6 +71,18 @@ export function ServiceIcon({ name, className = 'h-5 w-5' }: { name: string; cla
           <path d="M21 6.8a5.5 5.5 0 0 1-7.4 6.5l-6.8 6.9a2 2 0 0 1-2.9-2.9l6.9-6.8A5.5 5.5 0 0 1 17.2 3l-3 3 .8 3 3-.8 3-2.4Z" />
         </svg>
       );
+    case 'users':
+      return (
+        <svg viewBox="0 0 24 24" className={className} {...base}>
+          <path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-3.3 0-8 1.7-8 5v3h16v-3c0-3.3-4.7-5-8-5Zm8.5-2.5a3.5 3.5 0 1 0-2.4-6 5.9 5.9 0 0 1 0 5.9c.7.1 1.6.1 2.4.1ZM19 13.3c1.8.9 4 2.3 4 4.7v3h-4v-3c0-1.9-.8-3.5-2-4.7h2Z" />
+        </svg>
+      );
+    case 'briefcase':
+      return (
+        <svg viewBox="0 0 24 24" className={className} {...base}>
+          <path d="M9 4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2h4a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4V4Zm2 2h2V4h-2v2Zm-6 5h14V8H5v3Zm0 2v6h14v-6h-5v2h-4v-2H5Z" />
+        </svg>
+      );
     default:
       return (
         <svg viewBox="0 0 24 24" className={className} {...base}>
