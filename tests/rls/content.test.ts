@@ -1,7 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { anonClient, seededServiceCount } from './helpers';
+import { anonClient, seededServiceCount, stackUp } from './helpers';
 
-describe('RLS: contenido', () => {
+const up = await stackUp();
+if (!up) console.warn('⚠ Supabase local apagado — suite saltada (en CI corre siempre)');
+
+describe.runIf(up)('RLS: contenido', () => {
   it('anónimo lee solo servicios publicados', async () => {
     const { data, error } = await anonClient().from('services').select('slug');
     expect(error).toBeNull();

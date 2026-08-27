@@ -1,9 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { getServices, getServiceBySlug, getStats } from '@/lib/content/queries';
+import { stackUp } from '../rls/helpers';
 
-// Corre contra el stack local de Supabase (mismo requisito que tests/rls).
+const up = await stackUp();
+if (!up) console.warn('⚠ Supabase local apagado — suite saltada (en CI corre siempre)');
 
-describe('capa de consultas', () => {
+describe.runIf(up)('capa de consultas', () => {
   it('getServices devuelve los 6 publicados en orden', async () => {
     const services = await getServices();
     expect(services.map((s) => s.slug)).toEqual([

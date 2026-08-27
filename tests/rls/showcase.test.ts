@@ -1,10 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import { anonClient } from './helpers';
+import { anonClient, stackUp } from './helpers';
 
 // Estas tablas nacen VACÍAS: alimentan las secciones que se ocultan solas.
 const tables = ['stats', 'projects', 'testimonials'] as const;
 
-describe('RLS: vitrina (stats, projects, testimonials)', () => {
+const up = await stackUp();
+if (!up) console.warn('⚠ Supabase local apagado — suite saltada (en CI corre siempre)');
+
+describe.runIf(up)('RLS: vitrina (stats, projects, testimonials)', () => {
   for (const table of tables) {
     it(`anónimo lee 0 filas de ${table} (nace vacía)`, async () => {
       const { data, error } = await anonClient().from(table).select('id');
