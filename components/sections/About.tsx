@@ -11,6 +11,7 @@ export function About() {
               src="/img/equipo.jpg"
               alt="El equipo de Viang Solution"
               fill
+              quality={60}
               sizes="(min-width:768px) 50vw, 100vw"
               className="object-cover"
             />
