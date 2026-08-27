@@ -34,7 +34,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 const SERVICE_AMBIENCE: Record<string, { src: string; alt: string }[]> = {
   'tratamientos-e-instalacion-de-pisos': [
     { src: '/img/stock/marble-lobby.jpg', alt: 'Lobby con piso de mármol pulido y brillante' },
-    { src: '/img/stock/marble-corridor.jpg', alt: 'Corredor de mármol con acabado espejo' },
   ],
   'limpieza-especializada': [
     { src: '/img/stock/deep-clean.jpg', alt: 'Limpieza profunda de alfombra con equipo de vapor y protección' },

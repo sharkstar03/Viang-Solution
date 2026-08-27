@@ -17,15 +17,15 @@ insert into services (slug, title, short_description, long_description, icon, im
 ('tratamientos-e-instalacion-de-pisos', 'Tratamientos e Instalación de Pisos',
  'Pulido y abrillantado de mármol, granito, porcelanato, concreto y más. Instalación, impermeabilización y epóxicos.',
  E'Soluciones especializadas para todo tipo de superficies, adaptadas a sus necesidades y exigencias:\n- Pulido y abrillantado de mármol, granito, porcelanato, concreto, adoquines, cerámica, pasta, vinilo, PVC, piedras naturales, gongrani y terrazo\n- Instalación profesional de pisos\n- Tratamientos de impermeabilización y sellado contra humedad\n- Aplicación de recubrimientos de pintura epóxica de alta resistencia',
- 'sparkles', 'img/Servicios/PISOS.jpg', 1, true),
+ 'sparkles', 'img/stock/marble-corridor.jpg', 1, true),
 ('limpieza-especializada', 'Limpieza Especializada',
  'Restauración de alfombras, muebles y tapicería automotriz, hidrolavado de precisión y limpieza integral.',
  E'Trabajos de limpieza y restauración con estándares de calidad superiores, ideales para inmuebles residenciales de lujo, establecimientos comerciales y espacios corporativos:\n- Limpieza y restauración de alfombras residenciales y comerciales\n- Tratamientos para muebles de interiores y exteriores\n- Limpieza y restauración de tapicería automotriz\n- Limpieza y mantenimiento de cortinas y sistemas roller\n- Limpieza integral de espacios residenciales y comerciales\n- Limpieza de muros, techos y pisos mediante hidrolavado de precisión\n- Mantenimiento de áreas comunes en edificios y propiedades horizontales',
- 'droplets', 'img/Servicios/alfombras.jpg', 2, true),
+ 'droplets', 'img/stock/sofa-cleaning.jpg', 2, true),
 ('instalaciones-y-reparaciones', 'Instalaciones y Reparaciones',
  'Equipos audiovisuales, electricidad menor, drywall, impermeabilización, pintura y mantenimiento de A/C.',
  E'Instalación, mantenimiento y reparación para garantizar el correcto funcionamiento y la estética de sus espacios:\n- Instalación de equipos audiovisuales y elementos decorativos\n- Trabajos eléctricos de baja complejidad: luminarias, enchufes y sistemas de conexión\n- Estructuras y acabados en sistema drywall\n- Impermeabilización y tratamiento de techos y superficies expuestas\n- Pintura de interiores y exteriores con acabados de alta calidad\n- Mantenimiento preventivo y correctivo de sistemas de aire acondicionado',
- 'wrench', 'img/Servicios/instalacionesac.jpg', 3, true);
+ 'wrench', 'img/stock/ac-service.jpg', 3, true);
 
 insert into clients (name, logo_path, sort_order, published) values
 ('Cliente 1', 'img/clientes/01.png', 1, true),

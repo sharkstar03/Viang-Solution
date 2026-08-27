@@ -1,13 +1,12 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 import { OpenNowBadge } from '@/components/layout/OpenNowBadge';
-import { HeroVideo } from '@/components/sections/HeroVideo';
 import { waLink } from '@/lib/whatsapp';
 import type { BusinessHours } from '@/lib/types';
 
 /**
- * Portada. Móvil: imagen fija (el LCP — priority). Escritorio: video de
- * fondo que se carga SOLO allí (HeroVideo consulta matchMedia).
+ * Portada: imagen fija premium en todas las pantallas (el LCP — priority).
+ * Sin video por decisión del cliente: menos peso, cero distracción.
  */
 export function Hero({ whatsapp, hours }: { whatsapp: string; hours: BusinessHours }) {
   return (
@@ -17,11 +16,10 @@ export function Hero({ whatsapp, hours }: { whatsapp: string; hours: BusinessHou
         alt=""
         fill
         priority
-        quality={60}
+        quality={50}
         sizes="100vw"
-        className="object-cover md:hidden"
+        className="object-cover"
       />
-      <HeroVideo poster="/img/stock/marble-lobby.jpg" src="/video/limpieza-web.mp4" />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink/70" />
 
       <div className="relative z-10 mx-auto max-w-4xl px-4 pb-16 pt-28 text-center text-white">
