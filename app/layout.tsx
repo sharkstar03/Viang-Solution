@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google';
 import { getServices, getSettings } from '@/lib/content/queries';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { MobileActionBar } from '@/components/layout/MobileActionBar';
 import './globals.css';
 
 // next/font descarga Inter en build y la sirve desde el propio dominio:
@@ -38,7 +37,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Header phone={settings.phone} />
         {children}
         <Footer settings={settings} services={services} />
-        <MobileActionBar phone={settings.phone} whatsapp={settings.whatsapp} />
       </body>
     </html>
   );

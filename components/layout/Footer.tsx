@@ -19,7 +19,7 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
   const socials = Object.entries(settings.social_links);
 
   return (
-    <footer className="bg-ink pb-24 text-white/70 md:pb-0">
+    <footer className="bg-ink text-white/70">
       {/* ── Banda de conversión ─────────────────────────────── */}
       <div className="bg-gradient-to-r from-primary to-primary-light">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-5 px-4 py-12 text-center md:flex-row md:justify-between md:text-left">
@@ -31,7 +31,7 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
               Cotización sin compromiso, respuesta rápida.
             </p>
           </div>
-          <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+          <div className="flex w-full shrink-0 flex-col gap-3 sm:w-auto sm:flex-row">
             <Button variant="whatsapp" size="lg" asChild>
               <a
                 href={waLink(settings.whatsapp, 'Hola, quiero transformar mi espacio')}
@@ -50,14 +50,14 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
       </div>
 
       {/* ── Cuerpo ──────────────────────────────────────────── */}
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.2fr]">
+      <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 text-center sm:grid-cols-2 sm:text-left lg:grid-cols-[1.4fr_1fr_1.2fr]">
         <div>
-          <Image src="/img/white-logo.png" alt="Viang Solution" width={190} height={60} className="h-12 w-auto" />
-          <p className="mt-4 max-w-xs text-sm leading-relaxed">
+          <Image src="/img/white-logo.png" alt="Viang Solution" width={190} height={60} className="mx-auto h-12 w-auto sm:mx-0" />
+          <p className="mx-auto mt-4 max-w-xs text-sm leading-relaxed sm:mx-0">
             Soluciones integrales para espacios residenciales y comerciales
             de alto valor en Panamá.
           </p>
-          <div className="mt-6 flex gap-3">
+          <div className="mt-6 flex justify-center gap-3 sm:justify-start">
             {socials.map(([name, url]) => {
               const social = SOCIAL_ICONS[name];
               if (!social) return null;

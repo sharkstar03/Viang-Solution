@@ -3,7 +3,6 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { waLink } from '@/lib/whatsapp';
-import { MobileActionBar } from '@/components/layout/MobileActionBar';
 import { OpenNowBadge } from '@/components/layout/OpenNowBadge';
 import type { BusinessHours } from '@/lib/types';
 
@@ -12,19 +11,6 @@ describe('waLink', () => {
     expect(waLink('+507 6734-0816', 'Hola, quiero cotizar')).toBe(
       'https://wa.me/50767340816?text=Hola%2C%20quiero%20cotizar',
     );
-  });
-});
-
-describe('MobileActionBar', () => {
-  it('tiene WhatsApp, Llamar y Cotizar con áreas táctiles accesibles', () => {
-    render(<MobileActionBar phone="+50767340816" whatsapp="+50767340816" />);
-    const wa = screen.getByRole('link', { name: /whatsapp/i });
-    const tel = screen.getByRole('link', { name: /llamar/i });
-    const quote = screen.getByRole('link', { name: /cotizar/i });
-    expect(wa.getAttribute('href')).toContain('wa.me/50767340816');
-    expect(tel.getAttribute('href')).toBe('tel:+50767340816');
-    expect(quote.getAttribute('href')).toBe('/#cotizar');
-    for (const el of [wa, tel, quote]) expect(el.className).toContain('min-h-11');
   });
 });
 
