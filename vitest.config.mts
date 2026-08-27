@@ -3,7 +3,7 @@ import path from 'node:path';
 import fs from 'node:fs';
 
 // Carga .env.test (claves del stack local) para las pruebas de RLS.
-const envFile = path.resolve(__dirname, '.env.test');
+const envFile = path.resolve(import.meta.dirname, '.env.test');
 const testEnv: Record<string, string> = {};
 if (fs.existsSync(envFile)) {
   for (const line of fs.readFileSync(envFile, 'utf8').split('\n')) {
@@ -14,7 +14,7 @@ if (fs.existsSync(envFile)) {
 
 export default defineConfig({
   resolve: {
-    alias: { '@': path.resolve(__dirname, '.') },
+    alias: { '@': path.resolve(import.meta.dirname, '.') },
   },
   test: {
     globals: true, // habilita el auto-cleanup de Testing Library

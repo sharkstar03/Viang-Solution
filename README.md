@@ -26,6 +26,8 @@ Variables en `.env.example`. Las `NEXT_PUBLIC_*` se inlinean en build.
 ## Pruebas
 
 ```sh
+npm run lint        # ESLint (Next 16 ya no trae `next lint`)
+npx tsc --noEmit    # tipos (en CI va precedido de `next typegen`)
 npm run test:unit   # Vitest: validación, horarios, endpoint, componentes
 npm run test:rls    # Seguridad RLS (requiere `npx supabase start`)
 npm run test:e2e    # Playwright: el camino del dinero (cotización) y móvil
@@ -60,5 +62,7 @@ Cloudflare. El healthcheck de `app` gobierna el arranque del tunnel.
   HTML hasta que existan filas publicadas.
 - **La IP real viene de `CF-Connecting-IP`** (detrás del Tunnel el socket
   siempre es cloudflared); el país, de `CF-IPCountry`.
-- **El video del hero jamás se descarga en móvil** (hay un test que lo impone).
+- **El hero es una imagen estática, sin video** (decisión del cliente): el LCP
+  móvil es una sola imagen servida por `next/image`; un test e2e vigila que
+  ningún `.mp4` se descargue.
 - **Turnstile sin bypass:** fail-closed, también en desarrollo.

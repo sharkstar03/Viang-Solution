@@ -20,7 +20,10 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - run: npm ci
+      # next-env.d.ts no está en git (docs Next 16): typegen lo genera antes de tsc
+      - run: npx next typegen
       - run: npx tsc --noEmit
+      - run: npm run lint
       - run: npm audit --audit-level=high
       - run: npx vitest run tests/unit
 

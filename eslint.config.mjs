@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Worktrees de Claude y reportes de Lighthouse: no son código del proyecto.
+    ".claude/**",
+    ".lighthouseci/**",
   ]),
 ]);
 
