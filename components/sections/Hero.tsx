@@ -1,0 +1,53 @@
+import Image from 'next/image';
+import { Button } from '@/components/ui/Button';
+import { OpenNowBadge } from '@/components/layout/OpenNowBadge';
+import { HeroVideo } from '@/components/sections/HeroVideo';
+import { waLink } from '@/lib/whatsapp';
+import type { BusinessHours } from '@/lib/types';
+
+/**
+ * Portada. Móvil: imagen fija (el LCP — priority). Escritorio: video de
+ * fondo que se carga SOLO allí (HeroVideo consulta matchMedia).
+ */
+export function Hero({ whatsapp, hours }: { whatsapp: string; hours: BusinessHours }) {
+  return (
+    <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-primary">
+      <Image
+        src="/img/hero-mobile.jpg"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover md:hidden"
+      />
+      <HeroVideo poster="/img/hero-mobile.jpg" src="/video/limpieza-web.mp4" />
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink/70" />
+
+      <div className="relative z-10 mx-auto max-w-4xl px-4 pb-16 pt-28 text-center text-white">
+        <OpenNowBadge hours={hours} />
+        <h1 className="mt-6 text-4xl font-bold leading-tight md:text-6xl">
+          Limpieza y mantenimiento
+          <span className="block text-accent">a otro nivel</span>
+        </h1>
+        <p className="mx-auto mt-5 max-w-2xl text-lg text-white/85 md:text-xl">
+          Pisos, alfombras, pintura e instalaciones para hogares y empresas en Panamá.
+          Más de 20 años dejando todo impecable.
+        </p>
+        <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <Button variant="whatsapp" size="lg" asChild>
+            <a
+              href={waLink(whatsapp, 'Hola, me gustaría cotizar un servicio')}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Escríbenos por WhatsApp
+            </a>
+          </Button>
+          <Button variant="secondary" size="lg" asChild>
+            <a href="/#cotizar">Cotiza sin compromiso</a>
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
