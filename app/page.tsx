@@ -25,7 +25,7 @@ export default async function HomePage() {
       <Stats stats={stats} />
       <Portfolio projects={projects} />
       <Testimonials testimonials={testimonials} />
-      <ContactCta services={services} hours={settings.business_hours} />
+      <ContactCta services={services} hours={settings.business_hours} whatsapp={settings.whatsapp} />
     </main>
   );
 }

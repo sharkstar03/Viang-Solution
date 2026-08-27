@@ -17,6 +17,7 @@ export default defineConfig({
     alias: { '@': path.resolve(__dirname, '.') },
   },
   test: {
+    globals: true, // habilita el auto-cleanup de Testing Library
     environment: 'node',
     env: testEnv,
     // tests/unit usa jsdom por archivo con // @vitest-environment jsdom
