@@ -1,16 +1,18 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // ── Mocks de todas las dependencias del handler ──────────────
-const insertMock = vi.fn(async () => ({ error: null }));
+const insertMock = vi.fn<(row: Record<string, unknown>) => Promise<{ error: { message: string; code?: string } | null }>>(
+  async () => ({ error: null }),
+);
 vi.mock('@/lib/supabase/admin', () => ({
   supabaseAdmin: () => ({ from: () => ({ insert: insertMock }) }),
 }));
-const sendMock = vi.fn(async () => {});
-vi.mock('@/lib/mailer', () => ({ sendLeadNotification: (...a: unknown[]) => sendMock(...a) }));
-const turnstileMock = vi.fn(async () => true);
-vi.mock('@/lib/turnstile', () => ({ verifyTurnstile: (...a: unknown[]) => turnstileMock(...a) }));
-const rateLimitMock = vi.fn(() => true);
-vi.mock('@/lib/rate-limit', () => ({ rateLimit: (...a: unknown[]) => rateLimitMock(...a) }));
+const sendMock = vi.fn<(lead: unknown) => Promise<void>>(async () => {});
+vi.mock('@/lib/mailer', () => ({ sendLeadNotification: (lead: unknown) => sendMock(lead) }));
+const turnstileMock = vi.fn<(token: string, ip: string) => Promise<boolean>>(async () => true);
+vi.mock('@/lib/turnstile', () => ({ verifyTurnstile: (t: string, ip: string) => turnstileMock(t, ip) }));
+const rateLimitMock = vi.fn<() => boolean>(() => true);
+vi.mock('@/lib/rate-limit', () => ({ rateLimit: () => rateLimitMock() }));
 
 import { POST } from '@/app/api/contact/route';
 
