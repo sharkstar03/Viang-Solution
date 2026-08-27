@@ -45,6 +45,9 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
   const [errorMsg, setErrorMsg] = useState('');
   const [stepError, setStepError] = useState('');
 
+  // Restaura el borrador SOLO tras hidratar: sessionStorage no existe en el
+  // servidor y leerlo durante el render provocaría un desajuste SSR/cliente.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setDraft(loadDraft()), []);
 
   const update = (patch: Partial<Draft>) => {

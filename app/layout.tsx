@@ -34,7 +34,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="es" className={inter.variable}>
       <body className="bg-white font-sans text-ink antialiased">
-        <Header phone={settings.phone} />
+        <Header />
         {children}
         <Footer settings={settings} services={services} />
       </body>

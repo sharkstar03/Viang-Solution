@@ -28,7 +28,8 @@ describe('contactSchema', () => {
   });
 
   it('rechaza si falta un campo', () => {
-    const { turnstileToken: _omit, ...rest } = valid;
+    const rest: Partial<typeof valid> = { ...valid };
+    delete rest.turnstileToken;
     expect(contactSchema.safeParse(rest).success).toBe(false);
   });
 

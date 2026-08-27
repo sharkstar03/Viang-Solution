@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { waLink } from '@/lib/whatsapp';
 import { WhatsAppIcon } from '@/components/ui/icons';
@@ -42,7 +43,7 @@ export function Hero({ whatsapp }: { whatsapp: string }) {
             </a>
           </Button>
           <Button variant="secondary" size="lg" asChild>
-            <a href="/#cotizar">Cotiza sin compromiso</a>
+            <Link href="/#cotizar">Cotiza sin compromiso</Link>
           </Button>
         </div>
       </div>

@@ -10,7 +10,7 @@ const nav = [
   { href: '/#cotizar', label: 'Cotizar' },
 ];
 
-export function Header({ phone }: { phone: string }) {
+export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
@@ -26,12 +26,12 @@ export function Header({ phone }: { phone: string }) {
               {n.label}
             </Link>
           ))}
-          <a
+          <Link
             href="/#cotizar"
             className="rounded-full bg-accent px-6 py-2.5 font-semibold text-ink transition-all hover:brightness-110"
           >
             Contáctanos
-          </a>
+          </Link>
         </nav>
 
         <button

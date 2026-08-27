@@ -27,7 +27,7 @@ export function TrustBar({ clients }: { clients: Client[] }) {
                 aria-hidden={i >= clients.length}
                 width={144}
                 height={64}
-                className="max-h-full max-w-full object-contain opacity-60 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
+                className="h-auto w-auto max-h-full max-w-full object-contain opacity-60 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
               />
             </div>
           ))}

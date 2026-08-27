@@ -1,8 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { isOpenNow } from '@/lib/business-hours';
 import type { BusinessHours } from '@/lib/types';
+
+// Distingue servidor (false) de cliente ya hidratado (true) sin setState en
+// un efecto: React usa el snapshot del servidor durante la hidratación y
+// vuelve a renderizar con el del cliente al terminar.
+const subscribe = () => () => {};
+const useHydrated = () => useSyncExternalStore(subscribe, () => true, () => false);
 
 /**
  * Indicador en vivo de disponibilidad. Client component a propósito:
@@ -10,12 +16,10 @@ import type { BusinessHours } from '@/lib/types';
  * del visitante. `now` solo se inyecta en tests.
  */
 export function OpenNowBadge({ hours, now }: { hours: BusinessHours; now?: Date }) {
-  const [current, setCurrent] = useState<Date | null>(now ?? null);
-  useEffect(() => {
-    if (!now) setCurrent(new Date());
-  }, [now]);
+  const hydrated = useHydrated();
+  const current = now ?? (hydrated ? new Date() : null);
 
-  if (!current) return null; // evita desajuste SSR/cliente
+  if (!current) return null; // en el servidor no hay "hora del visitante": evita desajuste SSR/cliente
   const { open, nextChange } = isOpenNow(hours, current);
 
   return (
