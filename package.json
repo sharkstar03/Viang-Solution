@@ -1,28 +1,41 @@
 {
   "name": "viang-solution",
-  "version": "1.0.0",
-  "description": "Professional cleaning services website",
-  "main": "server.js",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Sitio web y captura de leads de Viang Solution",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test:unit": "vitest run tests/unit",
+    "test:rls": "vitest run tests/rls",
+    "test:e2e": "playwright test"
   },
-  "keywords": [
-    "cleaning",
-    "services",
-    "panama",
-    "contact"
-  ],
-  "author": "Viang Solution",
-  "license": "ISC",
   "dependencies": {
-    "axios": "^1.6.7",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.1",
-    "nodemailer": "^8.0.11"
+    "next": "16.3.3",
+    "nodemailer": "^9.0.5",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "server-only": "^0.0.1",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
-    "nodemon": "^3.1.0"
+    "@playwright/test": "^1.62.1",
+    "@supabase/supabase-js": "^2.112.4",
+    "@tailwindcss/postcss": "^4",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^20",
+    "@types/nodemailer": "^8.0.1",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^6.1.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.3",
+    "jsdom": "^30.0.1",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^4.1.11"
   }
 }
