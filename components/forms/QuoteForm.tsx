@@ -75,6 +75,11 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!draft.name.trim() || !draft.email.trim() || !draft.phone.trim()) {
+      setStepError('Complete nombre, correo y teléfono');
+      return;
+    }
+    setStepError('');
     setStatus('sending');
     setErrorMsg('');
     try {
@@ -225,9 +230,11 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
           </button>
         ) : <span />}
         {step < 3 ? (
-          <Button type="button" onClick={next}>Continuar</Button>
+          // key distinta: evita que React reutilice este <button> como el de
+          // enviar y el clic de "Continuar" dispare un submit accidental.
+          <Button key="next" type="button" onClick={next}>Continuar</Button>
         ) : (
-          <Button type="submit" disabled={status === 'sending'}>
+          <Button key="submit" type="submit" disabled={status === 'sending'}>
             {status === 'sending' ? 'Enviando…' : 'Enviar solicitud'}
           </Button>
         )}
