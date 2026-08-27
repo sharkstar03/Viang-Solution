@@ -28,7 +28,7 @@ export function Stats({ stats }: { stats: Stat[] }) {
                 <p className="mt-3 text-4xl font-bold tracking-tight text-primary md:text-5xl">
                   <Counter to={s.value} suffix={s.suffix} />
                 </p>
-                <p className="mt-2 text-sm font-medium text-ink/50">
+                <p className="mt-2 text-sm font-medium text-ink/60">
                   {s.label}
                 </p>
               </div>

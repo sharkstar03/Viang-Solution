@@ -6,7 +6,7 @@ type Size = 'md' | 'lg';
 const variants: Record<Variant, string> = {
   primary: 'bg-primary text-white hover:bg-primary-light',
   secondary: 'bg-white text-primary border border-primary/20 hover:border-primary/60',
-  whatsapp: 'bg-whatsapp text-white hover:brightness-110',
+  whatsapp: 'bg-whatsapp text-ink hover:brightness-110',
 };
 
 const sizes: Record<Size, string> = {

@@ -23,7 +23,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
                 </blockquote>
                 <figcaption className="mt-4 text-sm font-semibold">
                   {t.author_name}
-                  {t.company && <span className="block font-normal text-ink/50">{t.company}</span>}
+                  {t.company && <span className="block font-normal text-ink/60">{t.company}</span>}
                 </figcaption>
               </figure>
             </Reveal>

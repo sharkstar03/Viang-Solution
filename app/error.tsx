@@ -23,7 +23,7 @@ export default function GlobalError({ reset }: { error: Error; reset: () => void
         {whatsapp && (
           <a href={waLink(whatsapp, 'Hola, la página dio un error y quiero información')}
             target="_blank" rel="noopener noreferrer"
-            className="flex min-h-11 items-center justify-center rounded-full bg-whatsapp px-6 font-semibold text-white">
+            className="flex min-h-11 items-center justify-center rounded-full bg-whatsapp px-6 font-semibold text-ink">
             WhatsApp
           </a>
         )}

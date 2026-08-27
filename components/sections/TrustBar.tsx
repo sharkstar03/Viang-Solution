@@ -11,7 +11,7 @@ export function TrustBar({ clients }: { clients: Client[] }) {
 
   return (
     <section aria-label="Clientes que confían en nosotros" className="border-y border-black/5 bg-surface py-10">
-      <p className="mb-6 text-center text-sm font-semibold uppercase tracking-wider text-ink/50">
+      <p className="mb-6 text-center text-sm font-semibold uppercase tracking-wider text-ink/60">
         Empresas que confían en nosotros
       </p>
       <div className="overflow-hidden">
