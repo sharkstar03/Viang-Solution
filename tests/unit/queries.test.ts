@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { getServices, getServiceBySlug, getStats } from '@/lib/content/queries';
+import {
+  getProjects, getServiceBySlug, getServices, getStats, getTestimonials,
+} from '@/lib/content/queries';
 import { stackUp } from '../rls/helpers';
 
 const up = await stackUp();
@@ -19,7 +21,13 @@ describe.runIf(up)('capa de consultas', () => {
     expect(await getServiceBySlug('inexistente')).toBeNull();
   });
 
-  it('getStats devuelve [] cuando no hay filas publicadas', async () => {
-    expect(await getStats()).toEqual([]);
+  it('getStats devuelve las cifras del seed en orden', async () => {
+    const stats = await getStats();
+    expect(stats.map((s) => s.value)).toEqual([20, 300, 2670]);
+  });
+
+  it('getProjects y getTestimonials devuelven [] sin filas publicadas', async () => {
+    expect(await getProjects()).toEqual([]);
+    expect(await getTestimonials()).toEqual([]);
   });
 });
