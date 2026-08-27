@@ -1,26 +1,51 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ── Tokens de marca ─────────────────────────────────────────
+   La marca vende limpieza: aire, azules profundos, un acento
+   cálido reservado para los CTA. */
+@theme {
+  --color-primary: #0b3c5d;
+  --color-primary-light: #1d6fa5;
+  --color-accent: #f59e0b;
+  --color-surface: #f8fafc;
+  --color-ink: #0f172a;
+  --color-whatsapp: #25d366;
+
+  --radius-card: 1rem;
+  --shadow-soft: 0 8px 30px rgb(2 8 23 / 0.08);
+
+  --font-sans: var(--font-inter), system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ── Animación de aparición (Reveal) ─────────────────────────
+   100% CSS: el componente solo agrega .reveal-shown al intersecar. */
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(16px);
+}
+.reveal-shown {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-hidden { opacity: 1; transform: none; }
+  .reveal-shown { transition: none; }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Marquesina de logos (TrustBar) ──────────────────────────*/
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track { animation: marquee 30s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }
