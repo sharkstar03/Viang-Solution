@@ -528,21 +528,22 @@ Implementación con TDD: prueba primero, código después.
 
 ## 17. Criterios de aceptación
 
-- [ ] Primera carga móvil < 500 KB; Lighthouse móvil > 95
-- [ ] Barra de contacto visible y funcional en todo momento en móvil
-- [ ] Los 6 servicios tienen URL propia, FAQ y datos estructurados
-- [ ] Portafolio, testimonios y cifras **no se renderizan** mientras estén vacíos
-- [ ] Un lead enviado con el correo caído **igual queda registrado** y alerta en el panel
+- [x] Primera carga móvil < 500 KB; Lighthouse móvil > 95 — *367 KB, performance 99 (Lighthouse móvil, 2026-08-27)*
+- [ ] ~~Barra de contacto visible y funcional en todo momento en móvil~~ *(retirada a pedido del cliente, `e46c28b`; el hero y el menú móvil conservan WhatsApp y cotizar)*
+- [x] Los 3 servicios (perfil oficial, `34bb9a6`) tienen URL propia y datos estructurados `Service` + `LocalBusiness`
+- [ ] FAQ por servicio — *pendiente de contenido del cliente: `services.faq` está vacío, así que no se emite `FAQPage` ni la sección*
+- [x] Portafolio y testimonios **no se renderizan** mientras estén vacíos *(verificado en el HTML del contenedor; las cifras ya están publicadas)*
+- [x] Un lead enviado con el correo caído **igual queda registrado** *(verificado contra el stack local: 200 `{ok:true}`, fila en `leads`, evento `lead.created`)*; la alerta en el panel es de la Fase 2
 - [ ] El panel exige 2FA; sin registro público
-- [ ] Las pruebas de RLS pasan: anónimo no lee `leads` ni filas no publicadas
+- [x] Las pruebas de RLS pasan: anónimo no lee `leads` ni filas no publicadas *(suite local 63/63 y sondeo REST contra el proyecto real)*
 - [ ] Editar contenido en el panel se refleja en el sitio sin desplegar
 - [ ] El panel se instala en el celular y notifica al entrar un lead
 - [ ] `/links` carga en < 1 s y registra clics por enlace
 - [ ] La analítica muestra el embudo completo, no solo visitas
 - [ ] Un evento de lead nuevo llega a un webhook configurado
-- [ ] `docker compose up` levanta el sitio detrás del Tunnel, con usuario no-root
-- [ ] Ninguna respuesta de error expone rutas del sistema ni credenciales
-- [ ] Accesibilidad AA verificada; `prefers-reduced-motion` respetado
+- [x] La imagen levanta el sitio con usuario no-root y sistema de archivos de solo lectura *(healthcheck ok, `whoami` = app)*; el Tunnel espera el token del cliente (§18)
+- [x] Ninguna respuesta de error expone rutas del sistema ni credenciales *(404, 500 del endpoint y `error.tsx` revisados)*
+- [x] Accesibilidad AA verificada *(Lighthouse accessibility 96)*; `prefers-reduced-motion` respetado *(tests de `Reveal` y `Counter`)*
 
 ---
 

@@ -10,6 +10,42 @@
 
 **Spec:** `docs/superpowers/specs/2026-08-27-viang-solution-sitio-panel-design.md`
 
+## Estado de ejecución — verificado el 2026-08-27
+
+Las 16 tareas están implementadas y fusionadas en `main` (merge `a65ad23`). El cierre de la fase
+(rama `chore/fase1-cierre-verificacion`) corrió la lista de aceptación completa:
+
+| Verificación | Resultado |
+|---|---|
+| `npx next typegen && npx tsc --noEmit` | limpio |
+| `npx eslint .` | 0 problemas (Next 16 eliminó `next lint`; 5 errores reales corregidos en el cierre) |
+| Vitest unit + RLS contra `supabase start` | 63/63 |
+| Playwright (Desktop Chrome + Pixel 7) | 6/6 (los 2 skips son el spec móvil en el proyecto desktop) |
+| `next build` | 12 rutas: 3 servicios SSG, home/contacto ISR 5 min, `/api/*` dinámicas |
+| Lighthouse móvil sobre el build local | performance 99 · accessibility 96 · best-practices 100 · SEO 100 · 367 KB · LCP 2.3 s · CLS 0.018 |
+| Imagen Docker (`--read-only`, tmpfs) | `/api/health` ok · `whoami` = `app` · `touch /app/x` → Read-only file system |
+| Lead con SMTP caído (stack local, secreto de prueba de Turnstile) | 200 `{ok:true}` · fila en `leads` con `ip_hash` · evento `lead.created` · log `email_failed` sin credenciales |
+| Validación y rate limit | payload inválido → 400 sin insertar · 6.º POST por IP en 1 min → 429 |
+| RLS contra el proyecto real con la anon key | `leads` y `events` → `[]` · insert en `services` → 401 · solo filas `published` |
+| HTML de la home servido por el contenedor | 0 menciones a testimonios/portafolio · cifras presentes · 404 sin trazas |
+
+### Desviaciones respecto al plan original
+
+Todas registradas en git; ninguna es deuda técnica.
+
+- **3 líneas de servicio, no 6** (`34bb9a6`): el perfil oficial de la empresa agrupa la oferta. `seededServiceCount = 3`.
+- **Sin video en el hero** (`3befb64`): imagen estática por decisión del cliente; la Task 11 (ffmpeg) no aplica. El spec e2e móvil vigila que ningún `.mp4` viaje.
+- **Sin `MobileActionBar`** (`e46c28b`): retirada a pedido del cliente. El hero y el menú móvil conservan WhatsApp y cotizar.
+- **Presupuesto de script 160 KB, no 100 KB** (`efa3521`): Next 16 + React 19 pesan ~148 KB de base; el peso total (367 KB) sigue muy por debajo de los 500 KB.
+- **`stats` ya no nace vacía** (`bc756b8`): el seed trae las 3 cifras confirmadas por el dueño; las pruebas de RLS y de consultas reflejan eso.
+- **Next.js 16, no 15**: `next lint` → `eslint .`; `next-env.d.ts` fuera de git y generado con `next typegen` en CI (docs de Next 16).
+
+### Pendiente para cerrar la fase (no es código)
+
+- **FAQ por servicio:** `services.faq` está vacío en producción, así que no se emite `FAQPage` ni la sección. Requiere contenido del cliente.
+- **Prerrequisitos del cliente (spec §18):** dominio en Cloudflare, token del Tunnel, claves de Turnstile, contraseña de aplicación de Gmail nueva, dirección y horarios reales. El `.env` de producción debe seguir `.env.example` (el actual es del sitio Express anterior).
+- **Despliegue a producción en pausa** (`f9f3cf6`) hasta resolver lo anterior.
+
 ## Global Constraints
 
 Estas reglas aplican a **todas** las tareas. Los requisitos de cada tarea las incluyen implícitamente.
@@ -748,12 +784,12 @@ services:
 
 Al terminar las 16 tareas, correr la lista de aceptación del spec §17 que aplica a esta fase:
 
-- [ ] `npx vitest run` — unit + RLS verdes
-- [ ] `npx playwright test` — e2e verdes
-- [ ] Lighthouse móvil ≥ 95 y peso < 500 KB (CI lo impone)
-- [ ] Lead con email caído (apagar `EMAIL_PASS`) → igual queda en `leads` y responde ok
-- [ ] `docker compose up` → sitio arriba, `whoami` = app, healthcheck verde
-- [ ] Anónimo vía API REST de Supabase no lee `leads` ni borradores
-- [ ] Secciones vacías ausentes del HTML (`curl | grep -c testimonial` = 0)
+- [x] `npx vitest run` — unit + RLS verdes (63/63, 2026-08-27)
+- [x] `npx playwright test` — e2e verdes (6/6)
+- [x] Lighthouse móvil ≥ 95 y peso < 500 KB (CI lo impone) — performance 99, 367 KB
+- [x] Lead con email caído (apagar `EMAIL_PASS`) → igual queda en `leads` y responde ok — verificado contra el stack local con `EMAIL_PASS` inválida
+- [x] `docker compose up` → sitio arriba, `whoami` = app, healthcheck verde — verificado con la imagen y los mismos flags (`--read-only`, tmpfs); `compose` completo espera el `.env` de producción y el token del Tunnel
+- [x] Anónimo vía API REST de Supabase no lee `leads` ni borradores — sondeado contra el proyecto real
+- [x] Secciones vacías ausentes del HTML (`curl | grep -c testimonial` = 0) — 0 en el HTML del contenedor
 
-Lo que queda para las fases siguientes: panel admin (Fase 2), analítica con `page_views` (Fase 2), linktree (Fase 3), webhooks salientes y tokens de servicio (Fase 3).
+Lo que queda para las fases siguientes: panel admin (Fase 2), analítica con `page_views` (Fase 2), webhooks salientes y tokens de servicio (Fase 3). El linktree quedó descartado por el cliente (spec §4 y §11).
