@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Button } from '@/components/ui/Button';
 import { waLink } from '@/lib/whatsapp';
 import {
   FacebookIcon, InstagramIcon, LinkedInIcon, MailIcon, TikTokIcon, WhatsAppIcon,
@@ -20,35 +19,6 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
 
   return (
     <footer className="bg-ink text-white/70">
-      {/* ── Banda de conversión ─────────────────────────────── */}
-      <div className="bg-gradient-to-r from-primary to-primary-light">
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-5 px-4 py-12 text-center md:flex-row md:justify-between md:text-left">
-          <div>
-            <p className="text-2xl font-bold text-white md:text-3xl">
-              ¿Listo para transformar su espacio?
-            </p>
-            <p className="mt-1.5 text-white/80">
-              Cotización sin compromiso, respuesta rápida.
-            </p>
-          </div>
-          <div className="flex w-full shrink-0 flex-col gap-3 sm:w-auto sm:flex-row">
-            <Button variant="whatsapp" size="lg" asChild>
-              <a
-                href={waLink(settings.whatsapp, 'Hola, quiero transformar mi espacio')}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <WhatsAppIcon className="h-5 w-5" />
-                WhatsApp
-              </a>
-            </Button>
-            <Button variant="secondary" size="lg" asChild>
-              <a href="/#cotizar">Cotizar ahora</a>
-            </Button>
-          </div>
-        </div>
-      </div>
-
       {/* ── Cuerpo ──────────────────────────────────────────── */}
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 text-center sm:grid-cols-2 sm:text-left lg:grid-cols-[1.4fr_1fr_1.2fr]">
         <div>
