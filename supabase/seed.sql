@@ -37,3 +37,9 @@ insert into clients (name, logo_path, sort_order, published) values
 ('Cliente 7', 'img/clientes/07.png', 7, true),
 ('Cliente 8', 'img/clientes/08.png', 8, true),
 ('Cliente 9', 'img/clientes/09.png', 9, true);
+
+-- Cifras del negocio (contadores de la home), confirmadas por el dueño
+insert into stats (label, value, suffix, icon, sort_order, published) values
+('Años de trayectoria', 20, '+', 'sparkles', 1, true),
+('Clientes satisfechos', 300, '+', 'users', 2, true),
+('Proyectos realizados', 2670, '+', 'briefcase', 3, true);
