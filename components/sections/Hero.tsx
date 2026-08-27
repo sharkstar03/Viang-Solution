@@ -13,7 +13,7 @@ export function Hero({ whatsapp, hours }: { whatsapp: string; hours: BusinessHou
   return (
     <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-primary">
       <Image
-        src="/img/hero-mobile.jpg"
+        src="/img/stock/marble-lobby.jpg"
         alt=""
         fill
         priority
@@ -21,7 +21,7 @@ export function Hero({ whatsapp, hours }: { whatsapp: string; hours: BusinessHou
         sizes="100vw"
         className="object-cover md:hidden"
       />
-      <HeroVideo poster="/img/hero-mobile.jpg" src="/video/limpieza-web.mp4" />
+      <HeroVideo poster="/img/stock/marble-lobby.jpg" src="/video/limpieza-web.mp4" />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink/70" />
 
       <div className="relative z-10 mx-auto max-w-4xl px-4 pb-16 pt-28 text-center text-white">

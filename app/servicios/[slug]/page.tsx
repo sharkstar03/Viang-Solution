@@ -25,6 +25,23 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
+
+/**
+ * Imágenes de ambiente por servicio (stock con licencia libre — Pexels).
+ * Ilustran el TIPO de resultado; el alt nunca las presenta como trabajo
+ * propio. La Fase 2 las reemplaza por la galería real (tabla projects).
+ */
+const SERVICE_AMBIENCE: Record<string, { src: string; alt: string }[]> = {
+  'tratamientos-e-instalacion-de-pisos': [
+    { src: '/img/stock/marble-lobby.jpg', alt: 'Lobby con piso de mármol pulido y brillante' },
+    { src: '/img/stock/marble-corridor.jpg', alt: 'Corredor de mármol con acabado espejo' },
+  ],
+  'limpieza-especializada': [
+    { src: '/img/stock/deep-clean.jpg', alt: 'Limpieza profunda de alfombra con equipo de vapor y protección' },
+    { src: '/img/stock/pro-vacuum.jpg', alt: 'Aspirado profesional de una sala moderna' },
+  ],
+};
+
 /** Renderiza la descripción larga: líneas "- x" como viñetas, el resto párrafos. */
 function LongDescription({ text }: { text: string }) {
   const lines = text.split('\n').filter(Boolean);
@@ -83,6 +100,17 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         <div className="mx-auto grid max-w-6xl gap-12 px-4 lg:grid-cols-[1fr_380px]">
           <Reveal>
             <LongDescription text={service.long_description} />
+
+            {(SERVICE_AMBIENCE[service.slug] ?? []).length > 0 && (
+              <div className="mt-10 grid grid-cols-2 gap-4">
+                {SERVICE_AMBIENCE[service.slug]!.map((img) => (
+                  <div key={img.src} className="relative h-52 overflow-hidden rounded-card md:h-64">
+                    <Image src={img.src} alt={img.alt} fill quality={60}
+                      sizes="(min-width:1024px) 33vw, 50vw" className="object-cover" />
+                  </div>
+                ))}
+              </div>
+            )}
 
             {service.faq.length > 0 && (
               <div className="mt-12">
