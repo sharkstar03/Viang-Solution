@@ -19,7 +19,7 @@ export default defineConfig({
   test: {
     globals: true, // habilita el auto-cleanup de Testing Library
     environment: 'node',
-    exclude: ['**/node_modules/**', 'tests/e2e/**'], // e2e es de Playwright
+    exclude: ['**/node_modules/**', '**/.claude/**', 'tests/e2e/**'], // e2e es de Playwright
     env: testEnv,
     // tests/unit usa jsdom por archivo con // @vitest-environment jsdom
   },
