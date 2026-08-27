@@ -49,18 +49,20 @@ app/
     layout.tsx                  layout público: Header, Footer, revalidate = 300
     page.tsx, contacto/, servicios/[slug]/, sitemap.ts, robots.ts, not-found.tsx, error.tsx
   admin/
-    layout.tsx                  layout del panel: shell con navegación, Toaster; sin ISR (dynamic)
-    (auth)/login/page.tsx       sin shell del panel
-    (auth)/2fa/page.tsx
-    page.tsx                    Inicio
-    leads/page.tsx              lista
-    leads/nuevo/page.tsx        alta manual
-    leads/[id]/page.tsx         detalle
-    leads/actions.ts            Server Actions de leads
-    leads/export/route.ts       GET → CSV
-    seguridad/page.tsx
-    seguridad/actions.ts
+    layout.tsx                  envoltorio `.admin` + Toaster; `dynamic = 'force-dynamic'`
     error.tsx                   error del panel, sin trazas
+    actions.ts                  signOut
+    (auth)/layout.tsx           tarjeta centrada, sin shell
+    (auth)/login/page.tsx + LoginForm.tsx + actions.ts
+    (auth)/2fa/page.tsx + TotpGate.tsx
+    (panel)/layout.tsx          requireAdmin() + Shell con navegación
+    (panel)/page.tsx            Inicio
+    (panel)/leads/page.tsx      lista
+    (panel)/leads/nuevo/page.tsx  alta manual
+    (panel)/leads/[id]/page.tsx   detalle
+    (panel)/leads/actions.ts    Server Actions de leads
+    (panel)/leads/export/route.ts GET → CSV
+    (panel)/seguridad/page.tsx + actions.ts
   api/contact/route.ts          (sin cambio de ruta; escribe notified_at / notify_error)
   api/health/route.ts
 proxy.ts                        sesión, aal2 y cabeceras
@@ -68,7 +70,8 @@ components/
   admin/ui/                     componentes shadcn (alias "ui" en components.json)
   admin/                        Shell, NavBar, LeadCard, LeadTable, StatusBadge, LeadForm…
 lib/
-  supabase/server.ts            createServerClient (cookies) — reemplaza al cliente anon sin sesión
+  supabase/server.ts            sin cambios: cliente sin sesión para el sitio público (páginas estáticas)
+  supabase/session.ts           createServerClient con cookies — solo el panel
   supabase/browser.ts           createBrowserClient (solo MFA y logout)
   supabase/admin.ts             sin cambios: service_role / secret key, solo servidor
   supabase/database.types.ts    generado con `supabase gen types`
@@ -78,7 +81,7 @@ lib/
   admin/phone.ts                normalizePanamaPhone()
   admin/whatsapp-reply.ts       mensaje pre-armado
   validation/lead-manual.ts     Zod del alta manual
-scripts/create-admin.ts         crea usuario admin local/CI con secret key
+scripts/create-admin.mjs        crea usuario admin local/CI con secret key (JS plano, sin tooling extra)
 supabase/migrations/0004_admin_access.sql
 ```
 
@@ -88,8 +91,9 @@ Las URLs públicas no cambian: los grupos entre paréntesis no aparecen en la ru
 
 - **`@supabase/ssr`** (dependencia nueva, versión fijada) y `@supabase/supabase-js` pasa de
   `devDependencies` a `dependencies` (hoy está mal clasificada).
-- `lib/supabase/server.ts` crea `createServerClient` con `cookies()` de Next (`getAll`/`setAll`
-  con try/catch: los Server Components no escriben cookies; el proxy sí).
+- `lib/supabase/session.ts` crea `createServerClient` con `cookies()` de Next (`getAll`/`setAll`
+  con try/catch: los Server Components no escriben cookies; el proxy sí). `server.ts` no se toca:
+  las páginas públicas son estáticas/ISR y leer cookies las volvería dinámicas.
 - `proxy.ts` refresca la sesión llamando `supabase.auth.getClaims()` en cada petición de `/admin/*`
   y aplica las cabeceras de caché que `setAll` entrega, para que ninguna respuesta con cookies de
   sesión quede en caché.
@@ -129,7 +133,7 @@ durante la transición (`PUBLISHABLE_KEY ?? ANON_KEY`) y el README documenta las
 Server Action `signIn(formData)`: `rateLimit('login:' + ip, { limit: 5, windowMs: 60_000 })` con
 la IP de `CF-Connecting-IP` → Zod (email, contraseña) → `signInWithPassword` → redirect a
 `/admin/2fa`. Error único: "Credenciales inválidas" (no revela si el email existe). Enlace
-"Olvidé mi contraseña" → `resetPasswordForEmail` con `redirectTo` a `/admin/seguridad/nueva-clave`.
+"Olvidé mi contraseña" → `resetPasswordForEmail` con `redirectTo` a `/admin/seguridad` (el proxy exige el TOTP antes).
 
 ### Segundo factor (`/admin/2fa`)
 
@@ -301,8 +305,8 @@ del usuario en los últimos 15 min y decide. Permisos como se describe en §3.
 ### Tipos
 
 `supabase gen types typescript --local > lib/supabase/database.types.ts`, regenerado en cada
-migración (script `npm run db:types`). `lib/types.ts` re-exporta los tipos que el sitio ya usa
-para no tocar la Fase 1.
+migración (script `npm run db:types`). Solo los clientes del panel (`session.ts`, `admin.ts`) se tipan
+con `Database`; el cliente público y `lib/types.ts` no cambian para no tocar la Fase 1.
 
 ---
 
@@ -449,7 +453,7 @@ usuarios de prueba y, para uno, inscribe y verifica un factor TOTP generando el 
 
 ### E2E — `tests/e2e/admin.spec.ts` (segundo camino del dinero)
 
-`globalSetup` ejecuta `scripts/create-admin.ts` contra el stack local (crea `admin@test.local`
+`globalSetup` ejecuta `scripts/create-admin.mjs` contra el stack local (crea `admin@test.local`
 con contraseña conocida y factor TOTP; guarda el secreto en `test-results/admin-totp.json`).
 Casos:
 
@@ -459,8 +463,8 @@ Casos:
   refleja y el historial muestra el cambio
 - "Exportar CSV" descarga un archivo que contiene el lead
 
-Como la suite de RLS, se salta con aviso si el stack local no está arriba; en CI corre siempre
-(el job `build-and-budget` ya levanta Supabase).
+Playwright levanta el servidor de desarrollo contra el stack local (variables de `.env.test`), así que
+`npm run test:e2e` requiere `npx supabase start`; en CI el job `build-and-budget` ya lo levanta.
 
 ### Lighthouse
 
@@ -475,7 +479,7 @@ la revisión de código que ningún componente de `components/admin/` se importe
 |---|---|
 | `app/(site)/` con el layout público; layout raíz mínimo | el panel no lleva Header/Footer |
 | `@supabase/supabase-js` a `dependencies`; `@supabase/ssr` y `otpauth` (dev) fijados | SSR con cookies; TOTP en pruebas |
-| `lib/supabase/server.ts` pasa a `createServerClient` con cookies | una sola forma de crear clientes de servidor |
+| Nuevo `lib/supabase/session.ts` (`createServerClient` con cookies) para el panel; `server.ts` intacto | las páginas públicas estáticas no pueden leer cookies |
 | Claves publishable/secret con compatibilidad legacy | recomendación vigente de Supabase; rotación sin cambiar el JWT secret |
 | `/api/contact` escribe `notified_at`/`notify_error` | alerta de email fallido en el panel |
 | `proxy.ts` nuevo | sesión + cabeceras |
