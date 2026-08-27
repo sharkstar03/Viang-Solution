@@ -13,9 +13,9 @@ export function Services({ services }: { services: Service[] }) {
             Un solo proveedor para dejar su espacio impecable, por dentro y por fuera.
           </p>
         </Reveal>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 flex flex-wrap justify-center gap-6">
           {services.map((s, i) => (
-            <Reveal key={s.id} delay={i * 80}>
+            <Reveal key={s.id} delay={i * 80} className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]">
               <Link
                 href={`/servicios/${s.slug}`}
                 className="group block overflow-hidden rounded-card bg-white shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"

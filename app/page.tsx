@@ -17,7 +17,7 @@ export default async function HomePage() {
 
   return (
     <main>
-      <Hero whatsapp={settings.whatsapp} hours={settings.business_hours} />
+      <Hero whatsapp={settings.whatsapp} />
       <TrustBar clients={clients} />
       <Services services={services} />
       <About />

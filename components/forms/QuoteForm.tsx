@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/Button';
+import { ServiceIcon, WhatsAppIcon } from '@/components/ui/icons';
 import { TurnstileWidget } from '@/components/forms/TurnstileWidget';
 import { isOpenNow } from '@/lib/business-hours';
 import { waLink } from '@/lib/whatsapp';
@@ -127,11 +128,18 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
         aria-valuemin={1}
         aria-valuemax={3}
         aria-label={`Paso ${step} de 3`}
-        className="mb-6 flex gap-2"
+        className="mb-6"
       >
-        {[1, 2, 3].map((s) => (
-          <span key={s} className={`h-1.5 flex-1 rounded-full ${s <= step ? 'bg-primary-light' : 'bg-ink/10'}`} />
-        ))}
+        <div className="flex gap-2">
+          {[1, 2, 3].map((s) => (
+            <span key={s} className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${s <= step ? 'bg-primary-light' : 'bg-ink/10'}`} />
+          ))}
+        </div>
+        <div className="mt-2 flex justify-between text-xs font-medium text-ink/40">
+          <span className={step >= 1 ? 'text-primary-light' : ''}>Servicio</span>
+          <span className={step >= 2 ? 'text-primary-light' : ''}>Detalles</span>
+          <span className={step >= 3 ? 'text-primary-light' : ''}>Contacto</span>
+        </div>
       </div>
 
       {step === 1 && (
@@ -144,12 +152,17 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
                 type="button"
                 onClick={() => update({ service: s.title })}
                 aria-pressed={draft.service === s.title}
-                className={`min-h-11 rounded-lg border-2 px-4 py-3 text-left text-sm font-semibold transition-colors ${
+                className={`flex min-h-11 items-center gap-3 rounded-lg border-2 px-4 py-3 text-left text-sm font-semibold transition-all ${
                   draft.service === s.title
-                    ? 'border-primary-light bg-primary-light/5 text-primary'
+                    ? 'border-primary-light bg-primary-light/5 text-primary shadow-soft'
                     : 'border-ink/10 hover:border-primary-light/50'
                 }`}
               >
+                <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${
+                  draft.service === s.title ? 'bg-primary-light text-white' : 'bg-surface text-primary-light'
+                }`}>
+                  <ServiceIcon name={s.icon} />
+                </span>
                 {s.title}
               </button>
             ))}
@@ -214,8 +227,9 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
               href={waLink(whatsapp, `Hola, quiero cotizar ${draft.service}. ${draft.message}`)}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-flex min-h-11 items-center rounded-full bg-whatsapp px-5 py-2 font-semibold text-white"
+              className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-full bg-whatsapp px-5 py-2 font-semibold text-white"
             >
+              <WhatsAppIcon />
               Continuar por WhatsApp
             </a>
           )}

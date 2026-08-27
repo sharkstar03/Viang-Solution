@@ -1,14 +1,13 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
-import { OpenNowBadge } from '@/components/layout/OpenNowBadge';
 import { waLink } from '@/lib/whatsapp';
-import type { BusinessHours } from '@/lib/types';
+import { WhatsAppIcon } from '@/components/ui/icons';
 
 /**
  * Portada: imagen fija premium en todas las pantallas (el LCP — priority).
  * Sin video por decisión del cliente: menos peso, cero distracción.
  */
-export function Hero({ whatsapp, hours }: { whatsapp: string; hours: BusinessHours }) {
+export function Hero({ whatsapp }: { whatsapp: string }) {
   return (
     <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-primary">
       <Image
@@ -23,8 +22,7 @@ export function Hero({ whatsapp, hours }: { whatsapp: string; hours: BusinessHou
       <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink/70" />
 
       <div className="relative z-10 mx-auto max-w-4xl px-4 pb-16 pt-28 text-center text-white">
-        <OpenNowBadge hours={hours} />
-        <h1 className="mt-6 text-4xl font-bold leading-tight md:text-6xl">
+        <h1 className="text-4xl font-bold leading-tight md:text-6xl">
           Transformamos y preservamos
           <span className="block text-accent">el valor de sus espacios</span>
         </h1>
@@ -39,6 +37,7 @@ export function Hero({ whatsapp, hours }: { whatsapp: string; hours: BusinessHou
               target="_blank"
               rel="noopener noreferrer"
             >
+              <WhatsAppIcon className="h-6 w-6" />
               Escríbenos por WhatsApp
             </a>
           </Button>

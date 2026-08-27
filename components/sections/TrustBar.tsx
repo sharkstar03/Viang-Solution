@@ -17,15 +17,19 @@ export function TrustBar({ clients }: { clients: Client[] }) {
       <div className="overflow-hidden">
         <div className="marquee-track flex w-max items-center gap-14 px-7">
           {loop.map((c, i) => (
-            <Image
+            <div
               key={`${c.id}-${i}`}
-              src={`/${c.logo_path}`}
-              alt={i < clients.length ? c.name : ''}
-              aria-hidden={i >= clients.length}
-              width={120}
-              height={60}
-              className="h-12 w-auto object-contain opacity-60 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
-            />
+              className="flex h-16 w-36 shrink-0 items-center justify-center"
+            >
+              <Image
+                src={`/${c.logo_path}`}
+                alt={i < clients.length ? c.name : ''}
+                aria-hidden={i >= clients.length}
+                width={144}
+                height={64}
+                className="max-h-full max-w-full object-contain opacity-60 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
+              />
+            </div>
           ))}
         </div>
       </div>

@@ -50,7 +50,7 @@ describe('Services', () => {
 
 describe('Hero', () => {
   it('tiene CTA de WhatsApp y de cotizar', () => {
-    render(<Hero whatsapp="+50767340816" hours={{}} />);
+    render(<Hero whatsapp="+50767340816" />);
     const wa = screen.getByRole('link', { name: /whatsapp/i });
     expect(wa.getAttribute('href')).toContain('wa.me/50767340816');
     expect(screen.getByRole('link', { name: /cotiza/i }).getAttribute('href')).toBe('/#cotizar');

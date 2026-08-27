@@ -17,7 +17,7 @@ export function Header({ phone }: { phone: string }) {
     <header className="absolute inset-x-0 top-0 z-40">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
         <Link href="/" aria-label="Viang Solution — inicio">
-          <Image src="/img/white-logo.png" alt="Viang Solution" width={140} height={44} priority />
+          <Image src="/img/white-logo.png" alt="Viang Solution" width={200} height={63} priority className="h-12 w-auto md:h-14" />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Principal">
@@ -27,10 +27,10 @@ export function Header({ phone }: { phone: string }) {
             </Link>
           ))}
           <a
-            href={`tel:${phone}`}
-            className="rounded-full bg-white/15 px-5 py-2.5 font-semibold text-white backdrop-blur transition-colors hover:bg-white/25"
+            href="/#cotizar"
+            className="rounded-full bg-accent px-6 py-2.5 font-semibold text-ink transition-all hover:brightness-110"
           >
-            {phone.replace('+507', '(507) ')}
+            Contáctanos
           </a>
         </nav>
 
