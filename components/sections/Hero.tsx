@@ -26,12 +26,12 @@ export function Hero({ whatsapp, hours }: { whatsapp: string; hours: BusinessHou
       <div className="relative z-10 mx-auto max-w-4xl px-4 pb-16 pt-28 text-center text-white">
         <OpenNowBadge hours={hours} />
         <h1 className="mt-6 text-4xl font-bold leading-tight md:text-6xl">
-          Limpieza y mantenimiento
-          <span className="block text-accent">a otro nivel</span>
+          Transformamos y preservamos
+          <span className="block text-accent">el valor de sus espacios</span>
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-lg text-white/85 md:text-xl">
-          Pisos, alfombras, pintura e instalaciones para hogares y empresas en Panamá.
-          Más de 20 años dejando todo impecable.
+          Soluciones integrales para espacios residenciales y comerciales de alto valor.
+          Tratamientos de pisos, limpieza especializada, instalaciones y reparaciones en Panamá.
         </p>
         <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Button variant="whatsapp" size="lg" asChild>

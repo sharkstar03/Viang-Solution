@@ -5,39 +5,27 @@ insert into site_settings (phone, whatsapp, email, address, business_hours, soci
 values (
   '+50767340816',
   '+50767340816',
-  'vionel@viangsolution.com',
+  'viangsolutions@yahoo.es',
   'Ciudad de Panamá, Panamá',
   '{"mon":{"open":"08:00","close":"17:00"},"tue":{"open":"08:00","close":"17:00"},"wed":{"open":"08:00","close":"17:00"},"thu":{"open":"08:00","close":"17:00"},"fri":{"open":"08:00","close":"17:00"},"sat":null,"sun":null}',
   '{"facebook":"https://www.facebook.com/viangsolutions","instagram":"https://instagram.com/viangsolution"}',
-  'Viang Solution — Limpieza y Mantenimiento Profesional en Panamá',
-  'Servicios profesionales de limpieza y mantenimiento en Panamá: pulimiento de pisos, limpieza de muebles y alfombras, pintura, instalaciones y limpieza empresarial.'
+  'Viang Solutions & Service — Limpieza y Mantenimiento Especializado en Panamá',
+  'Soluciones integrales para espacios residenciales y comerciales de alto valor: tratamientos de pisos, limpieza especializada, instalaciones y reparaciones en Panamá.'
 );
 
 insert into services (slug, title, short_description, long_description, icon, image_path, sort_order, published) values
-('pulimiento-de-pisos', 'Pulimientos y Limpiezas de Pisos',
- 'Pisos de cemento, mármol, granito, madera y más. También pulimos sobres de cualquier material.',
- 'Devolvemos el brillo a pisos de cemento, mármol, granito y madera con maquinaria profesional. También pulimos sobres y superficies de cualquier material, para hogares, oficinas y comercios.',
+('tratamientos-e-instalacion-de-pisos', 'Tratamientos e Instalación de Pisos',
+ 'Pulido y abrillantado de mármol, granito, porcelanato, concreto y más. Instalación, impermeabilización y epóxicos.',
+ E'Soluciones especializadas para todo tipo de superficies, adaptadas a sus necesidades y exigencias:\n- Pulido y abrillantado de mármol, granito, porcelanato, concreto, adoquines, cerámica, pasta, vinilo, PVC, piedras naturales, gongrani y terrazo\n- Instalación profesional de pisos\n- Tratamientos de impermeabilización y sellado contra humedad\n- Aplicación de recubrimientos de pintura epóxica de alta resistencia',
  'sparkles', 'img/Servicios/PISOS.jpg', 1, true),
-('limpieza-de-muebles-y-alfombras', 'Limpieza de Muebles y Alfombras',
- 'Alfombras de todo tipo y muebles de cualquier material — también interiores de autos.',
- 'Limpieza profunda de alfombras de todo tipo y muebles de cualquier material, incluyendo tapicería de autos. Eliminamos manchas, ácaros y olores con productos eco-amigables.',
- 'sofa', 'img/Servicios/alfombras.jpg', 2, true),
-('multi-servicios', 'Multi Servicios',
- 'Electricidad menor, plomería básica y reparaciones generales para su hogar.',
- 'Resolvemos el mantenimiento de su hogar o negocio: electricidad menor, plomería básica y reparaciones generales, con un solo proveedor de confianza.',
- 'wrench', 'img/Servicios/electricidad.jpg', 3, true),
-('instalaciones', 'Instalaciones de Todo Tipo',
- 'Aires acondicionados, cortinas eléctricas, ventiladores y más.',
- 'Instalamos aires acondicionados, cortinas eléctricas, ventiladores y otros equipos para su hogar o empresa, con garantía de trabajo bien hecho.',
- 'plug', 'img/Servicios/instalacionesac.jpg', 4, true),
-('pintura', 'Pintura',
- 'Pintura interior y exterior, tratamiento de superficies y acabados especiales.',
- 'Servicios de pintura interior y exterior con preparación y tratamiento de superficies y acabados especiales, para resultados duraderos y prolijos.',
- 'paint-roller', 'img/Servicios/pintura.jpg', 5, true),
-('limpieza-empresarial', 'Limpieza Empresarial',
- 'Oficinas, locales comerciales, espacios industriales y pos-construcción.',
- 'Limpieza especializada para oficinas, locales comerciales y espacios industriales, incluyendo limpieza pos-construcción. Planes por frecuencia adaptados a su operación.',
- 'building', 'img/Servicios/PISOS.jpg', 6, true);
+('limpieza-especializada', 'Limpieza Especializada',
+ 'Restauración de alfombras, muebles y tapicería automotriz, hidrolavado de precisión y limpieza integral.',
+ E'Trabajos de limpieza y restauración con estándares de calidad superiores, ideales para inmuebles residenciales de lujo, establecimientos comerciales y espacios corporativos:\n- Limpieza y restauración de alfombras residenciales y comerciales\n- Tratamientos para muebles de interiores y exteriores\n- Limpieza y restauración de tapicería automotriz\n- Limpieza y mantenimiento de cortinas y sistemas roller\n- Limpieza integral de espacios residenciales y comerciales\n- Limpieza de muros, techos y pisos mediante hidrolavado de precisión\n- Mantenimiento de áreas comunes en edificios y propiedades horizontales',
+ 'droplets', 'img/Servicios/alfombras.jpg', 2, true),
+('instalaciones-y-reparaciones', 'Instalaciones y Reparaciones',
+ 'Equipos audiovisuales, electricidad menor, drywall, impermeabilización, pintura y mantenimiento de A/C.',
+ E'Instalación, mantenimiento y reparación para garantizar el correcto funcionamiento y la estética de sus espacios:\n- Instalación de equipos audiovisuales y elementos decorativos\n- Trabajos eléctricos de baja complejidad: luminarias, enchufes y sistemas de conexión\n- Estructuras y acabados en sistema drywall\n- Impermeabilización y tratamiento de techos y superficies expuestas\n- Pintura de interiores y exteriores con acabados de alta calidad\n- Mantenimiento preventivo y correctivo de sistemas de aire acondicionado',
+ 'wrench', 'img/Servicios/instalacionesac.jpg', 3, true);
 
 insert into clients (name, logo_path, sort_order, published) values
 ('Cliente 1', 'img/clientes/01.png', 1, true),

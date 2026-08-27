@@ -6,15 +6,12 @@ const up = await stackUp();
 if (!up) console.warn('⚠ Supabase local apagado — suite saltada (en CI corre siempre)');
 
 describe.runIf(up)('capa de consultas', () => {
-  it('getServices devuelve los 6 publicados en orden', async () => {
+  it('getServices devuelve los 3 publicados en orden', async () => {
     const services = await getServices();
     expect(services.map((s) => s.slug)).toEqual([
-      'pulimiento-de-pisos',
-      'limpieza-de-muebles-y-alfombras',
-      'multi-servicios',
-      'instalaciones',
-      'pintura',
-      'limpieza-empresarial',
+      'tratamientos-e-instalacion-de-pisos',
+      'limpieza-especializada',
+      'instalaciones-y-reparaciones',
     ]);
   });
 

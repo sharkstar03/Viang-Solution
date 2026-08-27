@@ -12,7 +12,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
         <div>
           <Image src="/img/white-logo.png" alt="Viang Solution" width={150} height={47} />
           <p className="mt-4 text-sm leading-relaxed">
-            Limpieza y mantenimiento profesional para hogares y empresas en Panamá.
+            Soluciones integrales para espacios residenciales y comerciales de alto valor en Panamá.
           </p>
         </div>
         <div>
@@ -55,7 +55,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
         </div>
       </div>
       <div className="border-t border-white/10 py-5 text-center text-xs">
-        © {year} VIANG SOLUTION. Todos los derechos reservados.
+        © {year} VIANG SOLUTIONS & SERVICE. Todos los derechos reservados.
       </div>
     </footer>
   );

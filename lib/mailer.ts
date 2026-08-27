@@ -28,7 +28,7 @@ const transporter = nodemailer.createTransport({
 export async function sendLeadNotification(lead: Omit<ContactInput, 'turnstileToken'>): Promise<void> {
   await transporter.sendMail({
     from: process.env.EMAIL_USER,
-    to: process.env.CONTACT_RECIPIENT ?? 'vionel@viangsolution.com',
+    to: process.env.CONTACT_RECIPIENT ?? 'viangsolutions@yahoo.es',
     cc: process.env.EMAIL_USER,
     replyTo: lead.email,
     subject: `Nuevo Contacto Web: ${lead.service}`,

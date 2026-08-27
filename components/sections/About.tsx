@@ -19,14 +19,16 @@ export function About() {
         <Reveal delay={120}>
           <h2 className="text-3xl font-bold md:text-4xl">Quiénes somos</h2>
           <p className="mt-5 leading-relaxed text-ink/70">
-            Con más de 20 años de experiencia, somos líderes en servicios de limpieza y
-            mantenimiento en la región. Nuestro compromiso con la excelencia y la
-            satisfacción del cliente nos ha permitido crecer y diversificar nuestros servicios.
+            Viang Solutions and Service se consolida como su socio estratégico en el
+            mantenimiento, instalación y embellecimiento de espacios residenciales y
+            comerciales. Amplia trayectoria en tratamientos especializados para superficies
+            y servicios integrales de limpieza y reparación, con resultados de excelencia
+            y durabilidad.
           </p>
           <p className="mt-4 leading-relaxed text-ink/70">
-            Contamos con un equipo altamente capacitado y utilizamos productos eco-amigables
-            de primera calidad. Nos especializamos en soluciones integrales para hogares y
-            empresas, garantizando resultados excepcionales en cada proyecto.
+            Combinamos técnicas de vanguardia, materiales de primera calidad y un equipo
+            de profesionales altamente capacitados, comprometidos con la preservación y
+            mejora del valor de sus inmuebles.
           </p>
         </Reveal>
       </div>
