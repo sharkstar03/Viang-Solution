@@ -5,45 +5,47 @@ import { waLink } from '@/lib/whatsapp';
 import { WhatsAppIcon } from '@/components/ui/icons';
 
 /**
- * Portada: imagen fija premium en todas las pantallas (el LCP — priority).
- * Sin video por decisión del cliente: menos peso, cero distracción.
+ * Portada a sangre: mármol pulido con vista al mar.
+ * El degradado azul cubre solo la zona del texto; la foto queda libre arriba.
  */
 export function Hero({ whatsapp }: { whatsapp: string }) {
   return (
-    <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-primary">
+    <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-primary">
       <Image
-        src="/img/stock/marble-lobby.jpg"
-        alt=""
+        src="/img/trabajos/marmol-vista-mar-1.jpg"
+        alt="Piso de mármol blanco pulido que refleja ventanales con vista al mar"
         fill
         priority
-        quality={50}
         sizes="100vw"
-        className="object-cover"
+        className="object-cover object-center"
       />
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink/70" />
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-primary-deep via-primary-deep/80 via-40% to-transparent to-75%" />
 
-      <div className="relative z-10 mx-auto max-w-4xl px-4 pb-16 pt-28 text-center text-white">
-        <h1 className="text-4xl font-bold leading-tight md:text-6xl">
-          Transformamos y preservamos
-          <span className="block text-accent">el valor de sus espacios</span>
-        </h1>
-        <p className="mx-auto mt-5 max-w-2xl text-lg text-white/85 md:text-xl">
-          Soluciones integrales para espacios residenciales y comerciales de alto valor.
-          Tratamientos de pisos, limpieza especializada, instalaciones y reparaciones en Panamá.
+      <div className="hero-copy relative z-10 mx-auto w-full max-w-5xl px-4 pb-32 pt-32 text-white md:pb-20">
+        <p className="mb-4 inline-flex rounded-full bg-accent px-3 py-1 text-sm font-bold text-on-accent">
+          Panamá
         </p>
-        <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Button variant="whatsapp" size="lg" asChild>
+        <h1 className="max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
+          Transformamos y preservamos el valor de sus espacios
+        </h1>
+        <p className="mt-5 max-w-2xl text-lg text-white md:text-xl">
+          Mármol, granito y madera. Limpieza de piscinas, galpones y fachadas.
+          Instalaciones y reparaciones para residencias y comercios.
+        </p>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <Button variant="accent" size="lg" asChild>
             <a
               href={waLink(whatsapp, 'Hola, me gustaría cotizar un servicio')}
               target="_blank"
               rel="noopener noreferrer"
             >
               <WhatsAppIcon className="h-6 w-6" />
-              Escríbenos por WhatsApp
+              Solicitar cotización
+              <span className="sr-only"> por WhatsApp</span>
             </a>
           </Button>
           <Button variant="secondary" size="lg" asChild>
-            <Link href="/#cotizar">Cotiza sin compromiso</Link>
+            <Link href="/#servicios">Ver servicios</Link>
           </Button>
         </div>
       </div>

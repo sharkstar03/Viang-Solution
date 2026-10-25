@@ -18,11 +18,11 @@ export function Portfolio({ projects }: { projects: Project[] }) {
                 <div className="grid grid-cols-2">
                   <figure className="relative h-56">
                     <Image src={`/${p.image_before}`} alt={`${p.title} — antes`} fill sizes="(min-width:768px) 25vw, 50vw" className="object-cover" />
-                    <figcaption className="absolute bottom-2 left-2 rounded-full bg-ink/70 px-3 py-1 text-xs font-semibold text-white">Antes</figcaption>
+                    <figcaption className="absolute bottom-2 left-2 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-on-accent">Antes</figcaption>
                   </figure>
                   <figure className="relative h-56">
                     <Image src={`/${p.image_after}`} alt={`${p.title} — después`} fill sizes="(min-width:768px) 25vw, 50vw" className="object-cover" />
-                    <figcaption className="absolute bottom-2 right-2 rounded-full bg-whatsapp px-3 py-1 text-xs font-semibold text-white">Después</figcaption>
+                    <figcaption className="absolute bottom-2 right-2 rounded-full bg-whatsapp px-3 py-1 text-xs font-semibold text-on-accent">Después</figcaption>
                   </figure>
                 </div>
                 <div className="p-5">

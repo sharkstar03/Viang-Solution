@@ -1,12 +1,13 @@
 import React from 'react';
 
-type Variant = 'primary' | 'secondary' | 'whatsapp';
+type Variant = 'primary' | 'secondary' | 'accent' | 'whatsapp';
 type Size = 'md' | 'lg';
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-primary text-white hover:bg-primary-light',
-  secondary: 'bg-white text-primary border border-primary/20 hover:border-primary/60',
-  whatsapp: 'bg-whatsapp text-ink hover:brightness-110',
+  primary: 'bg-primary text-white hover:bg-primary-deep',
+  secondary: 'bg-white text-primary border border-white/40 hover:brightness-95',
+  accent: 'bg-accent text-on-accent hover:brightness-105',
+  whatsapp: 'bg-whatsapp text-on-accent hover:brightness-105',
 };
 
 const sizes: Record<Size, string> = {

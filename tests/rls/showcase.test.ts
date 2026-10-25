@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { anonClient, seededStatCount, stackUp } from './helpers';
 
 // projects y testimonials nacen VACÍAS: alimentan secciones que se ocultan solas.
-// stats trae las cifras del negocio confirmadas por el dueño (seed.sql).
+// stats nace vacía: las cifras no están confirmadas y la home no las publica.
 const emptyTables = ['projects', 'testimonials'] as const;
 
 const up = await stackUp();

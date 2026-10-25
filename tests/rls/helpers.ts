@@ -7,8 +7,8 @@ const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? '';
 /** Servicios publicados por el seed — las pruebas cuentan contra esto. */
 export const seededServiceCount = 3;
 
-/** Cifras del negocio publicadas por el seed (contadores de la home). */
-export const seededStatCount = 2;
+/** La home no publica cifras: el seed deja stats vacía. */
+export const seededStatCount = 0;
 
 /** Cliente anónimo: lo máximo que puede hacer un visitante del sitio. */
 export function anonClient() {

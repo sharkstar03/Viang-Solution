@@ -81,9 +81,10 @@ async function fetchPublished() {
   });
   if (!settingsRows.ok) throw new Error(`site_settings responded ${settingsRows.status}`);
   const settingsList = await settingsRows.json();
-  const [services, stats, projects, testimonials] = await Promise.all([
+  const [services, stats, clients, projects, testimonials] = await Promise.all([
     get('services'),
     get('stats'),
+    get('clients'),
     get('projects'),
     get('testimonials'),
   ]);
@@ -91,7 +92,7 @@ async function fetchPublished() {
   if (!settings || !Array.isArray(services) || services.length === 0) {
     throw new Error('Supabase respondió sin settings o sin servicios');
   }
-  return { settings, services, stats, projects, testimonials };
+  return { settings, services, stats, clients, projects, testimonials };
 }
 
 const originalSnapshot = await readFile(snapshotPath, 'utf8');

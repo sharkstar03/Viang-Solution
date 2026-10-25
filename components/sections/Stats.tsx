@@ -13,7 +13,7 @@ export function Stats({ stats }: { stats: Stat[] }) {
   const visible = presentableStats(stats);
   if (visible.length === 0) return null;
   return (
-    <section className="border-y border-white/10 bg-ink py-14 text-white md:py-16">
+    <section className="border-y border-white/15 bg-primary-deep py-14 text-white md:py-16">
       <div className="mx-auto max-w-6xl px-4">
         <Reveal>
           <h2 className="text-center text-2xl font-bold text-white md:text-3xl">

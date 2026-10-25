@@ -56,10 +56,10 @@ describe('Services', () => {
 });
 
 describe('Hero', () => {
-  it('tiene CTA de WhatsApp y de cotizar', () => {
+  it('pide la cotización por WhatsApp y enlaza los servicios', () => {
     render(<Hero whatsapp="+50767340816" />);
-    const wa = screen.getByRole('link', { name: /whatsapp/i });
-    expect(wa.getAttribute('href')).toContain('wa.me/50767340816');
-    expect(screen.getByRole('link', { name: /cotiza/i }).getAttribute('href')).toBe('/#cotizar');
+    const quote = screen.getByRole('link', { name: /solicitar cotización/i });
+    expect(quote.getAttribute('href')).toContain('wa.me/50767340816');
+    expect(screen.getByRole('link', { name: /ver servicios/i }).getAttribute('href')).toBe('/#servicios');
   });
 });

@@ -15,7 +15,7 @@ export default function NotFound() {
         Pero nosotros sí. Vuelva al inicio o escríbanos directamente.
       </p>
       <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-        <Button asChild><Link href="/">Ir al inicio</Link></Button>
+        <Button variant="accent" asChild><Link href="/">Ir al inicio</Link></Button>
         {whatsapp && (
           <Button variant="whatsapp" asChild>
             <a href={waLink(whatsapp, 'Hola, me gustaría más información')} target="_blank" rel="noopener noreferrer">

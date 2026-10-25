@@ -19,7 +19,7 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
   const socials = Object.entries(settings.social_links);
 
   return (
-    <footer className="bg-ink text-white/70">
+    <footer className="bg-primary-deep text-white/90">
       {/* ── Cuerpo ──────────────────────────────────────────── */}
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 text-center sm:grid-cols-2 sm:text-left lg:grid-cols-[1.4fr_1fr_1.2fr]">
         <div>
@@ -79,12 +79,12 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
                 rel="noopener noreferrer"
                 className="group inline-flex items-center gap-3 transition-colors hover:text-white"
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-whatsapp/15 text-whatsapp transition-colors group-hover:bg-whatsapp group-hover:text-white">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-whatsapp/15 text-whatsapp transition-colors group-hover:bg-whatsapp group-hover:text-on-accent">
                   <WhatsAppIcon />
                 </span>
                 <span>
                   <span className="block font-semibold text-white">{settings.phone.replace('+507', '(507) ')}</span>
-                  <span className="text-xs text-white/50">Respuesta rápida por WhatsApp</span>
+                  <span className="text-xs text-white/80">Respuesta rápida por WhatsApp</span>
                 </span>
               </a>
             </li>
@@ -98,7 +98,7 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
                 </span>
                 <span>
                   <span className="block font-semibold text-white">{settings.email}</span>
-                  <span className="text-xs text-white/50">Escríbanos cuando quiera</span>
+                  <span className="text-xs text-white/80">Escríbanos cuando quiera</span>
                 </span>
               </a>
             </li>
@@ -108,7 +108,7 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
 
       {/* ── Pie ─────────────────────────────────────────────── */}
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-5 text-xs text-white/50 sm:flex-row">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-5 text-xs text-white/80 sm:flex-row">
           <p>© {year} {COMPANY_NAME}. Todos los derechos reservados.</p>
           <p>Panamá 🇵🇦</p>
         </div>

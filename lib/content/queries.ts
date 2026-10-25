@@ -1,11 +1,11 @@
 import remoteSnapshot from '@/lib/content/remote-snapshot.json';
 import {
-  fallbackProjects, fallbackServices, fallbackSettings, fallbackStats, fallbackTestimonials,
+  fallbackClients, fallbackProjects, fallbackServices, fallbackSettings, fallbackStats, fallbackTestimonials,
 } from '@/lib/content/fallback';
 import { presentableStats } from '@/lib/content/stats';
 import { withOfficialName } from '@/lib/site';
 import { hasSupabasePublicEnv, supabaseServer } from '@/lib/supabase/server';
-import type { Project, Service, SiteSettings, Stat, Testimonial } from '@/lib/types';
+import type { Client, Project, Service, SiteSettings, Stat, Testimonial } from '@/lib/types';
 
 /**
  * Lecturas del sitio público.
@@ -19,6 +19,7 @@ interface Snapshot {
   settings?: SiteSettings;
   services?: Service[];
   stats?: Stat[];
+  clients?: Client[];
   projects?: Project[];
   testimonials?: Testimonial[];
 }
@@ -36,6 +37,7 @@ function fallbackBundle() {
     settings: polishSettings(fallbackSettings),
     services: fallbackServices,
     stats: presentableStats(fallbackStats),
+    clients: fallbackClients,
     projects: fallbackProjects,
     testimonials: fallbackTestimonials,
   };
@@ -52,6 +54,7 @@ function staticBundle() {
     settings: polishSettings({ ...fallbackSettings, ...snap.settings }),
     services: snap.services,
     stats: presentableStats(snap.stats ?? []),
+    clients: Array.isArray(snap.clients) && snap.clients.length > 0 ? snap.clients : fallbackClients,
     projects: snap.projects ?? [],
     testimonials: snap.testimonials ?? [],
   };
@@ -88,6 +91,20 @@ export async function getServices(): Promise<Service[]> {
 export async function getServiceBySlug(slug: string): Promise<Service | null> {
   const services = await getServices();
   return services.find((s) => s.slug === slug) ?? null;
+}
+
+export async function getClients(): Promise<Client[]> {
+  const bundled = staticBundle();
+  if (bundled) return bundled.clients;
+  if (!hasSupabasePublicEnv()) return fallbackClients;
+  try {
+    const { data, error } = await supabaseServer().from('clients').select('*').order('sort_order');
+    if (error || !data?.length) return fallbackClients;
+    return data as Client[];
+  } catch {
+    console.error('content_unavailable:clients');
+    return fallbackClients;
+  }
 }
 
 export async function getStats(): Promise<Stat[]> {

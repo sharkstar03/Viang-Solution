@@ -26,7 +26,7 @@ test.describe('camino del dinero: cotización', () => {
 
   test('el borrador sobrevive una recarga a mitad del paso 2', async ({ page }) => {
     await page.goto('/#cotizar');
-    await page.getByRole('button', { name: /tratamientos e instalación/i }).click();
+    await page.getByRole('button', { name: /tratamientos de pisos/i }).click();
     await page.getByRole('button', { name: /continuar/i }).click();
     await page.getByLabel(/mensaje/i).fill('Texto que no debe perderse jamás');
 

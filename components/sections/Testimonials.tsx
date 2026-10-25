@@ -5,7 +5,7 @@ import type { Testimonial } from '@/lib/types';
 export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
   if (testimonials.length === 0) return null;
   return (
-    <section className="bg-ink py-16 text-white md:py-24">
+    <section className="bg-primary-deep py-16 text-white md:py-24">
       <div className="mx-auto max-w-6xl px-4">
         <Reveal>
           <h2 className="text-center text-3xl font-bold md:text-4xl">Lo que dicen nuestros clientes</h2>

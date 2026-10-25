@@ -14,23 +14,29 @@ values (
 );
 
 insert into services (slug, title, short_description, long_description, icon, image_path, sort_order, published) values
-('tratamientos-e-instalacion-de-pisos', 'Tratamientos e Instalación de Pisos',
- 'Pulido y abrillantado de mármol, granito, porcelanato, concreto y más. Instalación, impermeabilización y epóxicos.',
- E'Soluciones especializadas para todo tipo de superficies, adaptadas a sus necesidades y exigencias:\n- Pulido y abrillantado de mármol, granito, porcelanato, concreto, adoquines, cerámica, pasta, vinilo, PVC, piedras naturales, gongrani y terrazo\n- Instalación profesional de pisos\n- Tratamientos de impermeabilización y sellado contra humedad\n- Aplicación de recubrimientos de pintura epóxica de alta resistencia',
- 'sparkles', 'img/stock/marble-corridor.jpg', 1, true),
-('limpieza-especializada', 'Limpieza Especializada',
- 'Restauración de alfombras, muebles y tapicería automotriz, hidrolavado de precisión y limpieza integral.',
- E'Trabajos de limpieza y restauración con estándares de calidad superiores, ideales para inmuebles residenciales de lujo, establecimientos comerciales y espacios corporativos:\n- Limpieza y restauración de alfombras residenciales y comerciales\n- Tratamientos para muebles de interiores y exteriores\n- Limpieza y restauración de tapicería automotriz\n- Limpieza y mantenimiento de cortinas y sistemas roller\n- Limpieza integral de espacios residenciales y comerciales\n- Limpieza de muros, techos y pisos mediante hidrolavado de precisión\n- Mantenimiento de áreas comunes en edificios y propiedades horizontales',
- 'droplets', 'img/stock/sofa-cleaning.jpg', 2, true),
-('instalaciones-y-reparaciones', 'Instalaciones y Reparaciones',
- 'Equipos audiovisuales, electricidad menor, drywall, impermeabilización, pintura y mantenimiento de A/C.',
- E'Instalación, mantenimiento y reparación para garantizar el correcto funcionamiento y la estética de sus espacios:\n- Instalación de equipos audiovisuales y elementos decorativos\n- Trabajos eléctricos de baja complejidad: luminarias, enchufes y sistemas de conexión\n- Estructuras y acabados en sistema drywall\n- Impermeabilización y tratamiento de techos y superficies expuestas\n- Pintura de interiores y exteriores con acabados de alta calidad\n- Mantenimiento preventivo y correctivo de sistemas de aire acondicionado',
- 'wrench', 'img/stock/ac-service.jpg', 3, true);
+('tratamientos-e-instalacion-de-pisos', 'Tratamientos de pisos',
+ 'Restauración de mármol, granito y madera: pulido con diamante, brillo, juntas, manchas y sellado.',
+ E'Devolvemos el brillo al mármol, al granito y a la madera. Cada superficie se trabaja con diamante, de grano 60 a 3000, hasta dejar un acabado parejo y protegido.\n- Restauración de mármol y granito\n- Pulido con diamante, grano 60 a 3000\n- Realce de brillo\n- Tratamiento de juntas\n- Eliminación de manchas\n- Sellado\n- Pisos de madera',
+ 'sparkles', 'img/trabajos/marmol-vista-mar-2.jpg', 1, true),
+('limpieza-especializada', 'Limpieza especializada y exteriores',
+ 'Bordes de piscina, limpieza post-construcción, hidrolavado, pintura, fachadas y rótulos de acero.',
+ E'Bordes de piscina, galpones y oficinas después de una obra, fachadas y rótulos. Una limpieza que deja el inmueble listo para usarse.\n- Bordes de piscina\n- Limpieza post-construcción de galpones y oficinas\n- Hidrolavado a presión\n- Pintura y fachadas\n- Rótulos en acero inoxidable',
+ 'droplets', 'img/trabajos/piscina-1.jpg', 2, true),
+('instalaciones-y-reparaciones', 'Instalaciones y reparaciones',
+ 'Filtración de agua de 3 etapas, aire acondicionado, drywall, pintura y electricidad menor.',
+ E'Instalamos y reparamos lo que mantiene el espacio en funcionamiento: el agua, el aire acondicionado y los acabados.\n- Sistemas de filtración de agua de 3 etapas\n- Aire acondicionado\n- Drywall\n- Pintura\n- Electricidad menor',
+ 'wrench', 'img/trabajos/filtros-agua.jpg', 3, true);
 
--- Sin fila de clientes: la home no muestra logos ni nombres hasta que existan de verdad.
--- La cifra de años se retiró; no reponerla.
+-- Logos aprobados por el dueño. El orden sigue a public/img/clientes/01.png … 09.png.
+insert into clients (name, logo_path, sort_order, published) values
+('Tocumen Aeropuerto Internacional', 'img/clientes/01.png', 1, true),
+('Cervecería Barú (Grupo Heineken)', 'img/clientes/02.png', 2, true),
+('Hotel El Panamá', 'img/clientes/03.png', 3, true),
+('Massimo Dutti', 'img/clientes/04.png', 4, true),
+('Nike', 'img/clientes/05.png', 5, true),
+('Regency Real Estate', 'img/clientes/06.png', 6, true),
+('Puma', 'img/clientes/07.png', 7, true),
+('Sportline America', 'img/clientes/08.png', 8, true),
+('Desigual', 'img/clientes/09.png', 9, true);
 
--- Cifras del negocio (contadores de la home) que ya estaban confirmadas, sin la de años
-insert into stats (label, value, suffix, icon, sort_order, published) values
-('Clientes satisfechos', 300, '+', 'users', 1, true),
-('Proyectos realizados', 2670, '+', 'briefcase', 2, true);
+-- stats queda vacía: las cifras no están confirmadas y no se publican.

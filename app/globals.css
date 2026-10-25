@@ -1,14 +1,17 @@
 @import "tailwindcss";
 
 /* ── Tokens de marca ─────────────────────────────────────────
-   La marca vende limpieza: aire, azules profundos, un acento
-   cálido reservado para los CTA. */
+   Azul vivo de marca y naranja #FF9F1C. El naranja lleva texto
+   oscuro (text-on-accent): el blanco sobre #FF9F1C no contrasta.
+   Las páginas no usan fondo blanco ni negro. */
 @theme {
-  --color-primary: #0b3c5d;
-  --color-primary-light: #1d6fa5;
-  --color-accent: #f59e0b;
-  --color-surface: #f8fafc;
-  --color-ink: #0f172a;
+  --color-primary: #0b6bcb;
+  --color-primary-deep: #0857a8;
+  --color-primary-light: #3d9be8;
+  --color-accent: #ff9f1c;
+  --color-on-accent: #0b2340;
+  --color-surface: #f4f8fc;
+  --color-ink: #0b2340;
   --color-whatsapp: #25d366;
 
   --radius-card: 1rem;
@@ -45,7 +48,29 @@
   .marquee-track { animation: none; }
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 5.5rem; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+}
+
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+.hero-copy { animation: hero-in 500ms ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-copy { animation: none; }
+}
+
+/* Lightbox nativo. El fondo azul deja ver que sigue siendo el sitio. */
+dialog.lightbox {
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  max-width: none;
+  color: inherit;
+}
+dialog.lightbox::backdrop {
+  background: rgb(8 87 168 / 0.88);
 }

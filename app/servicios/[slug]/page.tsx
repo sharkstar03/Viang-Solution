@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { Reveal } from '@/components/ui/Reveal';
 import { ServiceIcon, WhatsAppIcon } from '@/components/ui/icons';
 import { getServiceBySlug, getServices, getSettings } from '@/lib/content/queries';
+import { serviceLineBySlug } from '@/lib/content/service-lines';
 import { serviceJsonLd, faqJsonLd } from '@/lib/seo';
 import { waLink } from '@/lib/whatsapp';
 
@@ -20,33 +21,14 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const service = await getServiceBySlug(slug);
-  if (!service) return {};
+  const line = serviceLineBySlug(slug);
+  if (!service && !line) return {};
   return {
-    title: service.title,
-    description: service.short_description,
-    alternates: { canonical: `/servicios/${service.slug}` },
+    title: line?.title ?? service!.title,
+    description: line?.summary ?? service!.short_description,
+    alternates: { canonical: `/servicios/${line?.slug ?? service!.slug}` },
   };
 }
-
-/**
- * Imágenes de ambiente por servicio (stock con licencia libre — Pexels).
- * Ilustran el TIPO de resultado; el alt nunca las presenta como trabajo
- * propio. La Fase 2 las reemplaza por la galería real (tabla projects).
- */
-const SERVICE_AMBIENCE: Record<string, { src: string; alt: string }[]> = {
-  'tratamientos-e-instalacion-de-pisos': [
-    { src: '/img/stock/marble-lobby.jpg', alt: 'Lobby con piso de mármol pulido y brillante' },
-    { src: '/img/Servicios/pisos-oficina.jpg', alt: 'Piso de travertino pulido con acabado espejo en una oficina' },
-  ],
-  'limpieza-especializada': [
-    { src: '/img/stock/deep-clean.jpg', alt: 'Limpieza profunda de alfombra con equipo de vapor y protección' },
-    { src: '/img/stock/pro-vacuum.jpg', alt: 'Aspirado profesional de una sala moderna' },
-  ],
-  'instalaciones-y-reparaciones': [
-    { src: '/img/Servicios/instalacionesac.jpg', alt: 'Técnico dando servicio a un aire acondicionado' },
-    { src: '/img/Servicios/pintura.jpg', alt: 'Trabajo de pintura con acabado prolijo' },
-  ],
-};
 
 /** Separa la descripción larga: intro (párrafos) + lista de sub-servicios. */
 function splitDescription(text: string): { intro: string[]; items: string[] } {
@@ -64,12 +46,18 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
   ]);
   if (!service) notFound();
 
-  const { intro, items } = splitDescription(service.long_description);
+  const line = serviceLineBySlug(service.slug);
+  const split = splitDescription(service.long_description);
+  const intro = line ? [line.intro] : split.intro;
+  const items = line ? [...line.bullets] : split.items;
+  const title = line?.title ?? service.title;
+  const summary = line?.summary ?? service.short_description;
+  const cover = line?.cover ?? service.image_path;
   const others = services.filter((s) => s.slug !== service.slug);
-  const gallery = SERVICE_AMBIENCE[service.slug] ?? [];
+  const gallery = line?.photos ?? [];
   const ldService = serviceJsonLd(service, settings);
   const ldFaq = faqJsonLd(service.faq);
-  const waHref = waLink(settings.whatsapp, `Hola, me interesa ${service.title}`);
+  const waHref = waLink(settings.whatsapp, `Hola, me interesa ${title}`);
 
   return (
     <main>
@@ -80,22 +68,23 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
       {/* ── Portada ─────────────────────────────────────────── */}
       <section className="relative flex min-h-[52svh] items-end bg-primary">
-        {service.image_path && (
-          <Image src={`/${service.image_path}`} alt="" fill priority quality={60} sizes="100vw" className="object-cover" />
+        {cover && (
+          <Image src={`/${cover}`} alt="" fill priority sizes="100vw" className="object-cover" />
         )}
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/40 to-ink/20" />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-primary-deep via-primary-deep/75 to-primary/25" />
         <div className="relative z-10 mx-auto w-full max-w-5xl px-4 pb-12 pt-36">
-          <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-sm font-medium text-white backdrop-blur">
+          <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-1.5 text-sm font-bold text-on-accent">
             <ServiceIcon name={service.icon} className="h-4 w-4" />
             Servicio especializado
           </p>
-          <h1 className="max-w-2xl text-3xl font-bold text-white md:text-5xl">{service.title}</h1>
-          <p className="mt-4 max-w-xl text-lg text-white/85">{service.short_description}</p>
+          <h1 className="max-w-2xl text-3xl font-bold text-white md:text-5xl">{title}</h1>
+          <p className="mt-4 max-w-xl text-lg text-white">{summary}</p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Button variant="whatsapp" size="lg" asChild>
+            <Button variant="accent" size="lg" asChild>
               <a href={waHref} target="_blank" rel="noopener noreferrer">
                 <WhatsAppIcon className="h-5 w-5" />
-                Cotizar por WhatsApp
+                Solicitar cotización
+                <span className="sr-only"> por WhatsApp</span>
               </a>
             </Button>
             <Button variant="secondary" size="lg" asChild>
@@ -110,7 +99,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         <div className="mx-auto max-w-5xl px-4">
           <Reveal>
             {intro.map((p) => (
-              <p key={p} className="mx-auto max-w-3xl text-center text-lg leading-relaxed text-white/80">
+              <p key={p} className="mx-auto max-w-3xl text-center text-lg leading-relaxed text-white/90">
                 {p}
               </p>
             ))}
@@ -120,7 +109,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
             {items.map((item, i) => (
               <Reveal key={item} delay={i * 60}>
                 <div className="flex h-full items-start gap-3 rounded-card border border-white/10 bg-white p-5 text-ink shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-whatsapp/10 text-whatsapp">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-on-accent">
                     <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden>
                       <path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2Z" />
                     </svg>
@@ -135,17 +124,20 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
       {/* ── Galería de ambiente ─────────────────────────────── */}
       {gallery.length > 0 && (
-        <section className="bg-ink py-14 text-white md:py-20">
+        <section className="bg-primary-deep py-14 text-white md:py-20">
           <div className="mx-auto max-w-5xl px-4">
             <Reveal>
-              <h2 className="text-center text-2xl font-bold md:text-3xl">El nivel que buscamos en cada trabajo</h2>
+              <h2 className="text-center text-2xl font-bold md:text-3xl">Fotos de este servicio</h2>
             </Reveal>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               {gallery.map((img, i) => (
                 <Reveal key={img.src} delay={i * 80}>
                   <div className="relative h-60 overflow-hidden rounded-card shadow-soft md:h-72">
-                    <Image src={img.src} alt={img.alt} fill quality={60}
+                    <Image src={img.src} alt={img.alt} fill
                       sizes="(min-width:640px) 50vw, 100vw" className="object-cover transition-transform duration-500 hover:scale-105" />
+                    {img.badge && (
+                      <span className="absolute left-3 top-3 rounded-full bg-accent px-2.5 py-1 text-xs font-bold text-on-accent">{img.badge}</span>
+                    )}
                   </div>
                 </Reveal>
               ))}
@@ -175,21 +167,22 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       )}
 
       {/* ── CTA final ───────────────────────────────────────── */}
-      <section className="mx-auto max-w-5xl px-4 pb-14 md:pb-20">
+      <section className="bg-accent px-4 py-14 text-on-accent md:py-20">
         <Reveal>
-          <div className="rounded-card bg-gradient-to-r from-primary to-primary-light p-8 text-center text-white md:p-12">
+          <div className="mx-auto max-w-5xl rounded-card bg-white p-8 text-center text-ink shadow-soft md:p-12">
             <h2 className="text-2xl font-bold md:text-3xl">¿Hablamos de su proyecto?</h2>
-            <p className="mx-auto mt-2 max-w-md text-white/80">
-              Cuéntenos qué necesita y reciba una cotización a medida, sin compromiso.
+            <p className="mx-auto mt-2 max-w-md text-ink/75">
+              Cuéntenos qué necesita y reciba una cotización a medida.
             </p>
             <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
               <Button variant="whatsapp" size="lg" asChild>
                 <a href={waHref} target="_blank" rel="noopener noreferrer">
                   <WhatsAppIcon className="h-5 w-5" />
-                  Escríbenos por WhatsApp
+                  Solicitar cotización
+                  <span className="sr-only"> por WhatsApp</span>
                 </a>
               </Button>
-              <Button variant="secondary" size="lg" asChild>
+              <Button variant="primary" size="lg" asChild>
                 <Link href="/#cotizar">Cotizar en línea</Link>
               </Button>
             </div>
@@ -199,9 +192,9 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
       {/* ── Otros servicios ─────────────────────────────────── */}
       {others.length > 0 && (
-        <section className="border-t border-white/10 bg-ink py-14 text-white">
+        <section className="border-t border-white/15 bg-primary-deep py-14 text-white">
           <div className="mx-auto max-w-5xl px-4">
-            <h2 className="text-center text-xl font-bold text-white/80">También le puede interesar</h2>
+            <h2 className="text-center text-xl font-bold text-white">También le puede interesar</h2>
             <div className="mt-7 flex flex-wrap justify-center gap-5">
               {others.map((s) => (
                 <Link

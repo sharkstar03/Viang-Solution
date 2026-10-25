@@ -7,7 +7,8 @@ import { COMPANY_NAME } from '@/lib/site';
 
 const nav = [
   { href: '/#servicios', label: 'Servicios' },
-  { href: '/#quienes-somos', label: 'Quiénes somos' },
+  { href: '/#trabajos', label: 'Trabajos' },
+  { href: '/#como-trabajamos', label: 'Proceso' },
   { href: '/#cotizar', label: 'Cotizar' },
 ];
 
@@ -15,8 +16,8 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="absolute inset-x-0 top-0 z-40">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+    <header className="fixed inset-x-0 top-0 z-40 border-b border-white/15 bg-primary-deep/95 backdrop-blur-md">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link href="/" aria-label={`${COMPANY_NAME} — inicio`}>
           <Image src="/img/white-logo.png" alt={COMPANY_NAME} width={200} height={63} priority className="h-12 w-auto md:h-14" />
         </Link>
@@ -29,7 +30,7 @@ export function Header() {
           ))}
           <Link
             href="/#cotizar"
-            className="rounded-full bg-accent px-6 py-2.5 font-semibold text-ink transition-all hover:brightness-110"
+            className="rounded-full bg-accent px-6 py-2.5 font-semibold text-on-accent transition-all hover:brightness-105"
           >
             Contáctanos
           </Link>
@@ -48,7 +49,7 @@ export function Header() {
       </div>
 
       {open && (
-        <nav className="mx-4 rounded-2xl bg-ink p-4 text-white shadow-soft md:hidden" aria-label="Menú móvil">
+        <nav className="mx-4 mb-3 rounded-2xl bg-primary-deep p-4 text-white shadow-soft md:hidden" aria-label="Menú móvil">
           {nav.map((n) => (
             <Link
               key={n.href}

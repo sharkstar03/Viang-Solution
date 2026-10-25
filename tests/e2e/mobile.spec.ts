@@ -14,10 +14,11 @@ test.describe('móvil', () => {
     await page.waitForLoadState('networkidle');
     expect(videoRequests).toHaveLength(0);
 
-    const whatsapp = page.getByRole('link', { name: /whatsapp/i }).first();
-    await expect(whatsapp).toBeVisible();
-    await expect(whatsapp).toHaveAttribute('href', /wa\.me\/\d+/);
-    await expect(page.getByRole('link', { name: /cotiza sin compromiso/i })).toBeVisible();
+    const quote = page.getByRole('link', { name: /solicitar cotización/i }).first();
+    await expect(quote).toBeVisible();
+    await expect(quote).toHaveAttribute('href', /wa\.me\/\d+/);
+    await expect(page.getByRole('link', { name: /ver servicios/i }).first()).toBeVisible();
+    await expect(page.getByRole('link', { name: /^whatsapp$/i })).toBeVisible();
   });
 
   test('el menú móvil abre y muestra la navegación', async ({ page }) => {

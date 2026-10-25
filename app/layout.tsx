@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import { getServices, getSettings } from '@/lib/content/queries';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { WhatsAppFloat } from '@/components/layout/WhatsAppFloat';
 import { COMPANY_NAME, SITE_URL } from '@/lib/site';
 import './globals.css';
 
@@ -38,6 +39,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Header />
         {children}
         <Footer settings={settings} services={services} />
+        <WhatsAppFloat whatsapp={settings.whatsapp} />
       </body>
     </html>
   );

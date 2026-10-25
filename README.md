@@ -97,8 +97,9 @@ Cloudflare. El healthcheck de `app` gobierna el arranque del tunnel.
 
 - **Nunca se pierde un lead:** si Gmail falla, el lead ya está en la base y la
   respuesta al visitante sigue siendo éxito.
-- **Secciones vacías se ocultan:** portafolio, testimonios y cifras no emiten
-  HTML hasta que existan filas publicadas.
+- **Secciones vacías se ocultan:** el portafolio y los testimonios de la base no se muestran si no hay filas. Las cifras no se publican. La portada sí trae la galería «Trabajos reales» con las fotos de `public/img/trabajos/`.
+- **Fotos de trabajos:** antes de `npm run build:cloudflare`, coloque en `public/img/trabajos/` los JPG que lista `lib/content/service-lines.ts` (1600 px). El HTML ya apunta a esos nombres. No use las fotos de stock: el sitio ya no las referencia.
+- **Logos de clientes:** la franja usa los nueve archivos `public/img/clientes/01.png`–`09.png` con el nombre aprobado como texto alternativo. Sin Supabase salen de `lib/content/fallback.ts`.
 - **La IP real viene de `CF-Connecting-IP`** (detrás del Tunnel el socket
   siempre es cloudflared); el país, de `CF-IPCountry`.
 - **El hero es una imagen estática, sin video** (decisión del cliente): el LCP

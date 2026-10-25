@@ -18,7 +18,7 @@ export default function GlobalError({ reset }: { error: Error; reset: () => void
         Ya estamos en ello. Mientras tanto, puede intentar de nuevo o contactarnos directo.
       </p>
       <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-        <button onClick={reset} className="min-h-11 rounded-full bg-primary px-6 font-semibold text-white">
+        <button onClick={reset} className="min-h-11 rounded-full bg-accent px-6 font-semibold text-on-accent">
           Intentar de nuevo
         </button>
         {whatsapp && (
@@ -30,7 +30,7 @@ export default function GlobalError({ reset }: { error: Error; reset: () => void
         )}
         {phone && (
           <a href={`tel:${phone}`}
-            className="flex min-h-11 items-center justify-center rounded-full border border-primary/30 px-6 font-semibold text-primary">
+            className="flex min-h-11 items-center justify-center rounded-full border border-white/50 px-6 font-semibold text-white">
             Llamar
           </a>
         )}

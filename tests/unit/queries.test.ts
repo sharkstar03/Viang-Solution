@@ -21,9 +21,8 @@ describe.runIf(up)('capa de consultas', () => {
     expect(await getServiceBySlug('inexistente')).toBeNull();
   });
 
-  it('getStats devuelve las cifras del seed en orden', async () => {
-    const stats = await getStats();
-    expect(stats.map((s) => s.value)).toEqual([300, 2670]);
+  it('getStats no publica cifras (el seed deja la tabla vacía)', async () => {
+    expect(await getStats()).toEqual([]);
   });
 
   it('getProjects y getTestimonials devuelven [] sin filas publicadas', async () => {

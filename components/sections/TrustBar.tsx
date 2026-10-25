@@ -10,8 +10,8 @@ export function TrustBar({ clients }: { clients: Client[] }) {
   const loop = [...clients, ...clients]; // duplicado para el loop continuo
 
   return (
-    <section aria-label="Clientes que confían en nosotros" className="border-y border-black/5 bg-surface py-10">
-      <p className="mb-6 text-center text-sm font-semibold uppercase tracking-wider text-ink/60">
+    <section id="clientes" aria-label="Clientes que confían en nosotros" className="scroll-mt-24 border-y border-white/15 bg-primary-deep py-12 text-white">
+      <p className="mb-6 text-center text-sm font-semibold uppercase tracking-wider text-white">
         Empresas que confían en nosotros
       </p>
       <div className="overflow-hidden">
@@ -19,7 +19,7 @@ export function TrustBar({ clients }: { clients: Client[] }) {
           {loop.map((c, i) => (
             <div
               key={`${c.id}-${i}`}
-              className="flex h-16 w-36 shrink-0 items-center justify-center"
+              className="flex h-16 w-36 shrink-0 items-center justify-center rounded-lg bg-white px-3"
             >
               <Image
                 src={`/${c.logo_path}`}
@@ -27,7 +27,8 @@ export function TrustBar({ clients }: { clients: Client[] }) {
                 aria-hidden={i >= clients.length}
                 width={144}
                 height={64}
-                className="h-auto w-auto max-h-full max-w-full object-contain opacity-60 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
+                style={{ width: 'auto', height: 'auto' }}
+                className="max-h-full max-w-full object-contain opacity-60 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
               />
             </div>
           ))}
