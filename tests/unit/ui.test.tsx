@@ -53,4 +53,10 @@ describe('Counter', () => {
     render(<Counter to={20} suffix="+" />);
     expect(screen.getByText('20+')).toBeTruthy();
   });
+
+  it('sin una cifra real no renderiza nada', () => {
+    mockMatchMedia(false);
+    const { container } = render(<Counter to={0} suffix="+" />);
+    expect(container.textContent).toBe('');
+  });
 });

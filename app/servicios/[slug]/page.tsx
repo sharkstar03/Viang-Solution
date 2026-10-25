@@ -9,6 +9,9 @@ import { getServiceBySlug, getServices, getSettings } from '@/lib/content/querie
 import { serviceJsonLd, faqJsonLd } from '@/lib/seo';
 import { waLink } from '@/lib/whatsapp';
 
+// Solo las rutas de generateStaticParams. `true` no se puede exportar como sitio estático.
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const services = await getServices();
   return services.map((s) => ({ slug: s.slug }));
@@ -103,11 +106,11 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       </section>
 
       {/* ── Qué incluye ─────────────────────────────────────── */}
-      <section className="py-14 md:py-20">
+      <section className="bg-primary py-14 text-white md:py-20">
         <div className="mx-auto max-w-5xl px-4">
           <Reveal>
             {intro.map((p) => (
-              <p key={p} className="mx-auto max-w-3xl text-center text-lg leading-relaxed text-ink/70">
+              <p key={p} className="mx-auto max-w-3xl text-center text-lg leading-relaxed text-white/80">
                 {p}
               </p>
             ))}
@@ -116,7 +119,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
             {items.map((item, i) => (
               <Reveal key={item} delay={i * 60}>
-                <div className="flex h-full items-start gap-3 rounded-card border border-ink/5 bg-white p-5 shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
+                <div className="flex h-full items-start gap-3 rounded-card border border-white/10 bg-white p-5 text-ink shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-whatsapp/10 text-whatsapp">
                     <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden>
                       <path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2Z" />
@@ -132,7 +135,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
       {/* ── Galería de ambiente ─────────────────────────────── */}
       {gallery.length > 0 && (
-        <section className="bg-surface py-14 md:py-20">
+        <section className="bg-ink py-14 text-white md:py-20">
           <div className="mx-auto max-w-5xl px-4">
             <Reveal>
               <h2 className="text-center text-2xl font-bold md:text-3xl">El nivel que buscamos en cada trabajo</h2>
@@ -153,12 +156,12 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
       {/* ── FAQ ─────────────────────────────────────────────── */}
       {service.faq.length > 0 && (
-        <section className="py-14 md:py-20">
+        <section className="bg-primary py-14 text-white md:py-20">
           <div className="mx-auto max-w-3xl px-4">
             <h2 className="text-center text-2xl font-bold md:text-3xl">Preguntas frecuentes</h2>
             <div className="mt-7 space-y-3">
               {service.faq.map((f) => (
-                <details key={f.question} className="group rounded-card border border-ink/10 bg-white">
+                <details key={f.question} className="group rounded-card border border-white/10 bg-white text-ink">
                   <summary className="flex min-h-11 cursor-pointer items-center justify-between gap-3 px-5 py-3.5 font-semibold [&::-webkit-details-marker]:hidden">
                     {f.question}
                     <span aria-hidden className="text-primary-light transition-transform group-open:rotate-45">＋</span>
@@ -196,15 +199,15 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
       {/* ── Otros servicios ─────────────────────────────────── */}
       {others.length > 0 && (
-        <section className="border-t border-ink/5 bg-surface py-14">
+        <section className="border-t border-white/10 bg-ink py-14 text-white">
           <div className="mx-auto max-w-5xl px-4">
-            <h2 className="text-center text-xl font-bold text-ink/70">También le puede interesar</h2>
+            <h2 className="text-center text-xl font-bold text-white/80">También le puede interesar</h2>
             <div className="mt-7 flex flex-wrap justify-center gap-5">
               {others.map((s) => (
                 <Link
                   key={s.id}
                   href={`/servicios/${s.slug}`}
-                  className="group flex w-full items-center gap-4 rounded-card bg-white p-4 shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:w-[calc(50%-0.625rem)]"
+                  className="group flex w-full items-center gap-4 rounded-card bg-white p-4 text-ink shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:w-[calc(50%-0.625rem)]"
                 >
                   {s.image_path && (
                     <div className="relative h-16 w-20 shrink-0 overflow-hidden rounded-lg">

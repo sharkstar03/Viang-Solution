@@ -23,7 +23,7 @@ describe.runIf(up)('capa de consultas', () => {
 
   it('getStats devuelve las cifras del seed en orden', async () => {
     const stats = await getStats();
-    expect(stats.map((s) => s.value)).toEqual([20, 300, 2670]);
+    expect(stats.map((s) => s.value)).toEqual([300, 2670]);
   });
 
   it('getProjects y getTestimonials devuelven [] sin filas publicadas', async () => {

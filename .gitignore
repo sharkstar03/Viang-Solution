@@ -1,6 +1,8 @@
 node_modules/
 .next/
 out/
+.wrangler/
+.static-export-hold/
 .env
 .env.local
 *.tsbuildinfo

@@ -9,7 +9,7 @@ values (
   'Ciudad de Panamá, Panamá',
   '{"mon":{"open":"08:00","close":"17:00"},"tue":{"open":"08:00","close":"17:00"},"wed":{"open":"08:00","close":"17:00"},"thu":{"open":"08:00","close":"17:00"},"fri":{"open":"08:00","close":"17:00"},"sat":null,"sun":null}',
   '{"facebook":"https://www.facebook.com/viangsolutions","instagram":"https://instagram.com/viangsolution","tiktok":"https://www.tiktok.com/@viangsolution","linkedin":"https://www.linkedin.com/in/vionel-angulo-cede%C3%B1o/"}',
-  'Viang Solutions & Service — Limpieza y Mantenimiento Especializado en Panamá',
+  'Viangsolutions & Services — Limpieza y Mantenimiento Especializado en Panamá',
   'Soluciones integrales para espacios residenciales y comerciales de alto valor: tratamientos de pisos, limpieza especializada, instalaciones y reparaciones en Panamá.'
 );
 
@@ -27,19 +27,10 @@ insert into services (slug, title, short_description, long_description, icon, im
  E'Instalación, mantenimiento y reparación para garantizar el correcto funcionamiento y la estética de sus espacios:\n- Instalación de equipos audiovisuales y elementos decorativos\n- Trabajos eléctricos de baja complejidad: luminarias, enchufes y sistemas de conexión\n- Estructuras y acabados en sistema drywall\n- Impermeabilización y tratamiento de techos y superficies expuestas\n- Pintura de interiores y exteriores con acabados de alta calidad\n- Mantenimiento preventivo y correctivo de sistemas de aire acondicionado',
  'wrench', 'img/stock/ac-service.jpg', 3, true);
 
-insert into clients (name, logo_path, sort_order, published) values
-('Cliente 1', 'img/clientes/01.png', 1, true),
-('Cliente 2', 'img/clientes/02.png', 2, true),
-('Cliente 3', 'img/clientes/03.png', 3, true),
-('Cliente 4', 'img/clientes/04.png', 4, true),
-('Cliente 5', 'img/clientes/05.png', 5, true),
-('Cliente 6', 'img/clientes/06.png', 6, true),
-('Cliente 7', 'img/clientes/07.png', 7, true),
-('Cliente 8', 'img/clientes/08.png', 8, true),
-('Cliente 9', 'img/clientes/09.png', 9, true);
+-- Sin fila de clientes: la home no muestra logos ni nombres hasta que existan de verdad.
+-- La cifra de años se retiró; no reponerla.
 
--- Cifras del negocio (contadores de la home), confirmadas por el dueño
+-- Cifras del negocio (contadores de la home) que ya estaban confirmadas, sin la de años
 insert into stats (label, value, suffix, icon, sort_order, published) values
-('Años de trayectoria', 20, '+', 'sparkles', 1, true),
-('Clientes satisfechos', 300, '+', 'users', 2, true),
-('Proyectos realizados', 2670, '+', 'briefcase', 3, true);
+('Clientes satisfechos', 300, '+', 'users', 1, true),
+('Proyectos realizados', 2670, '+', 'briefcase', 2, true);

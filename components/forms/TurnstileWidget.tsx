@@ -19,15 +19,17 @@ export function TurnstileWidget({ onToken }: { onToken: (token: string) => void 
   const ref = useRef<HTMLDivElement>(null);
   const rendered = useRef(false);
 
+  const sitekey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? '';
+
   useEffect(() => {
     const el = ref.current;
-    if (!el || rendered.current) return;
+    if (!el || rendered.current || !sitekey) return;
 
     const renderWidget = () => {
       if (rendered.current || !window.turnstile) return;
       rendered.current = true;
       window.turnstile.render(el, {
-        sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? '',
+        sitekey,
         callback: onToken,
       });
     };
@@ -41,7 +43,8 @@ export function TurnstileWidget({ onToken }: { onToken: (token: string) => void 
     script.async = true;
     (window as unknown as Record<string, unknown>).__turnstileReady = renderWidget;
     document.head.appendChild(script);
-  }, [onToken]);
+  }, [onToken, sitekey]);
 
+  if (!sitekey) return null;
   return <div ref={ref} className="min-h-[65px]" />;
 }

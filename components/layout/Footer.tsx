@@ -5,6 +5,7 @@ import {
   FacebookIcon, InstagramIcon, LinkedInIcon, MailIcon, TikTokIcon, WhatsAppIcon,
 } from '@/components/ui/icons';
 import type { Service, SiteSettings } from '@/lib/types';
+import { COMPANY_NAME } from '@/lib/site';
 
 const SOCIAL_ICONS: Record<string, { Icon: React.ComponentType<{ className?: string }>; label: string }> = {
   facebook: { Icon: FacebookIcon, label: 'Facebook' },
@@ -22,7 +23,7 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
       {/* ── Cuerpo ──────────────────────────────────────────── */}
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 text-center sm:grid-cols-2 sm:text-left lg:grid-cols-[1.4fr_1fr_1.2fr]">
         <div>
-          <Image src="/img/white-logo.png" alt="Viang Solution" width={190} height={60} className="mx-auto h-12 w-auto sm:mx-0" />
+          <Image src="/img/white-logo.png" alt={COMPANY_NAME} width={190} height={60} className="mx-auto h-12 w-auto sm:mx-0" />
           <p className="mx-auto mt-4 max-w-xs text-sm leading-relaxed sm:mx-0">
             Soluciones integrales para espacios residenciales y comerciales
             de alto valor en Panamá.
@@ -108,7 +109,7 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
       {/* ── Pie ─────────────────────────────────────────────── */}
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-5 text-xs text-white/50 sm:flex-row">
-          <p>© {year} ViangSolutions &amp; Group S.A. Todos los derechos reservados.</p>
+          <p>© {year} {COMPANY_NAME}. Todos los derechos reservados.</p>
           <p>Panamá 🇵🇦</p>
         </div>
       </div>

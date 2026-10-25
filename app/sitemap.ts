@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next';
 import { getServices } from '@/lib/content/queries';
+import { SITE_URL } from '@/lib/site';
 
-const SITE_URL = 'https://viangsolution.com';
+export const dynamic = 'force-static';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const services = await getServices();

@@ -29,6 +29,13 @@ describe('secciones condicionales: vacías → null', () => {
     const { container } = render(<Stats stats={[]} />);
     expect(container.innerHTML).toBe('');
   });
+  it('Stats en cero o la cifra de años no renderiza nada', () => {
+    const { container } = render(<Stats stats={[
+      { id: 'a', label: 'Años de trayectoria', value: 20, suffix: '+', icon: 'sparkles', sort_order: 1 },
+      { id: 'b', label: 'Vacío', value: 0, suffix: '+', icon: 'users', sort_order: 2 },
+    ]} />);
+    expect(container.innerHTML).toBe('');
+  });
   it('Portfolio vacío no renderiza nada', () => {
     const { container } = render(<Portfolio projects={[]} />);
     expect(container.innerHTML).toBe('');

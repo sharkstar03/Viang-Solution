@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "viangsolutions",
+  "compatibility_date": "2026-10-25",
+  // Assets only: there is no Worker script. `npm run build:cloudflare` writes ./out.
+  "assets": {
+    "directory": "./out",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  // The zone already exists. `wrangler deploy` attaches these hostnames.
+  // Remove a pattern if that hostname is not on this account.
+  "routes": [
+    { "pattern": "viangsolutions.com", "custom_domain": true },
+    { "pattern": "www.viangsolutions.com", "custom_domain": true }
+  ]
+}

@@ -20,6 +20,9 @@ interface Draft {
 
 const empty: Draft = { service: '', message: '', name: '', email: '', phone: '' };
 
+/** Static Cloudflare export has no /api/contact. The form hands off to WhatsApp. */
+const staticSite = process.env.NEXT_PUBLIC_STATIC_EXPORT === '1';
+
 function loadDraft(): Draft {
   try {
     return { ...empty, ...JSON.parse(sessionStorage.getItem(DRAFT_KEY) ?? '{}') };
@@ -86,6 +89,10 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
     setStepError('');
     setStatus('sending');
     setErrorMsg('');
+    if (staticSite) {
+      setStatus('done');
+      return;
+    }
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -105,10 +112,33 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
     }
   };
 
+  if (status === 'done' && staticSite) {
+    const text = `Hola, quiero cotizar ${draft.service}. ${draft.message}`.trim();
+    return (
+      <div role="status" className="rounded-card bg-white p-8 text-center text-ink shadow-soft">
+        <h3 className="text-xl font-bold">Envíe su solicitud por WhatsApp</h3>
+        <p className="mt-2 text-ink/70">
+          Este sitio no guarda el formulario. El mensaje va en el enlace.
+        </p>
+        {whatsapp && (
+          <a
+            href={waLink(whatsapp, text)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full bg-whatsapp px-5 py-2 font-semibold text-ink"
+          >
+            <WhatsAppIcon />
+            Abrir WhatsApp
+          </a>
+        )}
+      </div>
+    );
+  }
+
   if (status === 'done') {
     const { open } = isOpenNow(hours, new Date());
     return (
-      <div role="status" className="rounded-card bg-white p-8 text-center shadow-soft">
+      <div role="status" className="rounded-card bg-white p-8 text-center text-ink shadow-soft">
         <p className="text-4xl" aria-hidden>✅</p>
         <h3 className="mt-3 text-xl font-bold">¡Recibimos su solicitud!</h3>
         <p className="mt-2 text-ink/60">
@@ -124,7 +154,7 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
     'mt-1 w-full rounded-lg border border-ink/15 px-4 py-3 text-base outline-none transition-colors focus:border-primary-light';
 
   return (
-    <form onSubmit={submit} className="rounded-card bg-white p-6 shadow-soft md:p-8" noValidate>
+    <form onSubmit={submit} className="rounded-card bg-white p-6 text-ink shadow-soft md:p-8" noValidate>
       <div
         role="progressbar"
         aria-valuenow={step}
@@ -210,7 +240,7 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
                 onChange={(e) => update({ phone: e.target.value })} className={inputCls} />
             </div>
           </div>
-          <TurnstileWidget onToken={onToken} />
+          {!staticSite && <TurnstileWidget onToken={onToken} />}
         </div>
       )}
 

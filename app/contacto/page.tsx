@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default async function ContactPage() {
   const [settings, services] = await Promise.all([getSettings(), getServices()]);
   return (
-    <main className="bg-surface pt-24">
+    <main className="bg-primary pt-24 text-white">
       <ContactCta services={services} hours={settings.business_hours} whatsapp={settings.whatsapp} />
     </main>
   );

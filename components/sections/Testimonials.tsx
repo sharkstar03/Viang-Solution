@@ -5,7 +5,7 @@ import type { Testimonial } from '@/lib/types';
 export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
   if (testimonials.length === 0) return null;
   return (
-    <section className="bg-surface py-16 md:py-24">
+    <section className="bg-ink py-16 text-white md:py-24">
       <div className="mx-auto max-w-6xl px-4">
         <Reveal>
           <h2 className="text-center text-3xl font-bold md:text-4xl">Lo que dicen nuestros clientes</h2>
@@ -13,7 +13,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {testimonials.map((t, i) => (
             <Reveal key={t.id} delay={i * 80}>
-              <figure className="flex h-full flex-col rounded-card bg-white p-6 shadow-soft">
+              <figure className="flex h-full flex-col rounded-card bg-white p-6 text-ink shadow-soft">
                 <div aria-label={`${t.rating} de 5 estrellas`} className="text-accent">
                   {'★'.repeat(t.rating)}
                   <span className="text-ink/15">{'★'.repeat(5 - t.rating)}</span>

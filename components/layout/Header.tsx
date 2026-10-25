@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { COMPANY_NAME } from '@/lib/site';
 
 const nav = [
   { href: '/#servicios', label: 'Servicios' },
@@ -16,8 +17,8 @@ export function Header() {
   return (
     <header className="absolute inset-x-0 top-0 z-40">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-        <Link href="/" aria-label="Viang Solution — inicio">
-          <Image src="/img/white-logo.png" alt="Viang Solution" width={200} height={63} priority className="h-12 w-auto md:h-14" />
+        <Link href="/" aria-label={`${COMPANY_NAME} — inicio`}>
+          <Image src="/img/white-logo.png" alt={COMPANY_NAME} width={200} height={63} priority className="h-12 w-auto md:h-14" />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Principal">
@@ -47,13 +48,13 @@ export function Header() {
       </div>
 
       {open && (
-        <nav className="mx-4 rounded-2xl bg-white p-4 shadow-soft md:hidden" aria-label="Menú móvil">
+        <nav className="mx-4 rounded-2xl bg-ink p-4 text-white shadow-soft md:hidden" aria-label="Menú móvil">
           {nav.map((n) => (
             <Link
               key={n.href}
               href={n.href}
               onClick={() => setOpen(false)}
-              className="block rounded-lg px-4 py-3 font-medium text-ink hover:bg-surface"
+              className="block rounded-lg px-4 py-3 font-medium text-white hover:bg-white/10"
             >
               {n.label}
             </Link>

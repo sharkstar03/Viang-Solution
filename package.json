@@ -2,10 +2,13 @@
   "name": "viang-solution",
   "version": "2.0.0",
   "private": true,
-  "description": "Sitio web y captura de leads de Viang Solution",
+  "description": "Sitio web de Viangsolutions & Services",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:cloudflare": "node scripts/build-cloudflare.mjs",
+    "preview:cloudflare": "wrangler dev",
+    "deploy:cloudflare": "npm run build:cloudflare && wrangler deploy",
     "start": "next start",
     "lint": "eslint .",
     "test:unit": "vitest run tests/unit",
@@ -36,6 +39,7 @@
     "jsdom": "^30.0.1",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.11",
+    "wrangler": "^4.152.0"
   }
 }
