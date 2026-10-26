@@ -19,11 +19,17 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
   const socials = Object.entries(settings.social_links);
 
   return (
-    <footer className="bg-primary-deep text-white/90">
-      {/* ── Cuerpo ──────────────────────────────────────────── */}
+    <footer className="bg-white pb-24 text-ink md:pb-0">
+      {/* Logo siempre sobre blanco: el triángulo azul se pierde en el azul de marca. */}
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 text-center sm:grid-cols-2 sm:text-left lg:grid-cols-[1.4fr_1fr_1.2fr]">
         <div>
-          <Image src="/img/white-logo.png" alt={COMPANY_NAME} width={190} height={60} className="mx-auto h-12 w-auto sm:mx-0" />
+          <Image
+            src="/img/logo.png"
+            alt={COMPANY_NAME}
+            width={963}
+            height={259}
+            className="mx-auto h-10 w-auto sm:mx-0 md:h-12"
+          />
           <p className="mx-auto mt-4 max-w-xs text-sm leading-relaxed sm:mx-0">
             Soluciones integrales para espacios residenciales y comerciales
             de alto valor en Panamá.
@@ -39,7 +45,7 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white/80 transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-light hover:text-white"
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary hover:text-white"
                 >
                   <social.Icon className="h-5 w-5" />
                 </a>
@@ -49,7 +55,7 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
         </div>
 
         <nav aria-label="Servicios">
-          <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-white">
+          <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-primary">
             Servicios
           </h3>
           <ul className="space-y-2.5 text-sm">
@@ -57,7 +63,7 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
               <li key={s.id}>
                 <Link
                   href={`/servicios/${s.slug}`}
-                  className="inline-flex items-center gap-2 transition-colors hover:text-white"
+                  className="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-primary"
                 >
                   <span aria-hidden className="text-accent">›</span>
                   {s.title}
@@ -68,7 +74,7 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
         </nav>
 
         <div>
-          <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-white">
+          <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-primary">
             Contáctanos
           </h3>
           <ul className="space-y-3.5 text-sm">
@@ -77,28 +83,28 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
                 href={waLink(settings.whatsapp, 'Hola, me gustaría más información')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-3 transition-colors hover:text-white"
+                className="group inline-flex min-h-11 items-center gap-3 transition-colors hover:text-primary"
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-whatsapp/15 text-whatsapp transition-colors group-hover:bg-whatsapp group-hover:text-on-accent">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-whatsapp/15 text-whatsapp transition-colors group-hover:bg-whatsapp group-hover:text-on-accent">
                   <WhatsAppIcon />
                 </span>
                 <span>
-                  <span className="block font-semibold text-white">{settings.phone.replace('+507', '(507) ')}</span>
-                  <span className="text-xs text-white/80">Respuesta rápida por WhatsApp</span>
+                  <span className="block font-semibold text-ink">{settings.phone.replace('+507', '(507) ')}</span>
+                  <span className="text-xs text-ink/70">Respuesta rápida por WhatsApp</span>
                 </span>
               </a>
             </li>
             <li>
               <a
                 href={`mailto:${settings.email}`}
-                className="group inline-flex items-center gap-3 transition-colors hover:text-white"
+                className="group inline-flex min-h-11 items-center gap-3 transition-colors hover:text-primary"
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-light/20 text-primary-light transition-colors group-hover:bg-primary-light group-hover:text-white">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
                   <MailIcon />
                 </span>
                 <span>
-                  <span className="block font-semibold text-white">{settings.email}</span>
-                  <span className="text-xs text-white/80">Escríbanos cuando quiera</span>
+                  <span className="block font-semibold text-ink">{settings.email}</span>
+                  <span className="text-xs text-ink/70">Escríbanos cuando quiera</span>
                 </span>
               </a>
             </li>
@@ -107,8 +113,8 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
       </div>
 
       {/* ── Pie ─────────────────────────────────────────────── */}
-      <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-5 text-xs text-white/80 sm:flex-row">
+      <div className="border-t border-ink/10">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-5 text-xs text-ink/70 sm:flex-row">
           <p>© {year} {COMPANY_NAME}. Todos los derechos reservados.</p>
           <p>Panamá 🇵🇦</p>
         </div>

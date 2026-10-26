@@ -18,18 +18,24 @@
   --shadow-soft: 0 8px 30px rgb(2 8 23 / 0.08);
 
   --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-montserrat), var(--font-inter), system-ui, sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }
 
 /* ── Animación de aparición (Reveal) ─────────────────────────
    100% CSS: el componente solo agrega .reveal-shown al intersecar. */
 .reveal-hidden {
   opacity: 0;
-  transform: translateY(16px);
+  transform: translateY(22px);
 }
 .reveal-shown {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 300ms ease-out, transform 300ms ease-out;
+  transition: opacity 560ms ease-out, transform 560ms ease-out;
   transition-delay: var(--reveal-delay, 0ms);
 }
 @media (prefers-reduced-motion: reduce) {
@@ -54,12 +60,35 @@ html { scroll-behavior: smooth; scroll-padding-top: 5.5rem; }
 }
 
 @keyframes hero-in {
-  from { opacity: 0; transform: translateY(12px); }
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: none; }
 }
-.hero-copy { animation: hero-in 500ms ease-out both; }
+.hero-copy > * {
+  animation: hero-in 640ms ease-out both;
+}
+.hero-copy > *:nth-child(2) { animation-delay: 90ms; }
+.hero-copy > *:nth-child(3) { animation-delay: 160ms; }
+.hero-copy > *:nth-child(4) { animation-delay: 230ms; }
+
+@keyframes kenburns {
+  from { transform: scale(1.04); }
+  to { transform: scale(1.12); }
+}
+.hero-photo {
+  animation: kenburns 22s ease-out both;
+  transform-origin: center 42%;
+}
+
+@keyframes menu-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: none; }
+}
+.menu-panel { animation: menu-in 220ms ease-out both; }
+
 @media (prefers-reduced-motion: reduce) {
-  .hero-copy { animation: none; }
+  .hero-copy > * { animation: none; }
+  .hero-photo { animation: none; }
+  .menu-panel { animation: none; }
 }
 
 /* Lightbox nativo. El fondo azul deja ver que sigue siendo el sitio. */

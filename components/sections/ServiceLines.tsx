@@ -3,17 +3,19 @@ import Link from 'next/link';
 import { Reveal } from '@/components/ui/Reveal';
 import { serviceLines } from '@/lib/content/service-lines';
 
-function PhotoMosaic({ photos, label }: { photos: { src: string; alt: string; badge?: string }[]; label: string }) {
-  const shown = photos.slice(0, 4);
+function PhotoStrip({ photos, label }: { photos: { src: string; alt: string; badge?: string }[]; label: string }) {
   return (
-    <div className="grid grid-cols-2 gap-3" aria-label={label}>
-      {shown.map((photo, index) => (
-        <div key={photo.src} className={`relative aspect-[3/4] overflow-hidden rounded-2xl shadow-soft ${index > 1 ? 'hidden sm:block' : ''}`}>
+    <div
+      aria-label={label}
+      className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    >
+      {photos.map((photo) => (
+        <div key={photo.src} className="relative aspect-[3/4] w-[78%] max-w-sm shrink-0 snap-center overflow-hidden rounded-2xl shadow-soft">
           <Image
             src={photo.src}
             alt={photo.alt}
             fill
-            sizes="(min-width:1024px) 22vw, 45vw"
+            sizes="(min-width:1024px) 24rem, 78vw"
             className="object-cover"
           />
           {photo.badge && (
@@ -33,7 +35,6 @@ export function ServiceLines() {
     <div id="servicios" className="scroll-mt-24">
       {serviceLines.map((line, index) => {
         const onAccent = index % 2 === 1;
-        const featured = line.photos.slice(0, 4);
         return (
           <section
             key={line.slug}
@@ -42,19 +43,10 @@ export function ServiceLines() {
           >
             <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 lg:grid-cols-2">
               <Reveal className={index % 2 === 1 ? 'lg:order-2' : ''}>
-                {featured.length > 1 ? (
-                  <PhotoMosaic photos={featured} label={`Fotos de ${line.title}`} />
-                ) : (
-                  <div className="relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden rounded-2xl shadow-soft">
-                    <Image
-                      src={line.photos[0]!.src}
-                      alt={line.photos[0]!.alt}
-                      fill
-                      sizes="(min-width:1024px) 40vw, 100vw"
-                      className="object-cover"
-                    />
-                  </div>
-                )}
+                <p className={`mb-3 text-sm font-semibold ${onAccent ? 'text-on-accent' : 'text-white'}`}>
+                  Deslice para ver las fotos
+                </p>
+                <PhotoStrip photos={line.photos} label={`Fotos de ${line.title}`} />
               </Reveal>
               <Reveal delay={80} className={index % 2 === 1 ? 'lg:order-1' : ''}>
                 <p className={`inline-flex rounded-full px-3 py-1 text-sm font-bold ${onAccent ? 'bg-primary-deep text-white' : 'bg-accent text-on-accent'}`}>

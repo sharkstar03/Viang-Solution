@@ -30,15 +30,37 @@ export function WorkGallery() {
     });
   }, []);
 
+  const touchX = useRef<number | null>(null);
+
   return (
     <section id="trabajos" className="scroll-mt-24 bg-primary-deep py-16 text-white md:py-24">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-center text-3xl font-bold md:text-4xl">Trabajos reales</h2>
+        <p className="text-center">
+          <span className="inline-flex rounded-full bg-accent px-3 py-1 text-sm font-bold text-on-accent">Resultados reales</span>
+        </p>
+        <h2 className="mt-2 text-center text-3xl font-bold md:text-4xl">Trabajos reales</h2>
         <p className="mx-auto mt-3 max-w-2xl text-center text-lg text-white/90">
           Mármol, madera, piscinas, galpones y filtración de agua. Fotos de obras en Panamá.
-          Las marcadas «Antes» muestran el punto de partida.
+          Las marcadas «Antes» muestran el punto de partida. En el teléfono, deslice la fila.
         </p>
-        <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4 md:auto-rows-[9.5rem]">
+        <div className="mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 md:hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {workGallery.map((item, index) => (
+            <button
+              key={item.src}
+              type="button"
+              onClick={() => setActive(index)}
+              className="relative aspect-[3/4] w-[78%] shrink-0 snap-center overflow-hidden rounded-2xl border-0 bg-primary p-0 text-left"
+            >
+              <Image src={item.src} alt={item.alt} fill sizes="78vw" className="object-cover" />
+              {item.badge && (
+                <span className="absolute left-2 top-2 rounded-full bg-accent px-2.5 py-1 text-xs font-bold text-on-accent">
+                  {item.badge}
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+        <div className="mt-10 hidden gap-3 md:grid md:grid-cols-4 md:auto-rows-[9.5rem]">
           {workGallery.map((item, index) => {
             const lead = index % 7 === 0;
             return (
@@ -76,7 +98,21 @@ export function WorkGallery() {
         }}
       >
         {photo && (
-          <div className="overflow-hidden rounded-2xl bg-primary-deep text-white shadow-soft" onClick={(event) => event.stopPropagation()}>
+          <div
+            className="overflow-hidden rounded-2xl bg-primary-deep text-white shadow-soft"
+            onClick={(event) => event.stopPropagation()}
+            onTouchStart={(event) => {
+              touchX.current = event.changedTouches[0]?.clientX ?? null;
+            }}
+            onTouchEnd={(event) => {
+              const start = touchX.current;
+              touchX.current = null;
+              if (start == null) return;
+              const dx = (event.changedTouches[0]?.clientX ?? start) - start;
+              if (dx > 48) step(-1);
+              else if (dx < -48) step(1);
+            }}
+          >
             <div className="relative h-[72vh] w-[min(92vw,56rem)]">
               <Image src={photo.src} alt={photo.alt} fill sizes="92vw" className="object-contain" />
             </div>

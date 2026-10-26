@@ -25,10 +25,10 @@ export function TrustBar({ clients }: { clients: Client[] }) {
                 src={`/${c.logo_path}`}
                 alt={i < clients.length ? c.name : ''}
                 aria-hidden={i >= clients.length}
-                width={144}
-                height={64}
-                style={{ width: 'auto', height: 'auto' }}
-                className="max-h-full max-w-full object-contain opacity-60 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
+                width={112}
+                height={48}
+                loading="eager"
+                className="h-12 w-28 object-contain opacity-80 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
               />
             </div>
           ))}

@@ -17,11 +17,11 @@ export function Hero({ whatsapp }: { whatsapp: string }) {
         fill
         priority
         sizes="100vw"
-        className="object-cover object-center"
+        className="hero-photo object-cover object-center"
       />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-primary-deep via-primary-deep/80 via-40% to-transparent to-75%" />
 
-      <div className="hero-copy relative z-10 mx-auto w-full max-w-5xl px-4 pb-32 pt-32 text-white md:pb-20">
+      <div className="hero-copy relative z-10 mx-auto w-full max-w-5xl px-4 pb-44 pt-28 text-white md:pb-20 md:pt-36">
         <p className="mb-4 inline-flex rounded-full bg-accent px-3 py-1 text-sm font-bold text-on-accent">
           Panamá
         </p>

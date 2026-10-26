@@ -52,11 +52,17 @@ export const serviceLines: ServiceLine[] = [
     ],
     photos: [
       foto('marmol-vista-mar-2.jpg', 'Mármol blanco pulido que refleja ventanales con vista al mar'),
+      foto('marmol-vista-mar-3.jpg', 'Otra vista del mármol con reflejo del mar'),
+      foto('marmol-piso-alto-1.jpg', 'Piso de mármol en un nivel alto, ya pulido'),
+      foto('marmol-piso-alto-2.jpg', 'Mármol de un piso alto con brillo parejo'),
+      foto('marmol-piso-alto-3.jpg', 'Continuación del piso de mármol en altura'),
       foto('marmol-operario.jpg', 'Operario puliendo un piso de mármol'),
       foto('marmol-maquina.jpg', 'Máquina de pulido sobre mármol, con vista al mar'),
-      foto('piso-brillo.jpg', 'Piso de baldosas con brillo de espejo'),
-      foto('madera-1.jpg', 'Piso de madera restaurado'),
+      foto('marmol-pared.jpg', 'Revestimiento de mármol en pared'),
       foto('marmol-antes-mancha.jpg', 'Mármol con mancha, antes del tratamiento', 'Antes'),
+      foto('piso-brillo.jpg', 'Piso con brillo de espejo'),
+      foto('madera-1.jpg', 'Piso de madera restaurado'),
+      foto('madera-2.jpg', 'Otro piso de madera restaurado'),
     ],
   },
   {
@@ -78,8 +84,9 @@ export const serviceLines: ServiceLine[] = [
     photos: [
       foto('piscina-1.jpg', 'Operario puliendo el borde de una piscina'),
       foto('piscina-2.jpg', 'Borde de piscina en tratamiento'),
-      foto('galpon-antes-1.jpg', 'Galpón industrial antes de la limpieza post-construcción', 'Antes'),
       foto('piscina-antes.jpg', 'Borde de piscina antes del tratamiento', 'Antes'),
+      foto('galpon-antes-1.jpg', 'Galpón industrial antes de la limpieza post-construcción', 'Antes'),
+      foto('galpon-antes-2.jpg', 'Interior de galpón antes de la limpieza post-construcción', 'Antes'),
     ],
   },
   {
