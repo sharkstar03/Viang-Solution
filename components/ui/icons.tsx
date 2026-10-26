@@ -1,3 +1,5 @@
+import { LineIcon } from '@/components/ui/line-icons';
+
 /** Iconos SVG compartidos (inline: cero peticiones, tintados por currentColor). */
 
 const base = { fill: 'currentColor', 'aria-hidden': true as const };
@@ -50,27 +52,17 @@ export function LinkedInIcon({ className = 'h-5 w-5' }: { className?: string }) 
   );
 }
 
+const serviceLine: Record<string, string> = {
+  sparkles: 'floor',
+  droplets: 'clean',
+  wrench: 'install',
+};
+
 /** Iconos de servicios (mapeados por services.icon en la base). */
 export function ServiceIcon({ name, className = 'h-5 w-5' }: { name: string; className?: string }) {
+  const line = serviceLine[name];
+  if (line) return <LineIcon name={line} className={className} />;
   switch (name) {
-    case 'sparkles':
-      return (
-        <svg viewBox="0 0 24 24" className={className} {...base}>
-          <path d="M12 2l1.8 5.7L19.5 9l-5.7 1.8L12 16.5l-1.8-5.7L4.5 9l5.7-1.3L12 2Zm7 12 .9 2.6L22.5 18l-2.6.9L19 21.5l-.9-2.6-2.6-.9 2.6-1.4.9-2.6ZM5 14l.9 2.6 2.6.9-2.6.9L5 21l-.9-2.6L1.5 17.5l2.6-.9L5 14Z" />
-        </svg>
-      );
-    case 'droplets':
-      return (
-        <svg viewBox="0 0 24 24" className={className} {...base}>
-          <path d="M12 3.2s5.5 6 5.5 10a5.5 5.5 0 1 1-11 0c0-4 5.5-10 5.5-10Z" />
-        </svg>
-      );
-    case 'wrench':
-      return (
-        <svg viewBox="0 0 24 24" className={className} {...base}>
-          <path d="M21 6.8a5.5 5.5 0 0 1-7.4 6.5l-6.8 6.9a2 2 0 0 1-2.9-2.9l6.9-6.8A5.5 5.5 0 0 1 17.2 3l-3 3 .8 3 3-.8 3-2.4Z" />
-        </svg>
-      );
     case 'users':
       return (
         <svg viewBox="0 0 24 24" className={className} {...base}>

@@ -17,15 +17,15 @@ insert into services (slug, title, short_description, long_description, icon, im
 ('tratamientos-e-instalacion-de-pisos', 'Tratamientos de pisos',
  'Restauración de mármol, granito y madera: pulido con diamante, brillo, juntas, manchas y sellado.',
  E'Devolvemos el brillo al mármol, al granito y a la madera. Cada superficie se trabaja con diamante, de grano 60 a 3000, hasta dejar un acabado parejo y protegido.\n- Restauración de mármol y granito\n- Pulido con diamante, grano 60 a 3000\n- Realce de brillo\n- Tratamiento de juntas\n- Eliminación de manchas\n- Sellado\n- Pisos de madera',
- 'sparkles', 'img/trabajos/marmol-vista-mar-2.jpg', 1, true),
+ 'sparkles', 'img/obras/marmol-sala.webp', 1, true),
 ('limpieza-especializada', 'Limpieza especializada y exteriores',
  'Bordes de piscina, limpieza post-construcción, hidrolavado, pintura, fachadas y rótulos de acero.',
  E'Bordes de piscina, galpones y oficinas después de una obra, fachadas y rótulos. Una limpieza que deja el inmueble listo para usarse.\n- Bordes de piscina\n- Limpieza post-construcción de galpones y oficinas\n- Hidrolavado a presión\n- Pintura y fachadas\n- Rótulos en acero inoxidable',
- 'droplets', 'img/trabajos/piscina-1.jpg', 2, true),
+ 'droplets', 'img/obras/piscina.webp', 2, true),
 ('instalaciones-y-reparaciones', 'Instalaciones y reparaciones',
  'Filtración de agua de 3 etapas, aire acondicionado, drywall, pintura y electricidad menor.',
  E'Instalamos y reparamos lo que mantiene el espacio en funcionamiento: el agua, el aire acondicionado y los acabados.\n- Sistemas de filtración de agua de 3 etapas\n- Aire acondicionado\n- Drywall\n- Pintura\n- Electricidad menor',
- 'wrench', 'img/trabajos/filtros-agua.jpg', 3, true);
+ 'wrench', 'img/obras/techo.webp', 3, true);
 
 -- Logos aprobados por el dueño. El orden sigue a public/img/clientes/01.png … 09.png.
 insert into clients (name, logo_path, sort_order, published) values

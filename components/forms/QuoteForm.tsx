@@ -139,8 +139,7 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
     const { open } = isOpenNow(hours, new Date());
     return (
       <div role="status" className="rounded-card bg-white p-8 text-center text-ink shadow-soft">
-        <p className="text-4xl" aria-hidden>✅</p>
-        <h3 className="mt-3 text-xl font-bold">¡Recibimos su solicitud!</h3>
+        <h3 className="text-xl font-bold">¡Recibimos su solicitud!</h3>
         <p className="mt-2 text-ink/60">
           {open
             ? 'Estamos abiertos: le respondemos en los próximos minutos.'

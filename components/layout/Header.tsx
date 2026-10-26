@@ -12,28 +12,12 @@ const nav = [
   { href: '/#cotizar', label: 'Cotizar' },
 ];
 
-/** logo.png is 963×259. Rendered height is set in CSS; width stays auto. */
-const LOGO = { src: '/img/logo.png', width: 963, height: 259 } as const;
-
-function Logo({ className }: { className: string }) {
-  return (
-    <Image
-      src={LOGO.src}
-      alt={COMPANY_NAME}
-      width={LOGO.width}
-      height={LOGO.height}
-      priority
-      className={className}
-    />
-  );
-}
-
 export function Header() {
   const [open, setOpen] = useState(false);
   const [solid, setSolid] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setSolid(window.scrollY > 8);
+    const onScroll = () => setSolid(window.scrollY > 12);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -41,85 +25,71 @@ export function Header() {
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
-    return () => {
-      document.body.style.overflow = '';
-    };
+    return () => { document.body.style.overflow = ''; };
   }, [open]);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 border-b border-ink/10 text-ink transition-shadow duration-300 ${
-        solid ? 'bg-white shadow-soft' : 'bg-white/90 backdrop-blur-md'
-      }`}
-    >
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2.5">
+    <header className={`fixed inset-x-0 top-0 z-50 text-white transition-colors duration-300 ${solid ? 'bg-primary-deep' : 'bg-primary-deep/75 backdrop-blur-md'}`}>
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
         <Link href="/" aria-label={`${COMPANY_NAME} — inicio`} className="inline-flex min-h-11 items-center">
-          <Logo className="h-10 w-auto md:h-[52px]" />
+          <Image
+            src="/img/white-logo.png"
+            alt={COMPANY_NAME}
+            width={800}
+            height={215}
+            priority
+            className="h-9 w-auto md:h-12"
+          />
         </Link>
-
-        <nav className="hidden items-center gap-7 md:flex" aria-label="Principal">
-          {nav.map((n) => (
-            <Link key={n.href} href={n.href} className="font-medium text-ink transition-colors hover:text-primary">
-              {n.label}
+        <nav className="hidden items-center gap-8 md:flex" aria-label="Principal">
+          {nav.map((item) => (
+            <Link key={item.href} href={item.href} className="text-sm tracking-wide text-white/80 transition-colors hover:text-white">
+              {item.label}
             </Link>
           ))}
-          <Link
-            href="/#cotizar"
-            className="inline-flex min-h-11 items-center rounded-full bg-accent px-6 font-semibold text-on-accent transition-all hover:brightness-105 active:scale-[0.98]"
-          >
-            Contáctanos
+          <Link href="/#cotizar" className="inline-flex min-h-11 items-center border border-accent/80 px-5 text-sm tracking-wide text-accent transition-colors hover:bg-accent hover:text-on-accent">
+            Cotice sin compromiso
           </Link>
         </nav>
-
         <button
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center md:hidden"
           aria-label="Abrir menú"
           aria-expanded={open}
           aria-hidden={open}
           tabIndex={open ? -1 : 0}
           onClick={() => setOpen(true)}
         >
-          <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-            {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden>
+            <path d="M4 7h16M4 12h16M4 17h10" />
           </svg>
         </button>
       </div>
 
       {open && (
-        <nav
-          className="menu-panel fixed inset-0 z-50 flex flex-col bg-white px-6 pb-8 pt-4 text-ink md:hidden"
-          aria-label="Menú móvil"
-        >
+        <nav className="menu-panel fixed inset-0 z-50 flex flex-col bg-primary-deep px-6 pb-10 pt-4 md:hidden" aria-label="Menú móvil">
           <div className="flex items-center justify-between">
-            <Logo className="h-10 w-auto" />
-            <button
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink"
-              aria-label="Cerrar menú"
-              onClick={() => setOpen(false)}
-            >
-              <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-                <path d="M6 6l12 12M18 6L6 18" />
+            <Image src="/img/white-logo.png" alt="" width={800} height={215} className="h-9 w-auto" />
+            <button className="inline-flex h-11 w-11 items-center justify-center" aria-label="Cerrar menú" onClick={() => setOpen(false)}>
+              <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden>
+                <path d="M6 6l12 12M18 6 6 18" />
               </svg>
             </button>
           </div>
-          <div className="mt-10 flex flex-1 flex-col gap-2">
-            {nav.map((n) => (
+          <div className="mt-16 flex flex-1 flex-col">
+            {nav.map((item, index) => (
               <Link
-                key={n.href}
-                href={n.href}
+                key={item.href}
+                href={item.href}
                 onClick={() => setOpen(false)}
-                className="flex min-h-14 items-center rounded-2xl px-2 font-display text-3xl font-semibold text-ink active:bg-primary/5"
+                className="flex min-h-16 items-baseline gap-4 border-b border-white/10 font-display text-4xl text-white"
               >
-                {n.label}
+                <span className="font-sans text-xs tracking-[0.2em] text-accent">0{index + 1}</span>
+                {item.label}
               </Link>
             ))}
           </div>
-          <Link
-            href="/#cotizar"
-            onClick={() => setOpen(false)}
-            className="inline-flex min-h-12 items-center justify-center rounded-full bg-accent text-lg font-semibold text-on-accent"
-          >
-            Contáctanos
+          <Link href="/#cotizar" onClick={() => setOpen(false)} className="inline-flex min-h-12 items-center justify-center border border-accent text-sm tracking-wide text-accent">
+            Cotice sin compromiso
           </Link>
         </nav>
       )}

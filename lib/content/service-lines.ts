@@ -1,6 +1,6 @@
 import type { Service } from '@/lib/types';
 
-/** Foto real en public/img/trabajos/. El dueño coloca el JPG en el deploy. */
+/** Foto real optimizada en public/img/obras/. */
 export interface WorkPhoto {
   src: string;
   alt: string;
@@ -21,7 +21,7 @@ export interface ServiceLine {
 }
 
 const foto = (file: string, alt: string, badge?: string): WorkPhoto => ({
-  src: `/img/trabajos/${file}`,
+  src: `/img/obras/${file}`,
   alt,
   badge,
 });
@@ -40,7 +40,7 @@ export const serviceLines: ServiceLine[] = [
     intro:
       'Devolvemos el brillo al mármol, al granito y a la madera. Cada superficie se trabaja con diamante, de grano 60 a 3000, hasta dejar un acabado parejo y protegido.',
     icon: 'sparkles',
-    cover: 'img/trabajos/marmol-vista-mar-2.jpg',
+    cover: 'img/obras/marmol-sala.webp',
     bullets: [
       'Restauración de mármol y granito',
       'Pulido con diamante, grano 60 a 3000',
@@ -51,18 +51,14 @@ export const serviceLines: ServiceLine[] = [
       'Pisos de madera',
     ],
     photos: [
-      foto('marmol-vista-mar-2.jpg', 'Mármol blanco pulido que refleja ventanales con vista al mar'),
-      foto('marmol-vista-mar-3.jpg', 'Otra vista del mármol con reflejo del mar'),
-      foto('marmol-piso-alto-1.jpg', 'Piso de mármol en un nivel alto, ya pulido'),
-      foto('marmol-piso-alto-2.jpg', 'Mármol de un piso alto con brillo parejo'),
-      foto('marmol-piso-alto-3.jpg', 'Continuación del piso de mármol en altura'),
-      foto('marmol-operario.jpg', 'Operario puliendo un piso de mármol'),
-      foto('marmol-maquina.jpg', 'Máquina de pulido sobre mármol, con vista al mar'),
-      foto('marmol-pared.jpg', 'Revestimiento de mármol en pared'),
-      foto('marmol-antes-mancha.jpg', 'Mármol con mancha, antes del tratamiento', 'Antes'),
-      foto('piso-brillo.jpg', 'Piso con brillo de espejo'),
-      foto('madera-1.jpg', 'Piso de madera restaurado'),
-      foto('madera-2.jpg', 'Otro piso de madera restaurado'),
+      foto('marmol-sala.webp', 'Comedor con piso de mármol oscuro y vista a la ciudad'),
+      foto('marmol-brillo.webp', 'Mármol pulido que refleja los ventanales'),
+      foto('marmol-operario.webp', 'Operario con pulidora sobre mármol, vista al jardín'),
+      foto('marmol-pasillo.webp', 'Operario puliendo un pasillo de mármol'),
+      foto('marmol-mar.webp', 'Sala de mármol pulido con vista al mar'),
+      foto('marmol-comedor.webp', 'Comedor con piso de mármol en brillo'),
+      foto('madera.webp', 'Deck de madera junto al bosque'),
+      foto('oficina.webp', 'Oficina con porcelanato en brillo'),
     ],
   },
   {
@@ -73,7 +69,7 @@ export const serviceLines: ServiceLine[] = [
     intro:
       'Bordes de piscina, galpones y oficinas después de una obra, fachadas y rótulos. Una limpieza que deja el inmueble listo para usarse.',
     icon: 'droplets',
-    cover: 'img/trabajos/piscina-1.jpg',
+    cover: 'img/obras/piscina.webp',
     bullets: [
       'Bordes de piscina',
       'Limpieza post-construcción de galpones y oficinas',
@@ -82,11 +78,13 @@ export const serviceLines: ServiceLine[] = [
       'Rótulos en acero inoxidable',
     ],
     photos: [
-      foto('piscina-1.jpg', 'Operario puliendo el borde de una piscina'),
-      foto('piscina-2.jpg', 'Borde de piscina en tratamiento'),
-      foto('piscina-antes.jpg', 'Borde de piscina antes del tratamiento', 'Antes'),
-      foto('galpon-antes-1.jpg', 'Galpón industrial antes de la limpieza post-construcción', 'Antes'),
-      foto('galpon-antes-2.jpg', 'Interior de galpón antes de la limpieza post-construcción', 'Antes'),
+      foto('piscina.webp', 'Borde de piscina en travertino, con deck y grama'),
+      foto('travertino.webp', 'Terraza de travertino hacia el jardín'),
+      foto('terraza-mar.webp', 'Terraza de travertino con balaustrada y vista al mar'),
+      foto('terraza-operario.webp', 'Operario en una terraza de travertino con vista al mar'),
+      foto('post-obra.webp', 'Pasillo protegido durante la limpieza post-construcción'),
+      foto('concreto.webp', 'Galera con concreto pulido'),
+      foto('pintura.webp', 'Pintura de pared con rodillo'),
     ],
   },
   {
@@ -97,7 +95,7 @@ export const serviceLines: ServiceLine[] = [
     intro:
       'Instalamos y reparamos lo que mantiene el espacio en funcionamiento: el agua, el aire acondicionado y los acabados.',
     icon: 'wrench',
-    cover: 'img/trabajos/filtros-agua.jpg',
+    cover: 'img/obras/techo.webp',
     bullets: [
       'Sistemas de filtración de agua de 3 etapas',
       'Aire acondicionado',
@@ -106,31 +104,29 @@ export const serviceLines: ServiceLine[] = [
       'Electricidad menor',
     ],
     photos: [
-      foto('filtros-agua.jpg', 'Sistema de filtros de agua azules, de tres etapas'),
+      foto('techo.webp', 'Estructura metálica de techo en obra'),
+      foto('vinil.webp', 'Piso de vinilo ya instalado'),
+      foto('oficina.webp', 'Oficina con porcelanato pulido'),
+      foto('pintura.webp', 'Trabajo de pintura en pared'),
     ],
   },
 ];
 
 export const workGallery: WorkPhoto[] = [
-  foto('marmol-vista-mar-1.jpg', 'Mármol blanco pulido que refleja ventanales con vista al mar'),
-  foto('marmol-vista-mar-2.jpg', 'Detalle del mármol pulido frente al ventanal'),
-  foto('marmol-vista-mar-3.jpg', 'Otra vista del mármol con reflejo del mar'),
-  foto('marmol-piso-alto-1.jpg', 'Piso de mármol en un nivel alto, ya pulido'),
-  foto('marmol-piso-alto-2.jpg', 'Mármol de un piso alto con brillo parejo'),
-  foto('marmol-piso-alto-3.jpg', 'Continuación del piso de mármol en altura'),
-  foto('marmol-operario.jpg', 'Operario puliendo mármol'),
-  foto('marmol-maquina.jpg', 'Máquina de pulido sobre mármol, con vista al mar'),
-  foto('marmol-pared.jpg', 'Revestimiento de mármol en pared'),
-  foto('marmol-antes-mancha.jpg', 'Mancha en el mármol, antes del tratamiento', 'Antes'),
-  foto('piso-brillo.jpg', 'Piso con brillo de espejo'),
-  foto('madera-1.jpg', 'Piso de madera'),
-  foto('madera-2.jpg', 'Otro piso de madera restaurado'),
-  foto('piscina-1.jpg', 'Pulido del borde de una piscina'),
-  foto('piscina-2.jpg', 'Borde de piscina durante el trabajo'),
-  foto('piscina-antes.jpg', 'Borde de piscina antes del tratamiento', 'Antes'),
-  foto('galpon-antes-1.jpg', 'Galpón antes de la limpieza post-construcción', 'Antes'),
-  foto('galpon-antes-2.jpg', 'Interior de galpón antes de la limpieza post-construcción', 'Antes'),
-  foto('filtros-agua.jpg', 'Filtros de agua de tres etapas'),
+  foto('marmol-sala.webp', 'Comedor con piso de mármol oscuro y vista a la ciudad'),
+  foto('marmol-brillo.webp', 'Mármol pulido que refleja los ventanales'),
+  foto('marmol-mar.webp', 'Sala de mármol pulido con vista al mar'),
+  foto('marmol-operario.webp', 'Pulido de mármol con máquina, vista al jardín'),
+  foto('piscina.webp', 'Borde de piscina en travertino'),
+  foto('travertino.webp', 'Terraza de travertino hacia el jardín'),
+  foto('terraza-mar.webp', 'Terraza con vista al mar'),
+  foto('madera.webp', 'Deck de madera'),
+  foto('concreto.webp', 'Concreto pulido en galera industrial'),
+  foto('post-obra.webp', 'Limpieza post-construcción en un pasillo'),
+  foto('oficina.webp', 'Porcelanato en brillo, oficina'),
+  foto('pintura.webp', 'Pintura de interiores'),
+  foto('techo.webp', 'Estructura de techo en obra'),
+  foto('vinil.webp', 'Instalación de vinilo'),
 ];
 
 export const processSteps = [

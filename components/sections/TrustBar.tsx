@@ -1,36 +1,27 @@
 import Image from 'next/image';
 import type { Client } from '@/lib/types';
 
-/**
- * Prueba social inmediatamente bajo el hero. Marquesina 100% CSS,
- * pausada al hover y desactivada con prefers-reduced-motion.
- */
 export function TrustBar({ clients }: { clients: Client[] }) {
   if (clients.length === 0) return null;
-  const loop = [...clients, ...clients]; // duplicado para el loop continuo
+  const loop = [...clients, ...clients];
 
   return (
-    <section id="clientes" aria-label="Clientes que confían en nosotros" className="scroll-mt-24 border-y border-white/15 bg-primary-deep py-12 text-white">
-      <p className="mb-6 text-center text-sm font-semibold uppercase tracking-wider text-white">
+    <section id="clientes" aria-label="Clientes que confían en nosotros" className="scroll-mt-24 border-y border-ink/10 bg-marble py-12 text-ink">
+      <p className="mb-8 text-center font-sans text-xs uppercase tracking-[0.28em] text-ink/60">
         Empresas que confían en nosotros
       </p>
       <div className="overflow-hidden">
-        <div className="marquee-track flex w-max items-center gap-14 px-7">
-          {loop.map((c, i) => (
-            <div
-              key={`${c.id}-${i}`}
-              className="flex h-16 w-36 shrink-0 items-center justify-center rounded-lg bg-white px-3"
-            >
-              <Image
-                src={`/${c.logo_path}`}
-                alt={i < clients.length ? c.name : ''}
-                aria-hidden={i >= clients.length}
-                width={112}
-                height={48}
-                loading="eager"
-                className="h-12 w-28 object-contain opacity-80 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
-              />
-            </div>
+        <div className="marquee-track flex w-max items-center gap-16 px-8">
+          {loop.map((client, index) => (
+            <Image
+              key={`${client.id}-${index}`}
+              src={`/${client.logo_path}`}
+              alt={index < clients.length ? client.name : ''}
+              aria-hidden={index >= clients.length}
+              width={140}
+              height={48}
+              className="h-10 w-[8.5rem] object-contain"
+            />
           ))}
         </div>
       </div>

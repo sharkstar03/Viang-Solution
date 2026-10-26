@@ -14,7 +14,7 @@ test.describe('móvil', () => {
     await page.waitForLoadState('networkidle');
     expect(videoRequests).toHaveLength(0);
 
-    const quote = page.getByRole('link', { name: /solicitar cotización/i }).first();
+    const quote = page.getByRole('link', { name: /cotice sin compromiso/i }).first();
     await expect(quote).toBeVisible();
     await expect(quote).toHaveAttribute('href', /wa\.me\/\d+/);
     await expect(page.getByRole('link', { name: /ver servicios/i }).first()).toBeVisible();

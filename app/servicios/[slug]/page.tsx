@@ -2,9 +2,8 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Button } from '@/components/ui/Button';
+import { LineIcon } from '@/components/ui/line-icons';
 import { Reveal } from '@/components/ui/Reveal';
-import { ServiceIcon, WhatsAppIcon } from '@/components/ui/icons';
 import { getServiceBySlug, getServices, getSettings } from '@/lib/content/queries';
 import { serviceLineBySlug } from '@/lib/content/service-lines';
 import { serviceJsonLd, faqJsonLd } from '@/lib/seo';
@@ -12,6 +11,12 @@ import { waLink } from '@/lib/whatsapp';
 
 // Solo las rutas de generateStaticParams. `true` no se puede exportar como sitio estático.
 export const dynamicParams = false;
+
+const lineIcons: Record<string, string> = {
+  sparkles: 'floor',
+  droplets: 'clean',
+  wrench: 'install',
+};
 
 export async function generateStaticParams() {
   const services = await getServices();
@@ -58,87 +63,84 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
   const ldService = serviceJsonLd(service, settings);
   const ldFaq = faqJsonLd(service.faq);
   const waHref = waLink(settings.whatsapp, `Hola, me interesa ${title}`);
+  const icon = lineIcons[line?.icon ?? service.icon] ?? 'floor';
 
   return (
-    <main>
+    <main className="bg-marble text-ink">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ldService) }} />
       {ldFaq && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ldFaq) }} />
       )}
 
-      {/* ── Portada ─────────────────────────────────────────── */}
-      <section className="relative flex min-h-[52svh] items-end bg-primary">
-        {cover && (
-          <Image src={`/${cover}`} alt="" fill priority sizes="100vw" className="object-cover" />
-        )}
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-primary-deep via-primary-deep/75 to-primary/25" />
-        <div className="relative z-10 mx-auto w-full max-w-5xl px-4 pb-12 pt-36">
-          <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-1.5 text-sm font-bold text-on-accent">
-            <ServiceIcon name={service.icon} className="h-4 w-4" />
-            Servicio especializado
-          </p>
-          <h1 className="max-w-2xl text-3xl font-bold text-white md:text-5xl">{title}</h1>
-          <p className="mt-4 max-w-xl text-lg text-white">{summary}</p>
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Button variant="accent" size="lg" asChild>
-              <a href={waHref} target="_blank" rel="noopener noreferrer">
-                <WhatsAppIcon className="h-5 w-5" />
-                Solicitar cotización
+      <section className="bg-primary-deep text-white">
+        <div className="mx-auto grid max-w-6xl items-end gap-10 px-5 pb-16 pt-28 md:grid-cols-2 md:pt-36">
+          <div>
+            <p className="flex items-center gap-3 font-sans text-xs uppercase tracking-[0.28em] text-accent">
+              <LineIcon name={icon} className="h-4 w-4" />
+              Servicio
+            </p>
+            <h1 className="mt-4 max-w-xl text-4xl leading-none md:text-6xl">{title}</h1>
+            <p className="mt-5 max-w-md text-base leading-relaxed text-white/75 md:text-lg">{summary}</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a
+                href={waHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-12 items-center justify-center bg-white px-7 text-sm tracking-wide text-ink"
+              >
+                Cotice sin compromiso
                 <span className="sr-only"> por WhatsApp</span>
               </a>
-            </Button>
-            <Button variant="secondary" size="lg" asChild>
-              <Link href="/#cotizar">Cotizar en línea</Link>
-            </Button>
+              <Link
+                href="/#cotizar"
+                className="inline-flex min-h-12 items-center justify-center border border-white/35 px-7 text-sm tracking-wide text-white"
+              >
+                Completar el formulario
+              </Link>
+            </div>
           </div>
+          {cover && (
+            <div className="relative aspect-[4/5] overflow-hidden shadow-[24px_32px_60px_rgb(0_0_0/0.35)]">
+              <Image src={`/${cover}`} alt="" fill priority sizes="(min-width:768px) 46vw, 100vw" className="object-cover" />
+            </div>
+          )}
         </div>
       </section>
 
-      {/* ── Qué incluye ─────────────────────────────────────── */}
-      <section className="bg-primary py-14 text-white md:py-20">
-        <div className="mx-auto max-w-5xl px-4">
+      <section className="py-16 md:py-24">
+        <div className="mx-auto max-w-6xl px-5">
           <Reveal>
             {intro.map((p) => (
-              <p key={p} className="mx-auto max-w-3xl text-center text-lg leading-relaxed text-white/90">
+              <p key={p} className="max-w-3xl text-lg leading-relaxed text-ink/80 md:text-xl">
                 {p}
               </p>
             ))}
           </Reveal>
-
-          <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {items.map((item, i) => (
-              <Reveal key={item} delay={i * 60}>
-                <div className="flex h-full items-start gap-3 rounded-card border border-white/10 bg-white p-5 text-ink shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-on-accent">
-                    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden>
-                      <path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2Z" />
-                    </svg>
-                  </span>
-                  <p className="text-ink/80">{item}</p>
-                </div>
-              </Reveal>
+          <ul className="mt-12 grid gap-x-16 sm:grid-cols-2">
+            {items.map((item) => (
+              <li key={item} className="flex min-h-12 items-center gap-4 border-t border-ink/10 py-3 text-sm">
+                <span className="h-px w-6 bg-accent" aria-hidden />
+                {item}
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
-      {/* ── Galería de ambiente ─────────────────────────────── */}
       {gallery.length > 0 && (
-        <section className="bg-primary-deep py-14 text-white md:py-20">
-          <div className="mx-auto max-w-5xl px-4">
+        <section className="bg-primary py-16 text-white md:py-24">
+          <div className="mx-auto max-w-6xl px-5">
             <Reveal>
-              <h2 className="text-center text-2xl font-bold md:text-3xl">Fotos de este servicio</h2>
+              <p className="font-sans text-xs uppercase tracking-[0.28em] text-accent">Registro</p>
+              <h2 className="mt-3 text-4xl leading-none md:text-5xl">En obra</h2>
             </Reveal>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            <div className="mt-10 grid gap-4 sm:grid-cols-2">
               {gallery.map((img, i) => (
-                <Reveal key={img.src} delay={i * 80}>
-                  <div className="relative h-60 overflow-hidden rounded-card shadow-soft md:h-72">
+                <Reveal key={img.src} delay={i * 50}>
+                  <figure className="relative aspect-[4/5] overflow-hidden bg-primary-deep">
                     <Image src={img.src} alt={img.alt} fill
-                      sizes="(min-width:640px) 50vw, 100vw" className="object-cover transition-transform duration-500 hover:scale-105" />
-                    {img.badge && (
-                      <span className="absolute left-3 top-3 rounded-full bg-accent px-2.5 py-1 text-xs font-bold text-on-accent">{img.badge}</span>
-                    )}
-                  </div>
+                      sizes="(min-width:640px) 46vw, 100vw" className="object-cover" />
+                  </figure>
                 </Reveal>
               ))}
             </div>
@@ -146,19 +148,18 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         </section>
       )}
 
-      {/* ── FAQ ─────────────────────────────────────────────── */}
       {service.faq.length > 0 && (
-        <section className="bg-primary py-14 text-white md:py-20">
-          <div className="mx-auto max-w-3xl px-4">
-            <h2 className="text-center text-2xl font-bold md:text-3xl">Preguntas frecuentes</h2>
-            <div className="mt-7 space-y-3">
+        <section className="py-16 md:py-24">
+          <div className="mx-auto max-w-3xl px-5">
+            <h2 className="text-4xl leading-none">Preguntas frecuentes</h2>
+            <div className="mt-8 divide-y divide-ink/10 border-y border-ink/10">
               {service.faq.map((f) => (
-                <details key={f.question} className="group rounded-card border border-white/10 bg-white text-ink">
-                  <summary className="flex min-h-11 cursor-pointer items-center justify-between gap-3 px-5 py-3.5 font-semibold [&::-webkit-details-marker]:hidden">
+                <details key={f.question} className="group">
+                  <summary className="flex min-h-14 cursor-pointer items-center justify-between gap-4 py-4 font-medium [&::-webkit-details-marker]:hidden">
                     {f.question}
-                    <span aria-hidden className="text-primary-light transition-transform group-open:rotate-45">＋</span>
+                    <span aria-hidden className="text-accent transition-transform group-open:rotate-45">+</span>
                   </summary>
-                  <p className="px-5 pb-4 text-ink/70">{f.answer}</p>
+                  <p className="pb-5 text-sm leading-relaxed text-ink/70">{f.answer}</p>
                 </details>
               ))}
             </div>
@@ -166,50 +167,54 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         </section>
       )}
 
-      {/* ── CTA final ───────────────────────────────────────── */}
-      <section className="bg-accent px-4 py-14 text-on-accent md:py-20">
+      <section className="bg-primary-deep px-5 py-16 text-white md:py-24">
         <Reveal>
-          <div className="mx-auto max-w-5xl rounded-card bg-white p-8 text-center text-ink shadow-soft md:p-12">
-            <h2 className="text-2xl font-bold md:text-3xl">¿Hablamos de su proyecto?</h2>
-            <p className="mx-auto mt-2 max-w-md text-ink/75">
-              Cuéntenos qué necesita y reciba una cotización a medida.
+          <div className="mx-auto max-w-3xl">
+            <p className="font-sans text-xs uppercase tracking-[0.28em] text-accent">Siguiente paso</p>
+            <h2 className="mt-3 text-4xl leading-none md:text-6xl">Cotice sin compromiso</h2>
+            <p className="mt-5 max-w-md text-white/70">
+              Cuéntenos el espacio. Respondemos por WhatsApp con el alcance por escrito.
             </p>
-            <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-              <Button variant="whatsapp" size="lg" asChild>
-                <a href={waHref} target="_blank" rel="noopener noreferrer">
-                  <WhatsAppIcon className="h-5 w-5" />
-                  Solicitar cotización
-                  <span className="sr-only"> por WhatsApp</span>
-                </a>
-              </Button>
-              <Button variant="primary" size="lg" asChild>
-                <Link href="/#cotizar">Cotizar en línea</Link>
-              </Button>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a
+                href={waHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-12 items-center justify-center bg-white px-7 text-sm tracking-wide text-ink"
+              >
+                Cotice sin compromiso
+                <span className="sr-only"> por WhatsApp</span>
+              </a>
+              <Link
+                href="/#cotizar"
+                className="inline-flex min-h-12 items-center justify-center border border-white/35 px-7 text-sm tracking-wide"
+              >
+                Completar el formulario
+              </Link>
             </div>
           </div>
         </Reveal>
       </section>
 
-      {/* ── Otros servicios ─────────────────────────────────── */}
       {others.length > 0 && (
-        <section className="border-t border-white/15 bg-primary-deep py-14 text-white">
-          <div className="mx-auto max-w-5xl px-4">
-            <h2 className="text-center text-xl font-bold text-white">También le puede interesar</h2>
-            <div className="mt-7 flex flex-wrap justify-center gap-5">
+        <section className="border-t border-ink/10 py-16">
+          <div className="mx-auto max-w-6xl px-5">
+            <h2 className="font-sans text-xs font-medium uppercase tracking-[0.22em] text-ink/60">También le puede interesar</h2>
+            <div className="mt-6 grid gap-px bg-ink/10 sm:grid-cols-2">
               {others.map((s) => (
                 <Link
                   key={s.id}
                   href={`/servicios/${s.slug}`}
-                  className="group flex w-full items-center gap-4 rounded-card bg-white p-4 text-ink shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:w-[calc(50%-0.625rem)]"
+                  className="flex items-center gap-4 bg-marble p-5 transition-colors hover:bg-white"
                 >
                   {s.image_path && (
-                    <div className="relative h-16 w-20 shrink-0 overflow-hidden rounded-lg">
-                      <Image src={`/${s.image_path}`} alt="" fill quality={55} sizes="80px" className="object-cover" />
+                    <div className="relative h-20 w-16 shrink-0 overflow-hidden">
+                      <Image src={`/${s.image_path}`} alt="" fill sizes="64px" className="object-cover" />
                     </div>
                   )}
                   <div>
-                    <p className="font-bold group-hover:text-primary-light">{s.title}</p>
-                    <span className="text-sm font-semibold text-primary-light">Ver más →</span>
+                    <p className="font-display text-2xl">{s.title}</p>
+                    <span className="text-xs uppercase tracking-[0.18em] text-accent">Ver servicio</span>
                   </div>
                 </Link>
               ))}

@@ -58,7 +58,7 @@ describe('Services', () => {
 describe('Hero', () => {
   it('pide la cotización por WhatsApp y enlaza los servicios', () => {
     render(<Hero whatsapp="+50767340816" />);
-    const quote = screen.getByRole('link', { name: /solicitar cotización/i });
+    const quote = screen.getByRole('link', { name: /cotice sin compromiso/i });
     expect(quote.getAttribute('href')).toContain('wa.me/50767340816');
     expect(screen.getByRole('link', { name: /ver servicios/i }).getAttribute('href')).toBe('/#servicios');
   });

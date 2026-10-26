@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Montserrat } from 'next/font/google';
+import { Fraunces, Outfit } from 'next/font/google';
 import { getServices, getSettings } from '@/lib/content/queries';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -8,10 +8,14 @@ import { MobileDock } from '@/components/layout/MobileDock';
 import { COMPANY_NAME, SITE_URL } from '@/lib/site';
 import './globals.css';
 
-// next/font descarga Inter en build y la sirve desde el propio dominio:
-// cero peticiones a CDNs en runtime.
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
-const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat', display: 'swap', weight: ['600', '700'] });
+// next/font descarga las fuentes en build y las sirve desde el propio dominio.
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', display: 'swap' });
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-fraunces',
+  display: 'swap',
+  axes: ['SOFT', 'WONK'],
+});
 
 // ISR en el servidor Node. El build de Cloudflare reescribe esta línea a
 // `false` (un ternario no es una config de segmento válida para el export).
@@ -36,8 +40,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const [settings, services] = await Promise.all([getSettings(), getServices()]);
 
   return (
-    <html lang="es" className={`${inter.variable} ${montserrat.variable}`}>
-      <body className="bg-primary font-sans text-white antialiased">
+    <html lang="es" className={`${outfit.variable} ${fraunces.variable}`}>
+      <body className="bg-marble font-sans text-ink antialiased">
         <Header />
         {children}
         <Footer settings={settings} services={services} />

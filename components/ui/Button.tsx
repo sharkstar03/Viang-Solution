@@ -24,7 +24,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export function Button({ variant = 'primary', size = 'md', asChild, children, className = '', ...rest }: ButtonProps) {
-  const cls = `inline-flex min-h-11 items-center justify-center gap-2 rounded-full font-semibold shadow-soft transition-all duration-200 hover:shadow-lg active:scale-[0.98] ${variants[variant]} ${sizes[size]} ${className}`;
+  const cls = `inline-flex min-h-11 items-center justify-center gap-2 font-medium tracking-wide transition-transform duration-200 active:scale-[0.98] ${variants[variant]} ${sizes[size]} ${className}`;
   if (asChild && React.isValidElement(children)) {
     const child = children as React.ReactElement<{ className?: string }>;
     return React.cloneElement(child, {

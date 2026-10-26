@@ -8,7 +8,7 @@ export default function NotFound() {
   const whatsapp = process.env.NEXT_PUBLIC_CONTACT_WHATSAPP || PUBLIC_WHATSAPP;
   const phone = process.env.NEXT_PUBLIC_CONTACT_PHONE || PUBLIC_PHONE;
   return (
-    <main className="flex min-h-[70svh] flex-col items-center justify-center px-4 pt-24 text-center text-white">
+    <main className="flex min-h-[70svh] flex-col items-center justify-center bg-primary-deep px-4 pt-24 text-center text-white">
       <p className="text-6xl font-bold text-accent">404</p>
       <h1 className="mt-3 text-2xl font-bold">Esta página no existe</h1>
       <p className="mt-2 max-w-md text-white/75">
