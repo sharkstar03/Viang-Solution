@@ -68,6 +68,11 @@ const paths: Record<string, React.ReactNode> = {
       <path d="M12 8v4.5L15 15" />
     </>
   ),
+  phone: (
+    <>
+      <path d="M8 4h2.5l1.2 3.2-1.8 1a12 12 0 0 0 5.9 5.9l1-1.8 3.2 1.2V16a2 2 0 0 1-2 2A14 14 0 0 1 4 6a2 2 0 0 1 2-2Z" />
+    </>
+  ),
   chat: (
     <>
       <path d="M5 16.5 4 20l3.6-1.2A8 8 0 1 0 5 16.5Z" />

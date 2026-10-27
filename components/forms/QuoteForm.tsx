@@ -20,6 +20,16 @@ interface Draft {
 
 const empty: Draft = { service: '', message: '', name: '', email: '', phone: '' };
 
+function quoteWhatsAppText(draft: Draft): string {
+  return [
+    `Servicio: ${draft.service}`,
+    `Detalles: ${draft.message}`,
+    `Nombre: ${draft.name}`,
+    `Correo: ${draft.email}`,
+    `Teléfono: ${draft.phone}`,
+  ].join('\n');
+}
+
 /** Static Cloudflare export has no /api/contact. The form hands off to WhatsApp. */
 const staticSite = process.env.NEXT_PUBLIC_STATIC_EXPORT === '1';
 
@@ -113,7 +123,7 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
   };
 
   if (status === 'done' && staticSite) {
-    const text = `Hola, quiero cotizar ${draft.service}. ${draft.message}`.trim();
+    const text = quoteWhatsAppText(draft);
     return (
       <div role="status" className="rounded-card bg-white p-8 text-center text-ink shadow-soft">
         <h3 className="text-xl font-bold">Envíe su solicitud por WhatsApp</h3>
@@ -256,7 +266,7 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
           {errorMsg && <p className="mt-1 text-red-600">{errorMsg}</p>}
           {whatsapp && (
             <a
-              href={waLink(whatsapp, `Hola, quiero cotizar ${draft.service}. ${draft.message}`)}
+              href={waLink(whatsapp, quoteWhatsAppText(draft))}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-full bg-whatsapp px-5 py-2 font-semibold text-white"

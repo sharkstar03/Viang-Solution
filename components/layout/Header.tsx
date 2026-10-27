@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { COMPANY_NAME } from '@/lib/site';
@@ -23,10 +23,24 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => {
+  // useLayoutEffect so the lock is gone before the next frame's scroll.
+  useLayoutEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [open]);
+
+  const followHash = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const id = href.split('#')[1];
+    const target = id ? document.getElementById(id) : null;
+    if (!target) return;
+    // A hash change while overflow is hidden does not move the page.
+    event.preventDefault();
+    setOpen(false);
+    requestAnimationFrame(() => {
+      target.scrollIntoView({ block: 'start' });
+      history.pushState(null, '', `${window.location.pathname}${window.location.search}#${id}`);
+    });
+  };
 
   return (
     <header className={`fixed inset-x-0 top-0 z-50 text-white transition-colors duration-300 ${solid ? 'bg-primary-deep' : 'bg-primary-deep/75 backdrop-blur-md'}`}>
@@ -80,7 +94,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={() => setOpen(false)}
+                onClick={(event) => followHash(event, item.href)}
                 className="flex min-h-16 items-baseline gap-4 border-b border-white/10 font-display text-4xl text-white"
               >
                 <span className="font-sans text-xs tracking-[0.2em] text-accent">0{index + 1}</span>
@@ -88,7 +102,7 @@ export function Header() {
               </Link>
             ))}
           </div>
-          <Link href="/#cotizar" onClick={() => setOpen(false)} className="inline-flex min-h-12 items-center justify-center border border-accent text-sm tracking-wide text-accent">
+          <Link href="/#cotizar" onClick={(event) => followHash(event, '/#cotizar')} className="inline-flex min-h-12 items-center justify-center border border-accent text-sm tracking-wide text-accent">
             Cotice sin compromiso
           </Link>
         </nav>

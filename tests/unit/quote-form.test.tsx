@@ -69,7 +69,16 @@ describe('QuoteForm', () => {
     fireEvent.click(screen.getByRole('button', { name: /enviar/i }));
     await waitFor(() => expect(screen.getByText(/su mensaje está guardado/i)).toBeTruthy());
     const wa = screen.getByRole('link', { name: /whatsapp/i });
-    expect(wa.getAttribute('href')).toContain('wa.me/50767340816');
+    const href = wa.getAttribute('href') ?? '';
+    expect(href).toContain('wa.me/50767340816');
+    const text = decodeURIComponent(href.split('text=')[1] ?? '');
+    expect(text).toBe([
+      'Servicio: Servicio 2',
+      'Detalles: Necesito pulir el piso de mármol de mi sala.',
+      'Nombre: María Pérez',
+      'Correo: m@e.com',
+      'Teléfono: 60000000',
+    ].join('\n'));
     expect(sessionStorage.getItem('viang-quote-draft')).not.toBeNull();
   });
 });

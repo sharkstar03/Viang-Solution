@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { waLink } from '@/lib/whatsapp';
 import type { Service, SiteSettings } from '@/lib/types';
 import { COMPANY_NAME } from '@/lib/site';
 import { LineIcon } from '@/components/ui/line-icons';
@@ -11,6 +10,10 @@ function prettyPhone(phone: string) {
     return `(507) ${digits.slice(3, 7)}-${digits.slice(7)}`;
   }
   return phone;
+}
+
+function telHref(phone: string) {
+  return `tel:+${phone.replace(/\D/g, '')}`;
 }
 
 export function Footer({ settings, services }: { settings: SiteSettings; services: Service[] }) {
@@ -44,8 +47,8 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
           <h3 className="mb-4 font-sans text-xs font-medium uppercase tracking-[0.22em] text-white">Contacto</h3>
           <ul className="space-y-3 text-sm">
             <li>
-              <a href={waLink(settings.whatsapp, 'Hola, quiero cotizar un servicio')} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-3 hover:text-white">
-                <LineIcon name="chat" className="h-5 w-5 text-accent" />
+              <a href={telHref(settings.phone)} className="inline-flex min-h-11 items-center gap-3 hover:text-white">
+                <LineIcon name="phone" className="h-5 w-5 text-accent" />
                 {prettyPhone(settings.phone)}
               </a>
             </li>

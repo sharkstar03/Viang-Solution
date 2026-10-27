@@ -18,7 +18,7 @@ test.describe('móvil', () => {
     await expect(quote).toBeVisible();
     await expect(quote).toHaveAttribute('href', /wa\.me\/\d+/);
     await expect(page.getByRole('link', { name: /ver servicios/i }).first()).toBeVisible();
-    await expect(page.getByRole('link', { name: /^whatsapp$/i })).toBeVisible();
+    await expect(page.locator('a[aria-label="WhatsApp"]')).toBeHidden();
   });
 
   test('el menú móvil abre y muestra la navegación', async ({ page }) => {
@@ -27,5 +27,16 @@ test.describe('móvil', () => {
     const menu = page.getByRole('navigation', { name: /menú móvil/i });
     await expect(menu).toBeVisible();
     await expect(menu.getByRole('link', { name: /servicios/i })).toBeVisible();
+  });
+
+  test('desde el tope, un enlace del menú baja a la sección', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+    expect(await page.evaluate(() => window.scrollY)).toBe(0);
+    await page.getByRole('button', { name: /abrir menú/i }).click();
+    await page.getByRole('navigation', { name: /menú móvil/i }).getByRole('link', { name: /servicios/i }).click();
+    await expect(page).toHaveURL(/#servicios/);
+    await expect(page.locator('#servicios')).toBeInViewport();
+    expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(40);
   });
 });
