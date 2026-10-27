@@ -37,13 +37,17 @@ describe('Reveal', () => {
   it('con reduced-motion renderiza visible, sin clase de animación', () => {
     mockMatchMedia(true);
     const { container } = render(<Reveal><p>Hola</p></Reveal>);
-    expect(container.firstElementChild!.className).not.toContain('reveal-hidden');
+    expect(container.firstElementChild!.className).not.toContain('reveal-shown');
+    expect(container.textContent).toContain('Hola');
   });
 
-  it('sin reduced-motion arranca oculto (animará al intersecar)', () => {
+  it('sin observer disparado el contenido sigue visible', () => {
     mockMatchMedia(false);
     const { container } = render(<Reveal><p>Hola</p></Reveal>);
-    expect(container.firstElementChild!.className).toContain('reveal-hidden');
+    const el = container.firstElementChild!;
+    expect(el.className).not.toContain('reveal-hidden');
+    expect(el.className).not.toContain('reveal-shown');
+    expect(el.textContent).toContain('Hola');
   });
 });
 

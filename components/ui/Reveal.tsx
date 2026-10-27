@@ -7,38 +7,37 @@ function prefersReducedMotion(): boolean {
 }
 
 /**
- * Aparición suave al entrar en pantalla. Una sola vez, 300 ms, CSS puro.
- * Con prefers-reduced-motion el contenido se muestra directo, sin animar.
+ * El contenido se ve sin JavaScript. La clase de animación se añade solo
+ * cuando el bloque entra en pantalla. Si el observer no dispara, no se oculta.
  */
 export function Reveal({ children, delay = 0, className = '' }: {
   children: React.ReactNode;
   delay?: number;
   className?: string;
 }) {
-  const [reduced] = useState(prefersReducedMotion);
-  const [shown, setShown] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const [shown, setShown] = useState(false);
 
   useEffect(() => {
-    if (reduced) return;
+    if (prefersReducedMotion()) return;
     const el = ref.current;
-    if (!el) return;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
     const io = new IntersectionObserver(
       (entries) => {
-        if (entries[0]?.isIntersecting) {
+        if (entries.some((entry) => entry.isIntersecting)) {
           setShown(true);
           io.disconnect();
         }
       },
-      { threshold: 0.15 },
+      { threshold: 0.12, rootMargin: '0px 0px -4% 0px' },
     );
     io.observe(el);
     return () => io.disconnect();
-  }, [reduced]);
+  }, []);
 
-  const cls = reduced ? className : `${shown ? 'reveal-shown' : 'reveal-hidden'} ${className}`;
+  const cls = `${shown ? 'reveal-shown' : ''} ${className}`.trim();
   return (
-    <div ref={ref} className={cls.trim()} style={{ '--reveal-delay': `${delay}ms` } as React.CSSProperties}>
+    <div ref={ref} className={cls} style={{ '--reveal-delay': `${delay}ms` } as React.CSSProperties}>
       {children}
     </div>
   );

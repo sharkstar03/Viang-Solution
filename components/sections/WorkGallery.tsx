@@ -38,13 +38,15 @@ export function WorkGallery() {
 
         <div className="mt-10 flex snap-x snap-mandatory gap-3 overflow-x-auto md:grid md:grid-cols-12 md:overflow-visible [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {workGallery.map((item, index) => {
-            const wide = index % 5 === 0;
+            // Pairs fill the 12 columns: 7+5, then 5+7. No leftover column.
+            const wideOnLeft = Math.floor(index / 2) % 2 === 0;
+            const wide = index % 2 === 0 ? wideOnLeft : !wideOnLeft;
             return (
               <button
                 key={item.src}
                 type="button"
                 onClick={() => setActive(index)}
-                className={`group relative aspect-[3/4] w-[78%] shrink-0 snap-center overflow-hidden border-0 bg-primary p-0 md:aspect-auto md:w-auto ${wide ? 'md:col-span-7 md:min-h-[26rem]' : 'md:col-span-5 md:min-h-72'}`}
+                className={`group relative aspect-[3/4] h-full w-[78%] shrink-0 snap-center overflow-hidden border-0 bg-primary p-0 md:aspect-auto md:min-h-[22rem] md:w-auto ${wide ? 'md:col-span-7' : 'md:col-span-5'}`}
               >
                 <Image
                   src={item.src}
