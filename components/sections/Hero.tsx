@@ -1,50 +1,60 @@
-import Image from 'next/image';
 import Link from 'next/link';
-import { Button } from '@/components/ui/Button';
 import { waLink } from '@/lib/whatsapp';
-import { WhatsAppIcon } from '@/components/ui/icons';
 
-/**
- * Portada: imagen fija premium en todas las pantallas (el LCP — priority).
- * Sin video por decisión del cliente: menos peso, cero distracción.
- */
+/** Losa fotográfica en perspectiva. El archivo es un trabajo real, no stock. */
 export function Hero({ whatsapp }: { whatsapp: string }) {
   return (
-    <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-primary">
-      <Image
-        src="/img/stock/marble-lobby.jpg"
-        alt=""
-        fill
-        priority
-        quality={50}
-        sizes="100vw"
-        className="object-cover"
-      />
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink/70" />
+    <section className="relative overflow-hidden bg-primary-deep text-white">
+      <div className="mx-auto grid min-h-[100svh] max-w-6xl items-end gap-6 px-5 pb-32 pt-24 md:grid-cols-12 md:items-center md:gap-10 md:pb-20 md:pt-28">
+        <div className="hero-stage md:col-span-6 md:col-start-7" aria-hidden>
+          <div className="hero-slab" />
+          <div className="hero-plane">
+            {/* Plano 3D: img directo. next/image envuelve y pelea con el transform. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/img/obras/hero.webp"
+              alt=""
+              className="h-full w-full object-cover"
+              fetchPriority="high"
+            />
+          </div>
+        </div>
 
-      <div className="relative z-10 mx-auto max-w-4xl px-4 pb-16 pt-28 text-center text-white">
-        <h1 className="text-4xl font-bold leading-tight md:text-6xl">
-          Transformamos y preservamos
-          <span className="block text-accent">el valor de sus espacios</span>
-        </h1>
-        <p className="mx-auto mt-5 max-w-2xl text-lg text-white/85 md:text-xl">
-          Soluciones integrales para espacios residenciales y comerciales de alto valor.
-          Tratamientos de pisos, limpieza especializada, instalaciones y reparaciones en Panamá.
-        </p>
-        <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Button variant="whatsapp" size="lg" asChild>
+        <div className="hero-copy relative z-10 md:col-span-6 md:col-start-1 md:row-start-1">
+          <p className="text-[0.7rem] font-medium uppercase tracking-[0.32em] text-accent">
+            Viangsolutions & Services
+          </p>
+          <h1 className="mt-5 max-w-xl text-[2.65rem] leading-[0.96] text-white sm:text-6xl md:text-7xl">
+            Transformamos y preservamos el valor de sus espacios
+          </h1>
+          <p className="mt-6 max-w-md text-base leading-relaxed text-white/78 md:text-lg">
+            Mármol, travertino, madera y concreto. Limpieza de obra, fachadas e instalaciones
+            para residencias y comercios en Panamá.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a
-              href={waLink(whatsapp, 'Hola, me gustaría cotizar un servicio')}
+              href={waLink(whatsapp, 'Hola, quiero cotizar un servicio')}
               target="_blank"
               rel="noopener noreferrer"
+              className="inline-flex min-h-12 items-center justify-center bg-white px-7 text-sm font-medium tracking-wide text-ink transition-transform active:scale-[0.98]"
             >
-              <WhatsAppIcon className="h-6 w-6" />
-              Escríbenos por WhatsApp
+              Cotice sin compromiso
+              <span className="sr-only"> por WhatsApp</span>
             </a>
-          </Button>
-          <Button variant="secondary" size="lg" asChild>
-            <Link href="/#cotizar">Cotiza sin compromiso</Link>
-          </Button>
+            <Link
+              href="/#servicios"
+              className="inline-flex min-h-12 items-center justify-center border border-white/40 px-7 text-sm font-medium tracking-wide text-white transition-colors hover:bg-white/10"
+            >
+              Ver servicios
+            </Link>
+          </div>
+          <p className="mt-10 text-xs uppercase tracking-[0.18em] text-white/70">
+            20 años en el mercado
+            <span className="mx-3 text-accent">/</span>
+            Atención en todo Panamá
+            <span className="mx-3 text-accent">/</span>
+            Aceptamos Visa y Mastercard
+          </p>
         </div>
       </div>
     </section>

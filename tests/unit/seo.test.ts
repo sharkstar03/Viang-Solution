@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { serviceJsonLd, localBusinessJsonLd, faqJsonLd } from '@/lib/seo';
+import { serviceJsonLd, localBusinessJsonLd, faqJsonLd, homeBusinessJsonLd } from '@/lib/seo';
 import type { Service, SiteSettings } from '@/lib/types';
 
 const settings: SiteSettings = {
@@ -30,6 +30,17 @@ describe('JSON-LD', () => {
     const ld = localBusinessJsonLd(settings);
     expect(ld.telephone).toBe('+50767340816');
     expect(ld.sameAs).toEqual(['https://fb.com/x']);
+    expect(ld.name).toBe('Viangsolutions & Services');
+    expect(ld.url).toBe('https://viangsolutions.com');
+  });
+
+  it('homeBusinessJsonLd declara el tipo de obra y no inventa precios ni reseñas', () => {
+    const ld = homeBusinessJsonLd(settings);
+    expect(ld['@type']).toEqual(['LocalBusiness', 'HomeAndConstructionBusiness']);
+    expect(ld.name).toBe('Viangsolutions & Services');
+    expect(ld).not.toHaveProperty('aggregateRating');
+    expect(ld).not.toHaveProperty('priceRange');
+    expect(ld).not.toHaveProperty('review');
   });
 
   it('faqJsonLd con 2 preguntas produce FAQPage con 2 mainEntity', () => {

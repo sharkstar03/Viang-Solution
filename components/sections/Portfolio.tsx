@@ -6,7 +6,7 @@ import type { Project } from '@/lib/types';
 export function Portfolio({ projects }: { projects: Project[] }) {
   if (projects.length === 0) return null;
   return (
-    <section className="py-16 md:py-24">
+    <section className="bg-primary py-16 text-white md:py-24">
       <div className="mx-auto max-w-6xl px-4">
         <Reveal>
           <h2 className="text-center text-3xl font-bold md:text-4xl">Trabajos reales</h2>
@@ -14,15 +14,15 @@ export function Portfolio({ projects }: { projects: Project[] }) {
         <div className="mt-12 grid gap-6 md:grid-cols-2">
           {projects.map((p, i) => (
             <Reveal key={p.id} delay={i * 80}>
-              <article className="overflow-hidden rounded-card bg-white shadow-soft">
+              <article className="overflow-hidden rounded-card bg-white text-ink shadow-soft">
                 <div className="grid grid-cols-2">
                   <figure className="relative h-56">
                     <Image src={`/${p.image_before}`} alt={`${p.title} — antes`} fill sizes="(min-width:768px) 25vw, 50vw" className="object-cover" />
-                    <figcaption className="absolute bottom-2 left-2 rounded-full bg-ink/70 px-3 py-1 text-xs font-semibold text-white">Antes</figcaption>
+                    <figcaption className="absolute bottom-2 left-2 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-on-accent">Antes</figcaption>
                   </figure>
                   <figure className="relative h-56">
                     <Image src={`/${p.image_after}`} alt={`${p.title} — después`} fill sizes="(min-width:768px) 25vw, 50vw" className="object-cover" />
-                    <figcaption className="absolute bottom-2 right-2 rounded-full bg-whatsapp px-3 py-1 text-xs font-semibold text-white">Después</figcaption>
+                    <figcaption className="absolute bottom-2 right-2 rounded-full bg-whatsapp px-3 py-1 text-xs font-semibold text-on-accent">Después</figcaption>
                   </figure>
                 </div>
                 <div className="p-5">

@@ -20,6 +20,19 @@ interface Draft {
 
 const empty: Draft = { service: '', message: '', name: '', email: '', phone: '' };
 
+function quoteWhatsAppText(draft: Draft): string {
+  return [
+    `Servicio: ${draft.service}`,
+    `Detalles: ${draft.message}`,
+    `Nombre: ${draft.name}`,
+    `Correo: ${draft.email}`,
+    `Teléfono: ${draft.phone}`,
+  ].join('\n');
+}
+
+/** Static Cloudflare export has no /api/contact. The form hands off to WhatsApp. */
+const staticSite = process.env.NEXT_PUBLIC_STATIC_EXPORT === '1';
+
 function loadDraft(): Draft {
   try {
     return { ...empty, ...JSON.parse(sessionStorage.getItem(DRAFT_KEY) ?? '{}') };
@@ -86,6 +99,10 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
     setStepError('');
     setStatus('sending');
     setErrorMsg('');
+    if (staticSite) {
+      setStatus('done');
+      return;
+    }
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -105,12 +122,34 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
     }
   };
 
+  if (status === 'done' && staticSite) {
+    const text = quoteWhatsAppText(draft);
+    return (
+      <div role="status" className="rounded-card bg-white p-8 text-center text-ink shadow-soft">
+        <h3 className="text-xl font-bold">Envíe su solicitud por WhatsApp</h3>
+        <p className="mt-2 text-ink/70">
+          Este sitio no guarda el formulario. El mensaje va en el enlace.
+        </p>
+        {whatsapp && (
+          <a
+            href={waLink(whatsapp, text)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full bg-whatsapp px-5 py-2 font-semibold text-ink"
+          >
+            <WhatsAppIcon />
+            Abrir WhatsApp
+          </a>
+        )}
+      </div>
+    );
+  }
+
   if (status === 'done') {
     const { open } = isOpenNow(hours, new Date());
     return (
-      <div role="status" className="rounded-card bg-white p-8 text-center shadow-soft">
-        <p className="text-4xl" aria-hidden>✅</p>
-        <h3 className="mt-3 text-xl font-bold">¡Recibimos su solicitud!</h3>
+      <div role="status" className="rounded-card bg-white p-8 text-center text-ink shadow-soft">
+        <h3 className="text-xl font-bold">¡Recibimos su solicitud!</h3>
         <p className="mt-2 text-ink/60">
           {open
             ? 'Estamos abiertos: le respondemos en los próximos minutos.'
@@ -121,10 +160,10 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
   }
 
   const inputCls =
-    'mt-1 w-full rounded-lg border border-ink/15 px-4 py-3 text-base outline-none transition-colors focus:border-primary-light';
+    'mt-1 w-full rounded-lg border border-ink/20 px-4 py-3 text-base text-ink outline-none transition-colors focus:border-primary';
 
   return (
-    <form onSubmit={submit} className="rounded-card bg-white p-6 shadow-soft md:p-8" noValidate>
+    <form onSubmit={submit} className="rounded-card bg-white p-6 text-ink shadow-soft md:p-8" noValidate>
       <div
         role="progressbar"
         aria-valuenow={step}
@@ -135,13 +174,13 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
       >
         <div className="flex gap-2">
           {[1, 2, 3].map((s) => (
-            <span key={s} className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${s <= step ? 'bg-primary-light' : 'bg-ink/10'}`} />
+            <span key={s} className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${s <= step ? 'bg-primary' : 'bg-ink/15'}`} />
           ))}
         </div>
-        <div className="mt-2 flex justify-between text-xs font-medium text-ink/40">
-          <span className={step >= 1 ? 'text-primary-light' : ''}>Servicio</span>
-          <span className={step >= 2 ? 'text-primary-light' : ''}>Detalles</span>
-          <span className={step >= 3 ? 'text-primary-light' : ''}>Contacto</span>
+        <div className="mt-2 flex justify-between text-xs font-medium text-ink/70">
+          <span className={step >= 1 ? 'text-primary' : ''}>Servicio</span>
+          <span className={step >= 2 ? 'text-primary' : ''}>Detalles</span>
+          <span className={step >= 3 ? 'text-primary' : ''}>Contacto</span>
         </div>
       </div>
 
@@ -157,12 +196,12 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
                 aria-pressed={draft.service === s.title}
                 className={`flex min-h-11 items-center gap-3 rounded-lg border-2 px-4 py-3 text-left text-sm font-semibold transition-all ${
                   draft.service === s.title
-                    ? 'border-primary-light bg-primary-light/5 text-primary shadow-soft'
-                    : 'border-ink/10 hover:border-primary-light/50'
+                    ? 'border-primary bg-primary/5 text-primary shadow-soft'
+                    : 'border-ink/15 hover:border-primary/50'
                 }`}
               >
                 <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${
-                  draft.service === s.title ? 'bg-primary-light text-white' : 'bg-surface text-primary-light'
+                  draft.service === s.title ? 'bg-primary text-white' : 'bg-surface text-primary'
                 }`}>
                   <ServiceIcon name={s.icon} />
                 </span>
@@ -210,7 +249,7 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
                 onChange={(e) => update({ phone: e.target.value })} className={inputCls} />
             </div>
           </div>
-          <TurnstileWidget onToken={onToken} />
+          {!staticSite && <TurnstileWidget onToken={onToken} />}
         </div>
       )}
 
@@ -227,7 +266,7 @@ export function QuoteForm({ services, hours, whatsapp = '' }: {
           {errorMsg && <p className="mt-1 text-red-600">{errorMsg}</p>}
           {whatsapp && (
             <a
-              href={waLink(whatsapp, `Hola, quiero cotizar ${draft.service}. ${draft.message}`)}
+              href={waLink(whatsapp, quoteWhatsAppText(draft))}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-full bg-whatsapp px-5 py-2 font-semibold text-white"

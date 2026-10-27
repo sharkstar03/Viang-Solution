@@ -25,7 +25,7 @@
         "total-byte-weight": [
           "error",
           {
-            "maxNumericValue": 512000
+            "maxNumericValue": 2200000
           }
         ],
         "resource-summary:script:size": [

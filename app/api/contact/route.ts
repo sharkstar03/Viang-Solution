@@ -51,7 +51,17 @@ export async function POST(request: Request): Promise<NextResponse> {
   }
 
   // 1) Guardar el lead — la fuente de verdad. El trigger emite lead.created.
-  const { error: dbError } = await supabaseAdmin().from('leads').insert({
+  let admin;
+  try {
+    admin = supabaseAdmin();
+  } catch {
+    console.error('lead_insert_unavailable');
+    return NextResponse.json(
+      { ok: false, error: 'No pudimos registrar su solicitud. Intente de nuevo o escríbanos por WhatsApp.' },
+      { status: 503 },
+    );
+  }
+  const { error: dbError } = await admin.from('leads').insert({
     ...lead,
     source: 'form',
     ip_hash: hashIp(ip),

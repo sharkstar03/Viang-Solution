@@ -29,6 +29,13 @@ describe('secciones condicionales: vacías → null', () => {
     const { container } = render(<Stats stats={[]} />);
     expect(container.innerHTML).toBe('');
   });
+  it('Stats en cero o la cifra de años no renderiza nada', () => {
+    const { container } = render(<Stats stats={[
+      { id: 'a', label: 'Años de trayectoria', value: 20, suffix: '+', icon: 'sparkles', sort_order: 1 },
+      { id: 'b', label: 'Vacío', value: 0, suffix: '+', icon: 'users', sort_order: 2 },
+    ]} />);
+    expect(container.innerHTML).toBe('');
+  });
   it('Portfolio vacío no renderiza nada', () => {
     const { container } = render(<Portfolio projects={[]} />);
     expect(container.innerHTML).toBe('');
@@ -49,10 +56,10 @@ describe('Services', () => {
 });
 
 describe('Hero', () => {
-  it('tiene CTA de WhatsApp y de cotizar', () => {
+  it('pide la cotización por WhatsApp y enlaza los servicios', () => {
     render(<Hero whatsapp="+50767340816" />);
-    const wa = screen.getByRole('link', { name: /whatsapp/i });
-    expect(wa.getAttribute('href')).toContain('wa.me/50767340816');
-    expect(screen.getByRole('link', { name: /cotiza/i }).getAttribute('href')).toBe('/#cotizar');
+    const quote = screen.getByRole('link', { name: /cotice sin compromiso/i });
+    expect(quote.getAttribute('href')).toContain('wa.me/50767340816');
+    expect(screen.getByRole('link', { name: /ver servicios/i }).getAttribute('href')).toBe('/#servicios');
   });
 });

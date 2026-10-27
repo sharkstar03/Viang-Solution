@@ -1,8 +1,9 @@
-# Viang Solutions & Service — Sitio web
+# Viangsolutions & Services — Sitio web
 
-Sitio de [viangsolution.com](https://viangsolution.com): Next.js 16 + Supabase,
-contenido administrable, captura de leads a prueba de fallos y presupuesto de
-rendimiento impuesto por CI.
+Sitio de [viangsolutions.com](https://viangsolutions.com): Next.js 16. El sitio
+público se publica como assets estáticos en Cloudflare Workers (sin túnel y sin
+servidor). Supabase y el formulario que guarda leads siguen disponibles en el
+servidor Node opcional (Docker), que no hace falta para dejar la web en línea.
 
 **Spec y plan:** ver `docs/superpowers/specs/` y `docs/superpowers/plans/`.
 
@@ -44,7 +45,45 @@ Migraciones en `supabase/migrations/`, aplicadas al proyecto
 Reglas: el público solo lee filas `published`; `leads` es insert-only para
 anónimos; `events` solo lo ve el service_role.
 
-## Despliegue (VM + Docker + Cloudflare Tunnel)
+## Despliegue en Cloudflare (el que usa viangsolutions.com)
+
+Salida: carpeta `out/`. Es **solo assets estáticos** (HTML, CSS, JS, imágenes).
+No hay script de Worker. `wrangler.jsonc` apunta `assets.directory` a `./out`
+y el worker se llama `viangsolutions`.
+
+```sh
+npm ci
+npm run build:cloudflare   # escribe ./out
+npx wrangler deploy        # sube ./out. Equivale a npm run deploy:cloudflare
+```
+
+`wrangler deploy` también asocia `viangsolutions.com` y `www.viangsolutions.com`
+(`routes` con `custom_domain` en `wrangler.jsonc`). Hace falta una sesión de
+Wrangler en la cuenta dueña de esa zona. Este repo no incluye credenciales.
+
+Vista previa local del mismo empaquetado, después del build:
+
+```sh
+npm run preview:cloudflare   # wrangler dev, sirve ./out
+```
+
+### Variables
+
+Ninguna es obligatoria para el export.
+
+| Variable | Cuándo |
+| --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | Opcional en el build. Si está junto con la anon key, el export hornea las filas publicadas. |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Igual que la anterior. Si faltan o la lectura falla, se usa `lib/content/fallback.ts` y el build sigue. |
+| `NEXT_PUBLIC_CONTACT_PHONE` / `NEXT_PUBLIC_CONTACT_WHATSAPP` | Opcionales. Si faltan, las páginas de error usan +50767340816. |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | No la usa el sitio estático. El formulario abre WhatsApp. |
+| `SUPABASE_SERVICE_ROLE_KEY`, `EMAIL_USER`, `EMAIL_PASS`, `CONTACT_RECIPIENT`, `TURNSTILE_SECRET_KEY`, `ANALYTICS_SALT_SECRET` | Solo el servidor Node. El export no las lee. No hay analítica en el sitio. |
+| `TUNNEL_TOKEN` | Solo el compose de Docker. |
+
+## Servidor Node opcional (Docker + túnel)
+
+No interviene en el despliegue de Workers. Conserva la captura de leads
+(`/api/contact`) cuando hay Supabase, Turnstile y correo.
 
 ```sh
 cp .env.example .env         # credenciales de producción + TUNNEL_TOKEN
@@ -58,11 +97,11 @@ Cloudflare. El healthcheck de `app` gobierna el arranque del tunnel.
 
 - **Nunca se pierde un lead:** si Gmail falla, el lead ya está en la base y la
   respuesta al visitante sigue siendo éxito.
-- **Secciones vacías se ocultan:** portafolio, testimonios y cifras no emiten
-  HTML hasta que existan filas publicadas.
+- **Secciones vacías se ocultan:** el portafolio y los testimonios de la base no se muestran si no hay filas. Las cifras no se publican. La portada sí trae la galería «Trabajos reales» con las fotos de `public/img/obras/`.
+- **Fotos de trabajos:** las obras reales ya están en `public/img/obras/` (WebP). El HTML apunta a esos archivos. No use fotos de stock.
+- **Logos de clientes:** la franja usa los nueve archivos `public/img/clientes/01.png`–`09.png` con el nombre aprobado como texto alternativo. Sin Supabase salen de `lib/content/fallback.ts`.
 - **La IP real viene de `CF-Connecting-IP`** (detrás del Tunnel el socket
   siempre es cloudflared); el país, de `CF-IPCountry`.
-- **El hero es una imagen estática, sin video** (decisión del cliente): el LCP
-  móvil es una sola imagen servida por `next/image`; un test e2e vigila que
-  ningún `.mp4` se descargue.
+- **El hero es una imagen estática, sin video:** el LCP móvil es
+  `public/img/obras/hero.webp`. Un test e2e vigila que ningún `.mp4` se descargue.
 - **Turnstile sin bypass:** fail-closed, también en desarrollo.

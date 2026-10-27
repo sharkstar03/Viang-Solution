@@ -1,14 +1,24 @@
 import type { Service, SiteSettings } from '@/lib/types';
-
-const SITE_URL = 'https://viangsolution.com';
+import { COMPANY_NAME, SITE_URL } from '@/lib/site';
 
 type JsonLd = Record<string, unknown>;
+
+/** Home page: LocalBusiness and its HomeAndConstructionBusiness subtype. No ratings or prices. */
+export function homeBusinessJsonLd(s: SiteSettings): JsonLd {
+  return {
+    ...localBusinessJsonLd(s),
+    '@type': ['LocalBusiness', 'HomeAndConstructionBusiness'],
+    description: s.seo_description,
+    image: `${SITE_URL}/img/logo.png`,
+    areaServed: 'Panamá',
+  };
+}
 
 export function localBusinessJsonLd(s: SiteSettings): JsonLd {
   return {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    name: 'Viang Solutions & Service',
+    name: COMPANY_NAME,
     url: SITE_URL,
     telephone: s.phone,
     email: s.email,

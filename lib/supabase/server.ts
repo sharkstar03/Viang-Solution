@@ -1,5 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 
+/** True only when both public Supabase vars are set. Missing vars must not crash the site. */
+export function hasSupabasePublicEnv(): boolean {
+  return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+}
+
 /**
  * Cliente de solo lectura con la clave anónima: lo que puede ver el público,
  * filtrado por RLS. Para Server Components y Route Handlers.

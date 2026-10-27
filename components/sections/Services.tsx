@@ -5,11 +5,11 @@ import type { Service } from '@/lib/types';
 
 export function Services({ services }: { services: Service[] }) {
   return (
-    <section id="servicios" className="py-16 md:py-24">
+    <section id="servicios" className="bg-primary py-16 text-white md:py-24">
       <div className="mx-auto max-w-6xl px-4">
         <Reveal>
           <h2 className="text-center text-3xl font-bold md:text-4xl">Nuestros servicios</h2>
-          <p className="mx-auto mt-3 max-w-xl text-center text-ink/60">
+          <p className="mx-auto mt-3 max-w-xl text-center text-white/75">
             Un solo proveedor para dejar su espacio impecable, por dentro y por fuera.
           </p>
         </Reveal>
@@ -18,7 +18,7 @@ export function Services({ services }: { services: Service[] }) {
             <Reveal key={s.id} delay={i * 80} className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]">
               <Link
                 href={`/servicios/${s.slug}`}
-                className="group block overflow-hidden rounded-card bg-white shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                className="group block overflow-hidden rounded-card bg-white text-ink shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
               >
                 {s.image_path && (
                   <div className="relative h-48 overflow-hidden">
